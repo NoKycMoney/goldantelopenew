@@ -1,0 +1,10340 @@
+// Основные функции навигации - определены первыми для быстрой доступности
+        let currentCountry = 'vietnam';
+        let currentLang = 'ru';
+        let bannerConfig = {};
+        let currentBannerTab = 'web';
+        
+        const translations = {
+            ru: {
+                countries: { vietnam: '🇻🇳 Вьетнам', thailand: '🇹🇭 Тайланд', india: '🇮🇳 Индия', indonesia: '🇮🇩 Индонезия' },
+                tabs: { entertainment: 'Развлечения', restaurants: 'Рестораны', tours: 'Экскурсии', transport: 'Транспорт', realestate: 'Недвижимость', exchange: 'Финансы', marketplace: 'Барахолка', visas: 'Визаран', news: 'Фотосессия', chat: 'Все чаты', contacts: 'Контакты' },
+                status: { parser: 'Парсер:', total: 'Всего предложений:', updated: 'Обновлено:', online: 'На портале', lang: 'Язык' },
+                filters: { rent: '🔑 Аренда', sale: '🏠 Продажа', ascending: '📈 По возрастанию', descending: '📉 По убыванию', newest: '🆕 Новые', oldest: '🕰️ Ранние', reset: '✕ Сброс', upto7m: 'До 7 млн', upto15m: 'До 15 млн', from15m: 'От 15 млн', upto30k: 'До 30,000 THB', upto100k: 'До 100,000 THB', all: 'Все', bike: '🏍️ Мотоцикл', car: '🚗 Авто', scooter: '🛵 Скутер', groups: '📌 Группы:', selectGroup: '-- Выбрать группу --', listings: 'предложений', submit: '📝 Подать', listing: 'предложение' },
+                transport: { bikes: '🏍️ Байки', cars: '🚗 Авто', yachts: '⛵ Яхты', bicycles: '🚲 Велосипеды', submit: '📝 Подать', add: 'Добавить транспорт', cityFilter: '🏙️ Город:' },
+                cities: { hochiminh: 'Хошимин', danang: 'Дананг', nhatrang: 'Нячанг', phuquoc: 'Фукуок', hanoi: 'Ханой', dalat: 'Далат', muine: 'Муйне', vungtau: 'Вунгтау', halong: 'Халонг', hue: 'Хюэ', phanthiet: 'Фантьет', camranh: 'Камрань', all: 'Все' },
+                thailandCities: { 'Бангкок': 'Бангкок', 'Пхукет': 'Пхукет', 'Паттайя': 'Паттайя', 'Самуи': 'Самуи', 'Чиангмай': 'Чиангмай', 'Хуахин': 'Хуахин', 'Краби': 'Краби', 'Бали': 'Бали', 'Джакарта': 'Джакарта', 'Йогьякарта': 'Йогьякарта', 'Бандунг': 'Бандунг', 'Сурабая': 'Сурабая', 'Гоа': 'Гоа', 'Касол': 'Касол', 'Мумбаи': 'Мумбаи', 'Дели': 'Дели', 'Бангалор': 'Бангалор' },
+                sectionLabels: { restaurants: 'ресторанов', tours: 'экскурсий', entertainment: 'развлечений', transport: 'предложений', realestate: 'предложений' },
+                submitLabels: { restaurants: 'Добавить ресторан', tours: 'Добавить экскурсию', entertainment: 'Добавить развлечение', transport: 'Добавить транспорт', realestate: 'Добавить недвижимость' },
+                forms: { title: 'Заголовок', description: 'Описание', price: 'Цена', contact: 'Контакт', phone: 'Телефон', telegram: 'Telegram', whatsapp: 'WhatsApp', photo: 'Фото', submit: 'Отправить', cancel: 'Отменить', addListing: 'Добавить объявление', city: 'Город', category: 'Категория', type: 'Тип', rooms: 'Комнаты', area: 'Площадь', address: 'Адрес', submitListingTitle: '📝 Подать объявление', submitListingDesc: 'Добавьте своё объявление в раздел Недвижимость. После модерации оно появится на сайте.', name: 'Название *', descLabel: 'Описание *', priceLabel: 'Цена', roomsLabel: 'Комнат', areaLabel: 'Площадь м²', location: '📍 Расположение', cityLabel: '🏙️ Город', contactPerson: '👤 Контактное лицо *', listingType: 'Тип объявления', sale: 'Продажа', rent: 'Аренда', geolocation: '📍 Геолокация Google Maps', geoHint: 'Скопируйте ссылку из Google Maps', photos: '📷 Фото (до 4 шт)', captcha: '🤖 Капча *', captchaAnswer: 'Ответ', submitBtn: '📤 Отправить на модерацию', titlePlaceholder: 'Например: Квартира 2 комнаты в центре', descPlaceholder: 'Подробное описание объекта...', yourName: 'Ваше имя', locationPlaceholder: 'Центр, у моря...', noFileSelected: 'Файл не выбран', addExchange: 'Добавить обменник', exchangeDesc: 'Добавьте пункт обмена валют. После модерации объявление появится на сайте.', addMarketplace: 'Подать объявление', marketplaceDesc: 'Продайте или обменяйте вещи.', addVisa: 'Добавить визаран', visaDesc: 'Добавьте информацию о визаране.', addPhoto: 'Добавить фотосессию', photoDesc: 'Добавьте услугу фотографа.', addTour: 'Добавить экскурсию', tourDesc: 'Добавьте тур или экскурсию.', addTransport: 'Добавить транспорт', transportDesc: 'Добавьте мотоцикл или авто.', addEntertainment: 'Добавить развлечение', entertainmentDesc: 'Добавьте развлечение.', addRestaurant: 'Добавить ресторан', restaurantDesc: 'Добавьте ресторан или кафе.' },
+                common: { loading: 'Загрузка...', noResults: 'Нет предложений', error: 'Ошибка', success: 'Успешно', date: 'Дата', contact: 'Контакт', viewMore: 'Подробнее', close: 'Закрыть', save: 'Сохранить', delete: 'Удалить', edit: 'Редактировать' },
+                ui: { selectCity: 'Выбрать город', selectType: 'Выбрать тип', additionalFilters: 'Дополнительные фильтры', hideFilters: 'Скрыть фильтры', daysAll: 'Все', daysShort: ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'], venue: '📍Место проведения Google Maps', locationMap: '📍Локация Google Maps', selectTour: 'Выбрать тур', departureNhatrang: '📍 Выезд из Нячанга', book: '🧳 Забронировать', bookTour: '🧳 Забронировать экскурсию', bookVisa: '🛂 Забронировать визаран', tourBaho: 'Водопад Бахо + Пляж Парадайс', tourAtv: 'Квадроциклы', tourNorthIslands: 'Северные острова', tourSouthIslands: 'Прогулка Южные острова', tourYangBay: 'ЭКО парк «Янг Бей»', tourPhanrang: 'Фанранг с детьми', tourDalat2: 'Далат 2 дня', tourDalatFan: 'Далат «Фантазия»', tourDalatExcl: 'Далат «Эксклюзив»', tourDanang1: 'Дананг 1 день', tourDanangHoian: 'Дананг + Хой Ан', tourPhuyen: 'Жемчужина «Фуен»', vnChats: 'Чаты Вьетнама', thChats: 'Чаты Таиланда', showChats: 'Показать ▼', hideChats: 'Скрыть ▲', laos: '🇱🇦 Лаос', cambodia: '🇰🇭 Камбоджа', days45: '🗓️ 45 дней', days90: '🗓️ 90 дней' }
+            },
+            en: {
+                countries: { vietnam: '🇻🇳 Vietnam', thailand: '🇹🇭 Thailand', india: '🇮🇳 India', indonesia: '🇮🇩 Indonesia' },
+                tabs: { entertainment: 'Entertainment', restaurants: 'Restaurants', tours: 'Tours', transport: 'Transport', realestate: 'Real Estate', exchange: 'Finance', marketplace: 'Marketplace', visas: 'Visa Runs', news: 'Photoshoots', chat: 'Chat', contacts: 'Contacts' },
+                status: { parser: 'Parser:', total: 'Total listings:', updated: 'Updated:', online: 'Online', lang: 'Language' },
+                filters: { rent: '🔑 Rent', sale: '🏠 Sale', ascending: '📈 Ascending', descending: '📉 Descending', newest: '🆕 Newest', oldest: '🕰️ Oldest', reset: '✕ Reset', upto7m: 'Up to 7M', upto15m: 'Up to 15M', from15m: 'From 15M', upto30k: 'Up to 30,000 THB', upto100k: 'Up to 100,000 THB', all: 'All', bike: '🏍️ Motorbike', car: '🚗 Car', scooter: '🛵 Scooter', groups: '📌 Groups:', selectGroup: '-- Select group --', listings: 'listings', submit: '📝 Submit', listing: 'listing' },
+                transport: { bikes: '🏍️ Bikes', cars: '🚗 Cars', yachts: '⛵ Yachts', bicycles: '🚲 Bicycles', submit: '📝 Submit', add: 'Add Vehicle', cityFilter: '🏙️ City:' },
+                cities: { hochiminh: 'Ho Chi Minh', danang: 'Da Nang', nhatrang: 'Nha Trang', phuquoc: 'Phu Quoc', hanoi: 'Hanoi', dalat: 'Da Lat', muine: 'Mui Ne', vungtau: 'Vung Tau', halong: 'Ha Long', hue: 'Hue', phanthiet: 'Phan Thiet', camranh: 'Cam Ranh', all: 'All' },
+                thailandCities: { 'Бангкок': 'Bangkok', 'Пхукет': 'Phuket', 'Паттайя': 'Pattaya', 'Самуи': 'Samui', 'Чиангмай': 'Chiang Mai', 'Хуахин': 'Hua Hin', 'Краби': 'Krabi', 'Бали': 'Bali', 'Джакарта': 'Jakarta', 'Йогьякарта': 'Yogyakarta', 'Бандунг': 'Bandung', 'Сурабая': 'Surabaya', 'Гоа': 'Goa', 'Касол': 'Kasol', 'Мумбаи': 'Mumbai', 'Дели': 'Delhi', 'Бангалор': 'Bangalore' },
+                sectionLabels: { restaurants: 'restaurants', tours: 'tours', entertainment: 'activities', transport: 'listings', realestate: 'listings' },
+                submitLabels: { restaurants: 'Add restaurant', tours: 'Add tour', entertainment: 'Add activity', transport: 'Add vehicle', realestate: 'Add listing' },
+                forms: { title: 'Title', description: 'Description', price: 'Price', contact: 'Contact', phone: 'Phone', telegram: 'Telegram', whatsapp: 'WhatsApp', photo: 'Photo', submit: 'Submit', cancel: 'Cancel', addListing: 'Add Listing', city: 'City', category: 'Category', type: 'Type', rooms: 'Rooms', area: 'Area', address: 'Address', submitListingTitle: '📝 Submit Listing', submitListingDesc: 'Add your listing to the Real Estate section. After moderation, it will appear on the site.', name: 'Title *', descLabel: 'Description *', priceLabel: 'Price', roomsLabel: 'Rooms', areaLabel: 'Area m²', location: '📍 Location', cityLabel: '🏙️ City', contactPerson: '👤 Contact Person *', listingType: 'Listing Type', sale: 'Sale', rent: 'Rent', geolocation: '📍 Google Maps Location', geoHint: 'Copy link from Google Maps', photos: '📷 Photos (up to 4)', captcha: '🤖 Captcha *', captchaAnswer: 'Answer', submitBtn: '📤 Submit for Moderation', titlePlaceholder: 'Example: 2-bedroom apartment in center', descPlaceholder: 'Detailed description...', yourName: 'Your name', locationPlaceholder: 'Center, near the beach...', noFileSelected: 'No file selected', addExchange: 'Add Exchange Point', exchangeDesc: 'Add a currency exchange point. After moderation, it will appear on the site.', addMarketplace: 'Post Listing', marketplaceDesc: 'Sell or exchange items.', addVisa: 'Add Visa Run', visaDesc: 'Add visa run information.', addPhoto: 'Add Photoshoot', photoDesc: 'Add photography service.', addTour: 'Add Tour', tourDesc: 'Add tour or excursion.', addTransport: 'Add Vehicle', transportDesc: 'Add motorbike or car.', addEntertainment: 'Add Entertainment', entertainmentDesc: 'Add entertainment activity.', addRestaurant: 'Add Restaurant', restaurantDesc: 'Add restaurant or cafe.' },
+                common: { loading: 'Loading...', noResults: 'No listings found', error: 'Error', success: 'Success', date: 'Date', contact: 'Contact', viewMore: 'View More', close: 'Close', save: 'Save', delete: 'Delete', edit: 'Edit' },
+                ui: { selectCity: 'Select city', selectType: 'Select type', additionalFilters: 'More filters', hideFilters: 'Hide filters', daysAll: 'All', daysShort: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], venue: '📍Venue Google Maps', locationMap: '📍Location Google Maps', selectTour: 'Select tour', departureNhatrang: '📍 Departure from Nha Trang', book: '🧳 Book', bookTour: '🧳 Book tour', bookVisa: '🛂 Book Visa Run', tourBaho: 'Ba Ho Waterfall + Paradise Beach', tourAtv: 'ATV Quads', tourNorthIslands: 'Northern Islands', tourSouthIslands: 'South Islands Cruise', tourYangBay: 'Yang Bay Eco Park', tourPhanrang: 'Phan Rang Family Tour', tourDalat2: 'Da Lat 2 Days', tourDalatFan: 'Da Lat Fantasy', tourDalatExcl: 'Da Lat Exclusive', tourDanang1: 'Da Nang 1 Day', tourDanangHoian: 'Da Nang + Hoi An', tourPhuyen: 'Pearl of Phu Yen', vnChats: 'Vietnam Chats', thChats: 'Thailand Chats', showChats: 'Show ▼', hideChats: 'Hide ▲', laos: '🇱🇦 Laos', cambodia: '🇰🇭 Cambodia', days45: '🗓️ 45 days', days90: '🗓️ 90 days' }
+            },
+            vi: {
+                countries: { vietnam: '🇻🇳 Việt Nam', thailand: '🇹🇭 Thái Lan', india: '🇮🇳 Ấn Độ', indonesia: '🇮🇩 Inđônêxia' },
+                tabs: { entertainment: 'Giải trí', restaurants: 'Nhà hàng', tours: 'Tour', transport: 'Vận chuyển', realestate: 'Bất động sản', exchange: 'Tài chính', marketplace: 'Chợ đồ cũ', visas: 'Visa Run', news: 'Chụp ảnh', chat: 'Trò chuyện', contacts: 'Liên hệ' },
+                status: { parser: 'Parser:', total: 'Tổng tin:', updated: 'Cập nhật:', online: 'Trực tuyến', lang: 'Ngôn ngữ' },
+                filters: { rent: '🔑 Thuê', sale: '🏠 Bán', ascending: '📈 Tăng dần', descending: '📉 Giảm dần', newest: '🆕 Mới nhất', oldest: '🕰️ Cũ nhất', reset: '✕ Đặt lại', upto7m: 'Đến 7 triệu', upto15m: 'Đến 15 triệu', from15m: 'Từ 15 triệu', upto30k: 'Đến 30,000 THB', upto100k: 'Đến 100,000 THB', all: 'Tất cả', bike: '🏍️ Xe máy', car: '🚗 Ô tô', scooter: '🛵 Xe tay ga', groups: '📌 Nhóm:', selectGroup: '-- Chọn nhóm --', listings: 'tin đăng', submit: '📝 Đăng', listing: 'tin' },
+                transport: { bikes: '🏍️ Xe máy', cars: '🚗 Ô tô', yachts: '⛵ Du thuyền', bicycles: '🚲 Xe đạp', submit: '📝 Đăng', add: 'Thêm phương tiện', cityFilter: '🏙️ Thành phố:' },
+                cities: { hochiminh: 'TP. Hồ Chí Minh', danang: 'Đà Nẵng', nhatrang: 'Nha Trang', phuquoc: 'Phú Quốc', hanoi: 'Hà Nội', dalat: 'Đà Lạt', muine: 'Mũi Né', vungtau: 'Vũng Tàu', halong: 'Hạ Long', hue: 'Huế', phanthiet: 'Phan Thiết', camranh: 'Cam Ranh', all: 'Tất cả' },
+                thailandCities: { 'Бангкок': 'Bangkok', 'Пхукет': 'Phuket', 'Паттайя': 'Pattaya', 'Самуи': 'Samui', 'Чиангмай': 'Chiang Mai', 'Хуахин': 'Hua Hin', 'Краби': 'Krabi', 'Джакарта': 'Jakarta', 'Бали': 'Bali', 'Мумбаи': 'Mumbai', 'Дели': 'Delhi', 'Бангалор': 'Bangalore' },
+                sectionLabels: { restaurants: 'nhà hàng', tours: 'tour', entertainment: 'vui chơi', transport: 'tin đăng', realestate: 'tin đăng' },
+                submitLabels: { restaurants: 'Thêm nhà hàng', tours: 'Thêm tour', entertainment: 'Thêm hoạt động', transport: 'Thêm phương tiện', realestate: 'Thêm bất động sản' },
+                forms: { title: 'Tiêu đề', description: 'Mô tả', price: 'Giá', contact: 'Liên hệ', phone: 'Điện thoại', telegram: 'Telegram', whatsapp: 'WhatsApp', photo: 'Ảnh', submit: 'Gửi', cancel: 'Hủy', addListing: 'Thêm tin', city: 'Thành phố', category: 'Danh mục', type: 'Loại', rooms: 'Phòng', area: 'Diện tích', address: 'Địa chỉ', submitListingTitle: '📝 Đăng tin', submitListingDesc: 'Thêm tin đăng của bạn vào mục Bất động sản. Sau khi kiểm duyệt, tin sẽ xuất hiện trên trang.', name: 'Tên *', descLabel: 'Mô tả *', priceLabel: 'Giá', roomsLabel: 'Phòng', areaLabel: 'Diện tích m²', location: '📍 Vị trí', cityLabel: '🏙️ Thành phố', contactPerson: '👤 Người liên hệ *', listingType: 'Loại tin đăng', sale: 'Bán', rent: 'Thuê', geolocation: '📍 Vị trí Google Maps', geoHint: 'Sao chép liên kết từ Google Maps', photos: '📷 Ảnh (tối đa 4)', captcha: '🤖 Mã xác nhận *', captchaAnswer: 'Trả lời', submitBtn: '📤 Gửi kiểm duyệt', titlePlaceholder: 'Ví dụ: Căn hộ 2 phòng ngủ trung tâm', descPlaceholder: 'Mô tả chi tiết...', yourName: 'Tên của bạn', locationPlaceholder: 'Trung tâm, gần biển...', chooseFile: 'Chọn tệp', noFileSelected: 'Chưa chọn tệp', addExchange: 'Thêm điểm đổi tiền', exchangeDesc: 'Thêm điểm đổi tiền. Sau khi kiểm duyệt, tin sẽ xuất hiện.', addMarketplace: 'Đăng tin chợ đồ', marketplaceDesc: 'Bán hoặc trao đổi đồ dùng.', addVisa: 'Thêm dịch vụ visa', visaDesc: 'Thêm thông tin visa run.', addPhoto: 'Đăng dịch vụ chụp ảnh', photoDesc: 'Thêm dịch vụ chụp ảnh.', addTour: 'Thêm tour du lịch', tourDesc: 'Đăng tour hoặc dịch vụ du lịch.', addTransport: 'Thêm phương tiện', transportDesc: 'Đăng xe máy, ô tô cho thuê hoặc bán.', addEntertainment: 'Thêm giải trí', entertainmentDesc: 'Thêm hoạt động giải trí.', addRestaurant: 'Thêm nhà hàng', restaurantDesc: 'Đăng nhà hàng, quán ăn.' },
+                common: { loading: 'Đang tải...', noResults: 'Không tìm thấy tin', error: 'Lỗi', success: 'Thành công', date: 'Ngày', contact: 'Liên hệ', viewMore: 'Xem thêm', close: 'Đóng', save: 'Lưu', delete: 'Xóa', edit: 'Sửa' },
+                ui: { selectCity: 'Chọn thành phố', selectType: 'Chọn loại', additionalFilters: 'Bộ lọc thêm', hideFilters: 'Ẩn bộ lọc', daysAll: 'Tất cả', daysShort: ['CN','T2','T3','T4','T5','T6','T7'], venue: '📍Địa điểm Google Maps', locationMap: '📍Vị trí Google Maps', selectTour: 'Chọn tour', departureNhatrang: '📍 Xuất phát từ Nha Trang', book: '🧳 Đặt chỗ', bookTour: '🧳 Đặt tour', bookVisa: '🛂 Đặt Visa Run', tourBaho: 'Thác Ba Hồ + Bãi biển Thiên Đường', tourAtv: 'Xe ATV địa hình', tourNorthIslands: 'Đảo phía Bắc', tourSouthIslands: 'Khám phá đảo phía Nam', tourYangBay: 'Khu sinh thái Yang Bay', tourPhanrang: 'Phan Rang cho gia đình', tourDalat2: 'Đà Lạt 2 ngày', tourDalatFan: 'Đà Lạt Huyễn Ảo', tourDalatExcl: 'Đà Lạt Đặc Quyền', tourDanang1: 'Đà Nẵng 1 ngày', tourDanangHoian: 'Đà Nẵng + Hội An', tourPhuyen: 'Viên ngọc Phú Yên', vnChats: 'Chat Việt Nam', thChats: 'Chat Thái Lan', showChats: 'Hiện ▼', hideChats: 'Ẩn ▲', laos: '🇱🇦 Lào', cambodia: '🇰🇭 Campuchia', days45: '🗓️ 45 ngày', days90: '🗓️ 90 ngày' }
+            },
+            th: {
+                countries: { vietnam: '🇻🇳 เวียดนาม', thailand: '🇹🇭 ไทย', india: '🇮🇳 อินเดีย', indonesia: '🇮🇩 อินโดนีเซีย' },
+                tabs: { entertainment: 'ความบันเทิง', restaurants: 'ร้านอาหาร', tours: 'ทัวร์', transport: 'ขนส่ง', realestate: 'อสังหาริมทรัพย์', exchange: 'แลกเงิน', marketplace: 'ตลาด', visas: 'วีซ่า', news: 'ถ่ายภาพ', chat: 'แชท', contacts: 'ติดต่อ' },
+                status: { parser: 'Parser:', total: 'ประกาศทั้งหมด:', updated: 'อัปเดต:', online: 'ออนไลน์', lang: 'ภาษา' },
+                filters: { rent: '🔑 เช่า', sale: '🏠 ขาย', ascending: '📈 น้อยไปมาก', descending: '📉 มากไปน้อย', newest: '🆕 ใหม่ที่สุด', oldest: '🕰️ เก่าที่สุด', reset: '✕ รีเซ็ต', upto7m: 'ถึง 7M', upto15m: 'ถึง 15M', from15m: 'จาก 15M', upto30k: 'ถึง 30,000 บาท', upto100k: 'ถึง 100,000 บาท', all: 'ทั้งหมด', bike: '🏍️ มอเตอร์ไซค์', car: '🚗 รถยนต์', scooter: '🛵 สกู๊ตเตอร์', groups: '📌 กลุ่ม:', selectGroup: '-- เลือกกลุ่ม --', listings: 'ประกาศ', submit: '📝 ส่ง', listing: 'ประกาศ' },
+                transport: { bikes: '🏍️ มอเตอร์ไซค์', cars: '🚗 รถยนต์', yachts: '⛵ เรือยอช์ต', bicycles: '🚲 จักรยาน', submit: '📝 ส่ง', add: 'เพิ่มยานพาหนะ', cityFilter: '🏙️ เมือง:' },
+                cities: { hochiminh: 'โฮจิมินห์', danang: 'ดานัง', nhatrang: 'ญาจาง', phuquoc: 'ฟู้โก๊ก', hanoi: 'ฮานอย', dalat: 'ดาลัด', muine: 'มุยเนะ', vungtau: 'วุงเต่า', halong: 'ฮาลอง', hue: 'เว้', phanthiet: 'ฟานเทียต', camranh: 'คามรัน', all: 'ทั้งหมด' },
+                thailandCities: { 'Бангкок': 'กรุงเทพ', 'Пхукет': 'ภูเก็ต', 'Паттайя': 'พัทยา', 'Самуи': 'เกาะสมุย', 'Чиангмай': 'เชียงใหม่', 'Хуахин': 'หัวหิน', 'Краби': 'กระบี่', 'Бали': 'บาหลี', 'Джакарта': 'จาการ์ตา', 'Йогьякарта': 'ยอกยาการ์ตา', 'Бандунг': 'บันดุง', 'Сурабая': 'สุราบายา', 'Гоа': 'Goa', 'Касол': 'Kasol', 'Мумбаи': 'มุมไบ', 'Дели': 'เดลี', 'Бангалор': 'บังกาลอร์' },
+                sectionLabels: { restaurants: 'ร้านอาหาร', tours: 'ทัวร์', entertainment: 'กิจกรรม', transport: 'ประกาศ', realestate: 'ประกาศ' },
+                submitLabels: { restaurants: 'เพิ่มร้านอาหาร', tours: 'เพิ่มทัวร์', entertainment: 'เพิ่มกิจกรรม', transport: 'เพิ่มยานพาหนะ', realestate: 'เพิ่มอสังหาฯ' },
+                forms: { title: 'หัวข้อ', description: 'รายละเอียด', price: 'ราคา', contact: 'ติดต่อ', phone: 'โทรศัพท์', telegram: 'Telegram', whatsapp: 'WhatsApp', photo: 'รูปภาพ', submit: 'ส่ง', cancel: 'ยกเลิก', addListing: 'เพิ่มประกาศ', city: 'เมือง', category: 'หมวดหมู่', type: 'ประเภท', rooms: 'ห้อง', area: 'พื้นที่', address: 'ที่อยู่', submitListingTitle: '📝 ลงประกาศ', submitListingDesc: 'เพิ่มประกาศของคุณในส่วนอสังหาริมทรัพย์', name: 'ชื่อ *', descLabel: 'รายละเอียด *', priceLabel: 'ราคา', roomsLabel: 'ห้อง', areaLabel: 'พื้นที่ ม²', location: '📍 ที่ตั้ง', cityLabel: '🏙️ เมือง', contactPerson: '👤 ผู้ติดต่อ *', listingType: 'ประเภทประกาศ', sale: 'ขาย', rent: 'เช่า', geolocation: '📍 ตำแหน่ง Google Maps', geoHint: 'คัดลอกลิงก์จาก Google Maps', photos: '📷 รูปภาพ (สูงสุด 4)', captcha: '🤖 Captcha *', captchaAnswer: 'คำตอบ', submitBtn: '📤 ส่งเพื่อตรวจสอบ', titlePlaceholder: 'เช่น: อพาร์ตเมนต์ 2 ห้องนอนใจกลางเมือง', descPlaceholder: 'รายละเอียดเพิ่มเติม...', yourName: 'ชื่อของคุณ', locationPlaceholder: 'ใจกลางเมือง ใกล้ทะเล...', noFileSelected: 'ยังไม่ได้เลือกไฟล์', addExchange: 'เพิ่มจุดแลกเปลี่ยน', exchangeDesc: 'เพิ่มจุดแลกเปลี่ยนเงินตรา', addMarketplace: 'ลงประกาศ', marketplaceDesc: 'ขายหรือแลกเปลี่ยนสิ่งของ', addVisa: 'เพิ่ม Visa Run', visaDesc: 'เพิ่มข้อมูล visa run', addPhoto: 'เพิ่มบริการถ่ายภาพ', photoDesc: 'เพิ่มบริการช่างภาพ', addTour: 'เพิ่มทัวร์', tourDesc: 'เพิ่มทัวร์หรือการท่องเที่ยว', addTransport: 'เพิ่มยานพาหนะ', transportDesc: 'เพิ่มมอเตอร์ไซค์หรือรถยนต์', addEntertainment: 'เพิ่มความบันเทิง', entertainmentDesc: 'เพิ่มกิจกรรมบันเทิง', addRestaurant: 'เพิ่มร้านอาหาร', restaurantDesc: 'เพิ่มร้านอาหารหรือคาเฟ่' },
+                common: { loading: 'กำลังโหลด...', noResults: 'ไม่พบประกาศ', error: 'ข้อผิดพลาด', success: 'สำเร็จ', date: 'วันที่', contact: 'ติดต่อ', viewMore: 'ดูเพิ่มเติม', close: 'ปิด', save: 'บันทึก', delete: 'ลบ', edit: 'แก้ไข' },
+                ui: { selectCity: 'เลือกเมือง', selectType: 'เลือกประเภท', additionalFilters: 'ตัวกรองเพิ่ม', hideFilters: 'ซ่อนตัวกรอง', daysAll: 'ทั้งหมด', daysShort: ['อา','จ','อ','พ','พฤ','ศ','ส'], venue: '📍สถานที่ Google Maps', locationMap: '📍ตำแหน่ง Google Maps', selectTour: 'เลือกทัวร์', departureNhatrang: '📍 ออกเดินทางจาก Nha Trang', book: '🧳 จอง', bookTour: '🧳 จองทัวร์', bookVisa: '🛂 จอง Visa Run', tourBaho: 'น้ำตกบาโฮ + หาดพาราไดซ์', tourAtv: 'รถ ATV', tourNorthIslands: 'เกาะทางเหนือ', tourSouthIslands: 'ล่องเรือเกาะใต้', tourYangBay: 'อีโคปาร์ค Yang Bay', tourPhanrang: 'Phan Rang ทริปครอบครัว', tourDalat2: 'ดาลัด 2 วัน', tourDalatFan: 'ดาลัด แฟนตาซี', tourDalatExcl: 'ดาลัด เอ็กซ์คลูซีฟ', tourDanang1: 'ดานัง 1 วัน', tourDanangHoian: 'ดานัง + ฮอยอัน', tourPhuyen: 'ไข่มุกแห่ง Phu Yen', vnChats: 'แชทเวียดนาม', thChats: 'แชทไทย', showChats: 'แสดง ▼', hideChats: 'ซ่อน ▲', laos: '🇱🇦 ลาว', cambodia: '🇰🇭 กัมพูชา', days45: '🗓️ 45 วัน', days90: '🗓️ 90 วัน' }
+            }
+        };
+
+        translations.ru.ui.bookVisaChat = '💬 Открыть чат и забронировать';
+        translations.en.ui.bookVisaChat = '💬 Open chat to book';
+        translations.vi.ui.bookVisaChat = '💬 Mở chat để đặt';
+        translations.th.ui.bookVisaChat = '💬 เปิดแชทเพื่อจอง';
+        translations.ru.ui.bookTourChat = 'Открыть чат и забронировать';
+        translations.en.ui.bookTourChat = 'Open chat to book';
+        translations.vi.ui.bookTourChat = 'Mở chat để đặt';
+        translations.th.ui.bookTourChat = 'เปิดแชทเพื่อจอง';
+
+        const extraUiTranslations = {
+            ru: {
+                openBot: 'Открыть Telegram Goldantelope Asia',
+                supportServices: 'Обмен денег, визаран, экскурсии',
+                ratesVietnamTitle: 'Курсы валют Вьетнама',
+                ratesThailandTitle: 'Курсы валют Таиланда (THB)',
+                ratesIndiaTitle: 'Курсы валют Индии (INR)',
+                ratesIndonesiaTitle: 'Курсы валют Индонезии (IDR)',
+                ratesLoading: 'Загрузка курсов...',
+                ratesNotLoaded: 'Курсы пока не загружены',
+                ratesUnavailable: 'Курсы временно недоступны',
+                ratesLoadError: 'Ошибка загрузки курсов',
+                cashDeliveryChat: 'Открыть чат и заказать доставку наличных',
+                addressLabel: 'Адрес:',
+                vietnamCountry: 'Вьетнам',
+                contactsTitle: 'Контакты Goldantelope Asia',
+                contactsDescription: 'Есть вопросы или нужна помощь с поиском услуг во Вьетнаме? Свяжитесь с Goldantelope Asia — мы поможем сориентироваться в доступных предложениях по аренде недвижимости, Visa Run, обмену валюты, экскурсиям, аренде байков и другим услугам. Напишите нам, чтобы получить дополнительную информацию, уточнить условия сотрудничества или предложить размещение своих услуг на нашей платформе.'
+            },
+            en: {
+                openBot: 'Open Goldantelope Asia on Telegram',
+                supportServices: 'Currency exchange, Visa Run, tours',
+                ratesVietnamTitle: 'Vietnam exchange rates',
+                ratesThailandTitle: 'Thailand exchange rates (THB)',
+                ratesIndiaTitle: 'India exchange rates (INR)',
+                ratesIndonesiaTitle: 'Indonesia exchange rates (IDR)',
+                ratesLoading: 'Loading exchange rates...',
+                ratesNotLoaded: 'Exchange rates are not available yet',
+                ratesUnavailable: 'Exchange rates are temporarily unavailable',
+                ratesLoadError: 'Error loading exchange rates',
+                cashDeliveryChat: 'Open chat to order cash delivery',
+                addressLabel: 'Address:',
+                vietnamCountry: 'Vietnam',
+                contactsTitle: 'Contact Goldantelope Asia',
+                contactsDescription: 'Questions or need help finding services in Vietnam? Contact Goldantelope Asia—we can help you explore available property rentals, Visa Run, currency exchange, tours, motorbike rentals, and other services. Message us for more information, partnership details, or to suggest listing your services on our platform.'
+            },
+            vi: {
+                openBot: 'Mở Telegram Goldantelope Asia',
+                supportServices: 'Đổi tiền, Visa Run, tour du lịch',
+                ratesVietnamTitle: 'Tỷ giá tiền tệ Việt Nam',
+                ratesThailandTitle: 'Tỷ giá tiền tệ Thái Lan (THB)',
+                ratesIndiaTitle: 'Tỷ giá tiền tệ Ấn Độ (INR)',
+                ratesIndonesiaTitle: 'Tỷ giá tiền tệ Indonesia (IDR)',
+                ratesLoading: 'Đang tải tỷ giá...',
+                ratesNotLoaded: 'Chưa có dữ liệu tỷ giá',
+                ratesUnavailable: 'Tỷ giá tạm thời không khả dụng',
+                ratesLoadError: 'Lỗi tải tỷ giá',
+                cashDeliveryChat: 'Mở chat để đặt giao tiền mặt',
+                addressLabel: 'Địa chỉ:',
+                vietnamCountry: 'Việt Nam',
+                contactsTitle: 'Liên hệ Goldantelope Asia',
+                contactsDescription: 'Bạn có câu hỏi hoặc cần trợ giúp tìm dịch vụ tại Việt Nam? Hãy liên hệ Goldantelope Asia — chúng tôi sẽ giúp bạn tìm hiểu các lựa chọn thuê bất động sản, Visa Run, đổi tiền, tour du lịch, thuê xe máy và các dịch vụ khác. Hãy nhắn cho chúng tôi để biết thêm thông tin, xác nhận điều kiện hợp tác hoặc đề xuất đăng dịch vụ của bạn trên nền tảng.'
+            },
+            th: {
+                openBot: 'เปิด Telegram Goldantelope Asia',
+                supportServices: 'แลกเงิน วีซ่ารัน ทัวร์',
+                ratesVietnamTitle: 'อัตราแลกเปลี่ยนเวียดนาม',
+                ratesThailandTitle: 'อัตราแลกเปลี่ยนไทย (THB)',
+                ratesIndiaTitle: 'อัตราแลกเปลี่ยนอินเดีย (INR)',
+                ratesIndonesiaTitle: 'อัตราแลกเปลี่ยนอินโดนีเซีย (IDR)',
+                ratesLoading: 'กำลังโหลดอัตราแลกเปลี่ยน...',
+                ratesNotLoaded: 'ยังไม่มีข้อมูลอัตราแลกเปลี่ยน',
+                ratesUnavailable: 'อัตราแลกเปลี่ยนไม่พร้อมใช้งานชั่วคราว',
+                ratesLoadError: 'เกิดข้อผิดพลาดในการโหลดอัตราแลกเปลี่ยน',
+                cashDeliveryChat: 'เปิดแชทเพื่อสั่งบริการส่งเงินสด',
+                addressLabel: 'ที่อยู่:',
+                vietnamCountry: 'เวียดนาม',
+                contactsTitle: 'ติดต่อ Goldantelope Asia',
+                contactsDescription: 'มีคำถามหรือต้องการความช่วยเหลือในการค้นหาบริการในเวียดนามหรือไม่? ติดต่อ Goldantelope Asia เราช่วยแนะนำตัวเลือกที่มี ทั้งการเช่าอสังหาริมทรัพย์ Visa Run แลกเปลี่ยนเงินตรา ทัวร์ เช่ารถมอเตอร์ไซค์ และบริการอื่นๆ ส่งข้อความหาเราเพื่อขอข้อมูลเพิ่มเติม สอบถามเงื่อนไขความร่วมมือ หรือเสนอเพิ่มบริการของคุณบนแพลตฟอร์ม'
+            }
+        };
+        Object.entries(extraUiTranslations).forEach(([lang, values]) => Object.assign(translations[lang].ui, values));
+
+        const pageTitleKeysByPath = {
+            '/vizaran-vietnam': 'visas',
+            '/vizaran-thailand': 'visasThailand',
+            '/nedvijimost-vietnam': 'realestate',
+            '/nedvijimost-thailand': 'realestateThailand',
+            '/nedvijimost-arenda-goa': 'realestateGoa',
+            '/arenda-bayka-thailand': 'transportThailand',
+            '/restorani-thailand': 'restaurantsThailand',
+            '/razvlecheniya-thailand': 'entertainmentThailand',
+            '/obmen-deneg-thailand': 'exchangeThailand',
+            '/ekskursii-thailand': 'toursThailand',
+            '/obmen-deneg-vietnam': 'exchange',
+            '/ekskursii-vietnam': 'tours',
+            '/razvlecheniya-vo-vietname': 'entertainment',
+            '/arenda-bayka-vo-vietname': 'transport',
+            '/restorani-vo-vietname': 'restaurants',
+            '/contacts': 'contacts'
+        };
+        const localizedPageTitles = {
+            ru: { home: 'Всё для жизни во Вьетнаме', visas: 'Визаран Вьетнам', visasThailand: 'Визаран в Таиланде', realestate: 'Недвижимость Вьетнам', realestateThailand: 'Недвижимость в Таиланде', realestateGoa: 'Аренда недвижимости на Гоа — квартиры, дома и виллы', transportThailand: 'Аренда байка в Таиланде', restaurantsThailand: 'Рестораны в Таиланде', entertainmentThailand: 'Развлечения в Таиланде', exchangeThailand: 'Обмен денег в Таиланде', toursThailand: 'Экскурсии в Таиланде', exchange: 'Обмен денег во Вьетнаме', tours: 'Экскурсии во Вьетнаме', entertainment: 'Развлечения во Вьетнаме', transport: 'Аренда байка во Вьетнаме', restaurants: 'Рестораны во Вьетнаме', contacts: 'Контакты Goldantelope Asia' },
+            en: { home: 'Everything for life in Vietnam', visas: 'Visa Run Vietnam', visasThailand: 'Visa Run in Thailand', realestate: 'Real Estate in Vietnam', realestateThailand: 'Real Estate in Thailand', realestateGoa: 'Property Rentals in Goa — Apartments, Houses & Villas', transportThailand: 'Motorbike Rental in Thailand', restaurantsThailand: 'Restaurants in Thailand', entertainmentThailand: 'Things to Do in Thailand', exchangeThailand: 'Currency Exchange in Thailand', toursThailand: 'Tours in Thailand', exchange: 'Currency Exchange in Vietnam', tours: 'Tours in Vietnam', entertainment: 'Things to Do in Vietnam', transport: 'Motorbike Rental in Vietnam', restaurants: 'Restaurants in Vietnam', contacts: 'Contact Goldantelope Asia' },
+            vi: { home: 'Tất cả cho cuộc sống ở Việt Nam', visas: 'Visa Run Việt Nam', visasThailand: 'Visa Run tại Thái Lan', realestate: 'Bất động sản Việt Nam', realestateThailand: 'Bất động sản tại Thái Lan', realestateGoa: 'Cho thuê bất động sản tại Goa — căn hộ, nhà và biệt thự', transportThailand: 'Thuê xe máy tại Thái Lan', restaurantsThailand: 'Nhà hàng tại Thái Lan', entertainmentThailand: 'Giải trí tại Thái Lan', exchangeThailand: 'Đổi tiền tại Thái Lan', toursThailand: 'Tour du lịch Thái Lan', exchange: 'Đổi tiền tại Việt Nam', tours: 'Tour du lịch Việt Nam', entertainment: 'Giải trí tại Việt Nam', transport: 'Thuê xe máy tại Việt Nam', restaurants: 'Nhà hàng tại Việt Nam', contacts: 'Liên hệ Goldantelope Asia' },
+            th: { home: 'ทุกสิ่งสำหรับการใช้ชีวิตในเวียดนาม', visas: 'วีซ่ารันเวียดนาม', visasThailand: 'วีซ่ารันในประเทศไทย', realestate: 'อสังหาริมทรัพย์ในเวียดนาม', realestateThailand: 'อสังหาริมทรัพย์ในประเทศไทย', realestateGoa: 'เช่าอสังหาริมทรัพย์ในกัว — อพาร์ตเมนต์ บ้าน และวิลล่า', transportThailand: 'เช่ามอเตอร์ไซค์ในประเทศไทย', restaurantsThailand: 'ร้านอาหารในประเทศไทย', entertainmentThailand: 'กิจกรรมในประเทศไทย', exchangeThailand: 'แลกเปลี่ยนเงินในประเทศไทย', toursThailand: 'ทัวร์ในประเทศไทย', exchange: 'แลกเปลี่ยนเงินในเวียดนาม', tours: 'ทัวร์เวียดนาม', entertainment: 'กิจกรรมในเวียดนาม', transport: 'เช่ามอเตอร์ไซค์ในเวียดนาม', restaurants: 'ร้านอาหารในเวียดนาม', contacts: 'ติดต่อ Goldantelope Asia' }
+        };
+        pageTitleKeysByPath['/restorani-goa'] = 'restaurantsGoa';
+        pageTitleKeysByPath['/nochnie-klubi-goa'] = 'nightlifeGoa';
+        pageTitleKeysByPath['/obmen-deneg-goa'] = 'exchangeGoa';
+        pageTitleKeysByPath['/ekskursii-goa'] = 'toursGoa';
+        pageTitleKeysByPath['/vizaran-goa'] = 'visasGoa';
+        pageTitleKeysByPath['/arenda-bayka-indonesia'] = 'transportIndonesia';
+        pageTitleKeysByPath['/nedvijimost-arenda-indonesia'] = 'realestateIndonesia';
+        pageTitleKeysByPath['/restorani-indonesia'] = 'restaurantsIndonesia';
+        pageTitleKeysByPath['/razvlecheniya-indonesia'] = 'entertainmentIndonesia';
+        pageTitleKeysByPath['/obmen-deneg-indonesia'] = 'exchangeIndonesia';
+        pageTitleKeysByPath['/ekskursii-indonesia'] = 'toursIndonesia';
+        pageTitleKeysByPath['/vizaran-indonesia'] = 'visasIndonesia';
+        localizedPageTitles.ru.restaurantsGoa = 'Рестораны Гоа — лучшие кафе, кухня и рестораны у моря';
+        localizedPageTitles.en.restaurantsGoa = 'Goa Restaurants — Cafes, Cuisine and Seaside Dining';
+        localizedPageTitles.vi.restaurantsGoa = 'Nhà hàng Goa — quán cà phê, ẩm thực và nhà hàng ven biển';
+        localizedPageTitles.th.restaurantsGoa = 'ร้านอาหารกัว — คาเฟ่ อาหาร และร้านริมทะเล';
+        localizedPageTitles.ru.nightlifeGoa = 'Ночные клубы Гоа — вечеринки, пляжные бары и развлечения';
+        localizedPageTitles.en.nightlifeGoa = 'Goa Nightclubs — Parties, Beach Bars and Entertainment';
+        localizedPageTitles.vi.nightlifeGoa = 'Câu lạc bộ đêm Goa — tiệc tùng, quán bar biển và giải trí';
+        localizedPageTitles.th.nightlifeGoa = 'ไนต์คลับกัว — ปาร์ตี้ บาร์ริมชายหาด และความบันเทิง';
+        localizedPageTitles.ru.exchangeGoa = 'Обмен денег на Гоа — где поменять валюту и найти выгодный курс';
+        localizedPageTitles.en.exchangeGoa = 'Currency Exchange in Goa — Where to Exchange Money';
+        localizedPageTitles.vi.exchangeGoa = 'Đổi tiền ở Goa — nơi đổi tiền và tìm tỷ giá tốt';
+        localizedPageTitles.th.exchangeGoa = 'แลกเปลี่ยนเงินในกัว — ที่แลกเงินและอัตราแลกเปลี่ยนที่คุ้มค่า';
+        localizedPageTitles.ru.toursGoa = 'Экскурсии на Гоа — лучшие туры, водопады, острова и достопримечательности';
+        localizedPageTitles.en.toursGoa = 'Goa Tours — Waterfalls, Islands and Top Attractions';
+        localizedPageTitles.vi.toursGoa = 'Tour Goa — thác nước, đảo và điểm tham quan nổi bật';
+        localizedPageTitles.th.toursGoa = 'ทัวร์กัว — น้ำตก เกาะ และสถานที่ท่องเที่ยว';
+        localizedPageTitles.ru.visasGoa = 'Визаран на Гоа — выезд из Индии, визы и повторный въезд';
+        localizedPageTitles.en.visasGoa = 'Visa Run in Goa — Leaving India, Visas and Re-entry';
+        localizedPageTitles.vi.visasGoa = 'Visa run tại Goa — rời Ấn Độ, thị thực và nhập cảnh lại';
+        localizedPageTitles.th.visasGoa = 'วีซ่ารันในกัว — ออกจากอินเดีย วีซ่า และการกลับเข้าประเทศ';
+        localizedPageTitles.ru.transportIndonesia = 'Аренда байка в Индонезии — скутеры и мотоциклы напрокат';
+        localizedPageTitles.en.transportIndonesia = 'Motorbike Rental in Indonesia — Scooters and Motorcycles';
+        localizedPageTitles.vi.transportIndonesia = 'Thuê xe máy ở Indonesia — xe tay ga và mô tô';
+        localizedPageTitles.th.transportIndonesia = 'เช่ามอเตอร์ไซค์ในอินโดนีเซีย — สกู๊ตเตอร์และมอเตอร์ไซค์';
+        localizedPageTitles.ru.realestateIndonesia = 'Аренда недвижимости в Индонезии — виллы, дома и апартаменты';
+        localizedPageTitles.en.realestateIndonesia = 'Property Rental in Indonesia — Villas, Houses and Apartments';
+        localizedPageTitles.vi.realestateIndonesia = 'Cho thuê bất động sản ở Indonesia — biệt thự, nhà và căn hộ';
+        localizedPageTitles.th.realestateIndonesia = 'เช่าอสังหาริมทรัพย์ในอินโดนีเซีย — วิลล่า บ้าน และอพาร์ตเมนต์';
+        localizedPageTitles.ru.restaurantsIndonesia = 'Рестораны Индонезии — национальная кухня, кафе и лучшие места';
+        localizedPageTitles.en.restaurantsIndonesia = 'Restaurants in Indonesia — Local Cuisine, Cafes and Top Spots';
+        localizedPageTitles.vi.restaurantsIndonesia = 'Nhà hàng Indonesia — ẩm thực địa phương, quán cà phê và địa điểm nổi bật';
+        localizedPageTitles.th.restaurantsIndonesia = 'ร้านอาหารอินโดนีเซีย — อาหารท้องถิ่น คาเฟ่ และร้านแนะนำ';
+        localizedPageTitles.ru.entertainmentIndonesia = 'Развлечения в Индонезии — лучшие места, пляжи, клубы и активный отдых';
+        localizedPageTitles.en.entertainmentIndonesia = 'Things to Do in Indonesia — Beaches, Clubs and Outdoor Activities';
+        localizedPageTitles.vi.entertainmentIndonesia = 'Giải trí ở Indonesia — bãi biển, câu lạc bộ và hoạt động ngoài trời';
+        localizedPageTitles.th.entertainmentIndonesia = 'กิจกรรมในอินโดนีเซีย — ชายหาด คลับ และกิจกรรมกลางแจ้ง';
+        localizedPageTitles.ru.exchangeIndonesia = 'Обмен денег в Индонезии — обменники, курс рупии и советы туристам';
+        localizedPageTitles.en.exchangeIndonesia = 'Currency Exchange in Indonesia — Rupiah Rates and Tips';
+        localizedPageTitles.vi.exchangeIndonesia = 'Đổi tiền ở Indonesia — tỷ giá rupiah và lời khuyên cho du khách';
+        localizedPageTitles.th.exchangeIndonesia = 'แลกเงินในอินโดนีเซีย — อัตรารูเปียห์และคำแนะนำสำหรับนักท่องเที่ยว';
+        localizedPageTitles.ru.toursIndonesia = 'Экскурсии в Индонезии — лучшие туры, острова и достопримечательности';
+        localizedPageTitles.en.toursIndonesia = 'Indonesia Tours — Islands, Volcanoes and Top Attractions';
+        localizedPageTitles.vi.toursIndonesia = 'Tour Indonesia — đảo, núi lửa và điểm tham quan nổi bật';
+        localizedPageTitles.th.toursIndonesia = 'ทัวร์อินโดนีเซีย — เกาะ ภูเขาไฟ และสถานที่ท่องเที่ยว';
+        localizedPageTitles.ru.visasIndonesia = 'Визаран в Индонезии — продление визы, выезд и повторный въезд';
+        localizedPageTitles.en.visasIndonesia = 'Visa Run in Indonesia — Visa Extension, Exit and Re-entry';
+        localizedPageTitles.vi.visasIndonesia = 'Visa run Indonesia — gia hạn visa, xuất cảnh và nhập cảnh lại';
+        localizedPageTitles.th.visasIndonesia = 'วีซ่ารันอินโดนีเซีย — ต่อวีซ่า ออกนอกประเทศ และกลับเข้าใหม่';
+
+        function updateLocalizedPageTitle() {
+            const key = pageTitleKeysByPath[window.location.pathname] || 'home';
+            const label = localizedPageTitles[currentLang]?.[key] || localizedPageTitles.ru[key];
+            document.title = `${label} /goldantelopeasia.com`;
+        }
+        
+        function t(key) {
+            const keys = key.split('.');
+            let val = translations[currentLang];
+            for (const k of keys) { val = val?.[k]; }
+            if (!val) { val = translations['ru']; for (const k of keys) { val = val?.[k]; } }
+            return val || key;
+        }
+        
+        // Хелпер для получения слова "объявлений" на текущем языке
+        function getListingsWord() {
+            return translations[currentLang]?.filters?.listings || 'предложений';
+        }
+        
+        function switchLang(lang) {
+            currentLang = lang;
+            localStorage.setItem('goldantelope_lang', lang);
+            
+            // Добавляем класс языка к body для CSS переводов
+            document.body.classList.remove('lang-ru', 'lang-en', 'lang-vi', 'lang-th');
+            document.body.classList.add('lang-' + lang);
+            
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.style.background = 'transparent';
+                btn.style.color = '#666';
+            });
+            document.getElementById('lang-' + lang).style.background = '#d4af37';
+            document.getElementById('lang-' + lang).style.color = 'white';
+            
+            const tr = translations[lang];
+            
+            document.querySelectorAll('.country-btn').forEach(btn => {
+                const onclick = btn.getAttribute('onclick');
+                if (!onclick) return;
+                const match = onclick.match(/'(\w+)'/);
+                if (!match) return;
+                const country = match[1];
+                if (tr.countries[country]) btn.textContent = tr.countries[country];
+            });
+            
+            document.querySelectorAll('.tab[data-tab]').forEach(tab => {
+                const tabName = tab.getAttribute('data-tab');
+                const span = tab.querySelector('span:not([aria-hidden="true"])');
+                if (span && tr.tabs[tabName]) span.textContent = tr.tabs[tabName];
+            });
+            
+            const statusItems = document.querySelectorAll('.status-item');
+            if (statusItems[0]) statusItems[0].innerHTML = `<span class="status-dot online"></span><span>${tr.status.parser} <strong id="parser-status">OK</strong></span>`;
+            if (statusItems[1]) statusItems[1].innerHTML = `<span>${tr.status.total} <strong id="total-items">${document.getElementById('total-items')?.textContent || '0'}</strong></span>`;
+            if (statusItems[2]) statusItems[2].innerHTML = `<span>${tr.status.updated} <strong id="last-update">${document.getElementById('last-update')?.textContent || '--:--'}</strong></span>`;
+            
+            document.querySelectorAll('.rate-item .rate-label').forEach(lbl => {
+                if (lbl.textContent.includes('Язык') || lbl.textContent.includes('Language') || lbl.textContent.includes('Ngôn ngữ') || lbl.textContent.includes('ภาษา')) {
+                    lbl.innerHTML = '🌐 ' + tr.status.lang;
+                }
+                if (lbl.textContent.includes('На портале') || lbl.textContent.includes('Online') || lbl.textContent.includes('Trực tuyến') || lbl.textContent.includes('ออนไลน์')) {
+                    lbl.innerHTML = '👥 ' + tr.status.online;
+                }
+            });
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                let val = t(key);
+                if (key.startsWith('transport-')) {
+                    const tkey = key.replace('transport-', '');
+                    val = tr.transport?.[tkey] || val;
+                } else if (key.startsWith('city-')) {
+                    const ckey = key.replace('city-', '');
+                    val = tr.cities?.[ckey] || val;
+                } else if (key === 'submit-btn') {
+                    val = tr.filters.submit;
+                } else if (key === 'add-listing') {
+                    val = tr.forms.addListing;
+                }
+                if (val && val !== key) el.textContent = val;
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                const val = t(key);
+                if (val && val !== key) el.placeholder = val;
+            });
+            document.querySelectorAll('[data-i18n-aria-label]').forEach(el => {
+                const val = t(el.getAttribute('data-i18n-aria-label'));
+                if (val) el.setAttribute('aria-label', val);
+            });
+            document.querySelectorAll('.rates-card-date[data-date-value]').forEach(el => {
+                el.textContent = `${tr.status.updated} ${el.dataset.dateValue}`;
+            });
+            
+            document.querySelectorAll('.filter-type-btn').forEach(btn => {
+                const onclick = btn.getAttribute('onclick') || '';
+                if (onclick.includes("'rent'")) btn.textContent = tr.filters.rent;
+                if (onclick.includes("'sale'")) btn.textContent = tr.filters.sale;
+            });
+            document.querySelectorAll('.sort-btn').forEach(btn => {
+                const onclick = btn.getAttribute('onclick') || '';
+                if (onclick.includes('price_asc')) btn.textContent = tr.filters.ascending;
+                if (onclick.includes('price_desc')) btn.textContent = tr.filters.descending;
+                if (onclick.includes('date_desc')) btn.textContent = tr.filters.newest;
+                if (onclick.includes('date_asc')) btn.textContent = tr.filters.oldest;
+            });
+            document.querySelectorAll('.reset-btn').forEach(btn => { 
+                if(btn.textContent.includes('Сброс') || btn.textContent.includes('Reset') || btn.textContent.includes('Đặt lại') || btn.textContent.includes('รีเซ็ต')) 
+                    btn.textContent = tr.filters.reset; 
+            });
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                const onclick = btn.getAttribute('onclick') || '';
+                if (onclick.includes('7000000')) btn.textContent = tr.filters.upto7m;
+                if (onclick.includes('15000000') && onclick.includes('filterRealEstatePrice(')) btn.textContent = tr.filters.upto15m;
+                if (onclick.includes('15000000') && onclick.includes('filterRealEstatePriceMin')) btn.textContent = tr.filters.from15m;
+                if (onclick.includes('30000') && onclick.includes('filterRealEstatePrice(')) btn.textContent = tr.filters.upto30k;
+                if (onclick.includes('100000') && onclick.includes('filterRealEstatePrice(')) btn.textContent = tr.filters.upto100k;
+            });
+            
+            document.querySelectorAll('.city-btn').forEach(btn => {
+                const city = btn.value || btn.getAttribute('data-city');
+                if (city && tr.cities[city]) btn.textContent = tr.cities[city];
+            });
+            // Для realestate-city-btn меняем только .city-name, чтобы не удалить img
+            document.querySelectorAll('.realestate-city-btn').forEach(btn => {
+                const city = btn.getAttribute('data-city');
+                const cityNameEl = btn.querySelector('.city-name');
+                if (city && tr.cities[city] && cityNameEl) {
+                    cityNameEl.textContent = tr.cities[city];
+                }
+            });
+            
+            document.querySelectorAll('.group-filter-btn[data-group=""]').forEach(btn => btn.textContent = tr.filters.all);
+            document.querySelectorAll('#vietnam-realestate-groups > span, #other-realestate-groups > span').forEach(el => {
+                el.textContent = tr.filters.groups;
+            });
+            const groupSelect = document.getElementById('group-select');
+            if (groupSelect && groupSelect.options[0]) groupSelect.options[0].text = tr.filters.selectGroup;
+            const otherGroupSelect = document.getElementById('other-group-select');
+            if (otherGroupSelect && otherGroupSelect.options[0]) otherGroupSelect.options[0].text = tr.filters.selectGroup;
+            
+            document.querySelectorAll('.city-name').forEach(el => {
+                const parent = el.closest('[data-city]');
+                if (parent) {
+                    const city = parent.getAttribute('data-city');
+                    if (tr.cities[city]) {
+                        el.textContent = tr.cities[city];
+                        return;
+                    }
+                }
+                const text = el.textContent.toLowerCase();
+                if (text.includes('хошимин') || text.includes('ho chi minh') || text.includes('hồ chí minh') || text.includes('tp.')) el.textContent = tr.cities.hochiminh;
+                else if (text.includes('дананг') || text.includes('da nang') || text.includes('đà nẵng')) el.textContent = tr.cities.danang;
+                else if (text.includes('нячанг') || text.includes('nha trang')) el.textContent = tr.cities.nhatrang;
+                else if (text.includes('фукуок') || text.includes('phu quoc') || text.includes('phú quốc')) el.textContent = tr.cities.phuquoc;
+                else if (text.includes('ханой') || text.includes('hanoi') || text.includes('hà nội')) el.textContent = tr.cities.hanoi;
+                else if (text.includes('далат') || text.includes('da lat') || text.includes('đà lạt')) el.textContent = tr.cities.dalat;
+                else if (text.includes('подать') || text.includes('submit') || text.includes('đăng') || text.includes('ส่ง')) el.textContent = tr.filters.submit;
+            });
+            
+            document.querySelectorAll('.tour-count').forEach(el => {
+                const text = el.textContent;
+                const match = text.match(/\d+/);
+                if (match) {
+                    const count = match[0];
+                    if (text.includes('объявлен') || text.includes('listing') || text.includes('tin') || text.includes('ประกาศ') || text.includes('ร้านอาหาร') || text.includes('ทัวร์') || text.includes('กิจกรรม')) {
+                        el.textContent = count + ' ' + tr.filters.listings;
+                    }
+                }
+                if (text.includes('объявление') || text.includes('listing') || text.includes('tin') || text.includes('ประกาศ')) {
+                    if (!text.match(/\d+/)) el.textContent = tr.filters.listing;
+                }
+            });
+            
+            // Перевод формы подачи объявления
+            const submitForm = document.getElementById('submit-listing');
+            if (submitForm) {
+                const titleEl = submitForm.querySelector('h2');
+                const descEl = submitForm.querySelector('p');
+                if (titleEl) titleEl.textContent = tr.forms.submitListingTitle;
+                if (descEl) descEl.remove();
+                
+                const labels = submitForm.querySelectorAll('label');
+                labels.forEach(lbl => {
+                    const txt = lbl.textContent.toLowerCase();
+                    if (txt.includes('название') || txt.includes('title') || txt.includes('tên')) lbl.textContent = tr.forms.name;
+                    else if (txt.includes('описание') || txt.includes('description') || txt.includes('mô tả')) lbl.textContent = tr.forms.descLabel;
+                    else if (txt.includes('цена') || txt.includes('price') || txt.includes('giá')) lbl.textContent = tr.forms.priceLabel;
+                    else if (txt.includes('комнат') || txt.includes('rooms') || txt.includes('phòng')) lbl.textContent = tr.forms.roomsLabel;
+                    else if (txt.includes('площадь') || txt.includes('area') || txt.includes('diện tích')) lbl.textContent = tr.forms.areaLabel;
+                    else if (txt.includes('расположение') || txt.includes('location') || txt.includes('vị trí')) lbl.textContent = tr.forms.location;
+                    else if (txt.includes('город') || txt.includes('city') || txt.includes('thành phố')) lbl.textContent = tr.forms.cityLabel;
+                    else if (txt.includes('контактное лицо') || txt.includes('contact person') || txt.includes('người liên hệ')) lbl.textContent = tr.forms.contactPerson;
+                    else if (txt.includes('тип объявления') || txt.includes('listing type') || txt.includes('loại tin')) lbl.textContent = tr.forms.listingType;
+                    else if (txt.includes('продажа') || txt.includes('sale') || txt.includes('bán')) lbl.innerHTML = lbl.innerHTML.replace(/Продажа|Sale|Bán/gi, tr.forms.sale);
+                    else if (txt.includes('аренда') || txt.includes('rent') || txt.includes('thuê')) lbl.innerHTML = lbl.innerHTML.replace(/Аренда|Rent|Thuê/gi, tr.forms.rent);
+                    else if (txt.includes('геолокация') || txt.includes('google maps location') || txt.includes('vị trí google')) lbl.textContent = tr.forms.geolocation;
+                    else if (txt.includes('фото') || txt.includes('photos') || txt.includes('ảnh')) lbl.textContent = tr.forms.photos;
+                    else if (txt.includes('капча') || txt.includes('captcha') || txt.includes('mã xác nhận')) lbl.textContent = tr.forms.captcha;
+                });
+                
+                // Placeholders
+                const titleInput = submitForm.querySelector('#submit-title');
+                const descInput = submitForm.querySelector('#submit-description');
+                const contactInput = submitForm.querySelector('#submit-contact-name');
+                const captchaInput = submitForm.querySelector('#submit-captcha');
+                const locationInput = submitForm.querySelector('#submit-location');
+                if (titleInput) titleInput.placeholder = tr.forms.titlePlaceholder;
+                if (descInput) descInput.placeholder = tr.forms.descPlaceholder;
+                if (contactInput) contactInput.placeholder = tr.forms.yourName;
+                if (captchaInput) captchaInput.placeholder = tr.forms.captchaAnswer;
+                if (locationInput) locationInput.placeholder = tr.forms.locationPlaceholder;
+                
+                // Подсказка геолокации
+                const geoHint = submitForm.querySelector('small');
+                if (geoHint) geoHint.textContent = tr.forms.geoHint;
+                
+                // Кнопка отправки
+                const submitBtn = submitForm.querySelector('button[type="submit"]');
+                if (submitBtn) submitBtn.textContent = tr.forms.submitBtn;
+                
+                // Чекбоксы Продажа/Аренда
+                const saleLabel = submitForm.querySelector('label:has(#submit-type-sale)');
+                const rentLabel = submitForm.querySelector('label:has(#submit-type-rent)');
+                if (saleLabel) saleLabel.innerHTML = `<input type="checkbox" id="submit-type-sale" value="sale"> ${tr.forms.sale}`;
+                if (rentLabel) rentLabel.innerHTML = `<input type="checkbox" id="submit-type-rent" value="rent"> ${tr.forms.rent}`;
+                
+                // Города в селекте
+                const citySelect = submitForm.querySelector('#submit-city');
+                if (citySelect) {
+                    citySelect.querySelectorAll('option').forEach(opt => {
+                        const val = opt.value.toLowerCase().replace(/\s+/g, '');
+                        if (val.includes('nhatrang')) opt.textContent = tr.cities.nhatrang;
+                        else if (val.includes('hochiminh')) opt.textContent = tr.cities.hochiminh;
+                        else if (val.includes('danang')) opt.textContent = tr.cities.danang;
+                        else if (val.includes('hanoi')) opt.textContent = tr.cities.hanoi;
+                        else if (val.includes('phuquoc')) opt.textContent = tr.cities.phuquoc;
+                        else if (val.includes('phanthiet') || val.includes('phan thiet')) opt.textContent = tr.cities.phanthiet;
+                        else if (val.includes('camranh') || val.includes('cam ranh')) opt.textContent = tr.cities.camranh;
+                        else if (val.includes('dalat')) opt.textContent = tr.cities.dalat;
+                    });
+                }
+            }
+            
+            // Переводим города во всех формах (tour, entertainment и др.)
+            document.querySelectorAll('select[id*="-city"] option, select[id*="City"] option').forEach(opt => {
+                const val = opt.value.toLowerCase().replace(/\s+/g, '');
+                if (val.includes('nhatrang')) opt.textContent = tr.cities.nhatrang;
+                else if (val.includes('hochiminh')) opt.textContent = tr.cities.hochiminh;
+                else if (val.includes('danang')) opt.textContent = tr.cities.danang;
+                else if (val.includes('hanoi')) opt.textContent = tr.cities.hanoi;
+                else if (val.includes('phuquoc')) opt.textContent = tr.cities.phuquoc;
+                else if (val.includes('phanthiet') || val.includes('phan thiet')) opt.textContent = tr.cities.phanthiet;
+                else if (val.includes('camranh') || val.includes('cam ranh')) opt.textContent = tr.cities.camranh;
+                else if (val.includes('dalat')) opt.textContent = tr.cities.dalat;
+                else if (val.includes('muine') || val.includes('mui ne')) opt.textContent = tr.cities.muine;
+                else if (val.includes('vungtau') || val.includes('vung tau')) opt.textContent = tr.cities.vungtau;
+                else if (val.includes('halong') || val.includes('ha long')) opt.textContent = tr.cities.halong;
+                else if (val.includes('hue')) opt.textContent = tr.cities.hue;
+            });
+            
+            // Перевод placeholder'ов для file input
+            document.querySelectorAll('.file-placeholder[data-i18n-file]').forEach(el => {
+                el.textContent = tr.forms.noFileSelected;
+            });
+            
+            // Перевод ВСЕХ форм подачи объявлений
+            translateAllForms(tr);
+            updateWeather();
+
+            // Переводим названия городов в выпадающих списках и лейблах
+            translateCityDropdowns(tr);
+            // Перерисовываем бар дней развлечений с переведёнными днями
+            buildEntDateBar();
+            updateLocalizedPageTitle();
+            
+            if (lang !== 'ru') {
+                setTimeout(() => translateVisibleCards(lang), 400);
+            } else {
+                // Restore all card texts to original (with full HTML formatting)
+                document.querySelectorAll('[data-orig]').forEach(el => {
+                    const origHtml = el.getAttribute('data-orig-html');
+                    if (origHtml) {
+                        el.innerHTML = origHtml;
+                    } else {
+                        el.textContent = el.getAttribute('data-orig');
+                    }
+                    el.removeAttribute('data-tq');
+                });
+                // After restoring, auto-translate any English-language cards to Russian
+                setTimeout(() => translateVisibleCards('ru'), 400);
+            }
+        }
+        
+        // Перевод названий городов в city-switcher dropdown и label
+        function translateCityDropdowns(tr) {
+            // Обратная карта: нормализованный текст → ключ в tr.cities (Вьетнам)
+            var vnMap = {
+                'нячанг':'nhatrang','nha trang':'nhatrang','ня чанг':'nhatrang',
+                'хошимин':'hochiminh','ho chi minh':'hochiminh','hồ chí minh':'hochiminh','tp. hồ chí minh':'hochiminh',
+                'дананг':'danang','da nang':'danang','đà nẵng':'danang',
+                'фукуок':'phuquoc','phu quoc':'phuquoc','phú quốc':'phuquoc',
+                'ханой':'hanoi','hà nội':'hanoi','hanoi':'hanoi',
+                'далат':'dalat','da lat':'dalat','đà lạt':'dalat',
+                'муйне':'muine','mui ne':'muine','mũi né':'muine',
+                'фантьет':'phanthiet','phan thiet':'phanthiet','phan thiết':'phanthiet',
+                'камрань':'camranh','cam ranh':'camranh',
+                'вунгтау':'vungtau','vung tau':'vungtau'
+            };
+            // Имена других городов (ключи в tr.thailandCities)
+            var otherRu = ['Бангкок','Пхукет','Паттайя','Самуи','Чиангмай','Хуахин','Краби','Чианграй','Удон Тхани',
+                           'Бали','Джакарта','Йогьякарта','Бандунг','Сурабая',
+                           'Гоа','Касол','Мумбаи','Дели','Бангалор'];
+            // Быстрый поиск любого перевода → ru-ключ
+            var otherLookup = {};
+            otherRu.forEach(function(ru) {
+                ['ru','en','vi','th'].forEach(function(l) {
+                    var t = ((translations[l] || {}).thailandCities || {})[ru];
+                    if (t) otherLookup[t.toLowerCase()] = ru;
+                });
+                otherLookup[ru.toLowerCase()] = ru;
+            });
+
+            function xlat(raw) {
+                var s = (raw || '').trim();
+                var sl = s.toLowerCase();
+                if (vnMap[sl] && tr.cities[vnMap[sl]]) return tr.cities[vnMap[sl]];
+                if (otherLookup[sl] && (tr.thailandCities || {})[otherLookup[sl]]) return tr.thailandCities[otherLookup[sl]];
+                return s;
+            }
+
+            // .tcs-sw-label (текущий выбранный город в switcher)
+            document.querySelectorAll('.tcs-sw-label').forEach(function(el) {
+                var txt = el.textContent.trim();
+                // Пропускаем label транспорта (emoji 🏍️ 🚗 ⛵ 🚲)
+                if (/^[\u{1F3CD}\u{1F697}\\u{26F5}\u{1F6B2}]/u.test(txt)) return;
+                var x = xlat(txt);
+                if (x !== txt) el.textContent = x;
+            });
+
+            // .tcs-drop-item — текстовый узел после <img>
+            document.querySelectorAll('.tcs-drop-item').forEach(function(item) {
+                // Пропускаем элементы транспортного типа — они переводятся ниже
+                if (item.dataset.transportKey) return;
+                // .drop-item-label внутри (realestate-style)
+                var lbl = item.querySelector('.drop-item-label');
+                if (lbl) { var x = xlat(lbl.textContent); if (x !== lbl.textContent.trim()) lbl.textContent = x; return; }
+                // Ищем последний текстовый узел
+                var nodes = item.childNodes;
+                for (var i = nodes.length - 1; i >= 0; i--) {
+                    if (nodes[i].nodeType === 3 && nodes[i].textContent.trim()) {
+                        var x2 = xlat(nodes[i].textContent);
+                        if (x2 !== nodes[i].textContent.trim()) nodes[i].textContent = x2;
+                        break;
+                    }
+                }
+            });
+
+            // Перевод типов транспорта (Байки / Авто / Яхты / Велосипеды)
+            var _ttr = tr.transport || {};
+            var _typeMap = { bikes: '🏍️ ', cars: '🚗 ', yachts: '⛵ ', bicycles: '🚲 ' };
+            document.querySelectorAll('.tcs-drop-item[data-transport-key]').forEach(function(item) {
+                var tk = item.dataset.transportKey;
+                var translated = _ttr[tk];
+                if (!translated) return;
+                // Найти последний текстовый узел и заменить
+                var nodes = item.childNodes;
+                for (var i = nodes.length - 1; i >= 0; i--) {
+                    if (nodes[i].nodeType === 3 && nodes[i].textContent.trim()) {
+                        nodes[i].textContent = translated;
+                        break;
+                    }
+                }
+            });
+            // Обновляем cityDropData['trvn-type'] names и текущий label
+            if (typeof cityDropData !== 'undefined' && cityDropData['trvn-type']) {
+                var typeKeys = ['bikes', 'cars', 'yachts', 'bicycles'];
+                typeKeys.forEach(function(tk, i) {
+                    if (_ttr[tk]) cityDropData['trvn-type'].cities[i].name = _ttr[tk];
+                });
+                var curIdx = cityDropData['trvn-type'].idx || 0;
+                var lbl = document.getElementById('trvn-type-sw-label');
+                if (lbl && _ttr[typeKeys[curIdx]]) lbl.textContent = _ttr[typeKeys[curIdx]];
+            }
+        }
+
+        // Функция перевода всех форм подачи объявлений
+        function translateAllForms(tr) {
+            const isVi = currentLang === 'vi';
+            const isEn = currentLang === 'en';
+            const isTh = currentLang === 'th';
+            
+            // Полный словарь переводов для label
+            const labelTranslations = {
+                // Основные поля
+                'название': isVi ? 'Tên *' : (isEn ? 'Title *' : tr.forms.name),
+                'название/модель': isVi ? 'Tên/Model *' : (isEn ? 'Title/Model *' : 'Название/Модель *'),
+                'описание': isVi ? 'Mô tả *' : (isEn ? 'Description *' : tr.forms.descLabel),
+                'цена': isVi ? 'Giá' : (isEn ? 'Price' : tr.forms.priceLabel),
+                'город': isVi ? '🏙️ Thành phố' : (isEn ? '🏙️ City' : tr.forms.cityLabel),
+                'контактное лицо': isVi ? '👤 Người liên hệ *' : (isEn ? '👤 Contact Person *' : tr.forms.contactPerson),
+                'фото': isVi ? '📷 Ảnh (tối đa 4)' : (isEn ? '📷 Photos (up to 4)' : tr.forms.photos),
+                'капча': isVi ? '🤖 Mã xác nhận *' : (isEn ? '🤖 Captcha *' : tr.forms.captcha),
+                
+                // Контакты
+                'whatsapp': '💬 WhatsApp',
+                'telegram': '✈️ Telegram',
+                'телефон': isVi ? '📞 Điện thoại' : (isEn ? '📞 Phone' : '📞 Телефон'),
+                
+                // Недвижимость
+                'тип объявления': isVi ? 'Loại tin đăng' : (isEn ? 'Listing Type' : 'Тип объявления'),
+                'продажа': isVi ? 'Bán' : (isEn ? 'Sale' : 'Продажа'),
+                'аренда': isVi ? 'Thuê' : (isEn ? 'Rent' : 'Аренда'),
+                'комнат': isVi ? 'Phòng' : (isEn ? 'Rooms' : 'Комнат'),
+                'площадь': isVi ? 'Diện tích m²' : (isEn ? 'Area m²' : 'Площадь м²'),
+                'расположение': isVi ? '📍 Vị trí' : (isEn ? '📍 Location' : '📍 Расположение'),
+                'геолокация': isVi ? '📍 Vị trí Google Maps' : (isEn ? '📍 Google Maps Location' : '📍 Геолокация Google Maps'),
+                
+                // Визаран
+                'направление': isVi ? '🗺 Điểm đến' : (isEn ? '🗺 Destination' : '🗺 Направление'),
+                'гражданство': isVi ? '🪪 Quốc tịch' : (isEn ? '🪪 Citizenship' : '🪪 Гражданство'),
+                'срок пребывания': isVi ? '⏱ Thời gian lưu trú' : (isEn ? '⏱ Stay Duration' : '⏱ Срок пребывания'),
+                
+                // Дети
+                'категория': isVi ? '📂 Danh mục' : (isEn ? '📂 Category' : '📂 Категория'),
+                'возраст': isVi ? '👶 Độ tuổi' : (isEn ? '👶 Age' : '👶 Возраст'),
+                
+                // Барахолка
+                'подкатегория': isVi ? '📂 Danh mục con' : (isEn ? '📂 Subcategory' : '📂 Подкатегория'),
+                'состояние': isVi ? '📦 Tình trạng' : (isEn ? '📦 Condition' : '📦 Состояние'),
+                
+                // Медицина
+                'тип услуги': isVi ? '💊 Loại dịch vụ' : (isEn ? '💊 Service Type' : '💊 Тип услуги'),
+                'специализация': isVi ? '🩺 Chuyên khoa' : (isEn ? '🩺 Specialization' : '🩺 Специализация'),
+                
+                // Транспорт
+                'тип транспорта': isVi ? '🚗 Loại phương tiện' : (isEn ? '🚗 Vehicle Type' : '🚗 Тип транспорта'),
+                'год выпуска': isVi ? '📅 Năm sản xuất' : (isEn ? '📅 Year' : '📅 Год выпуска'),
+                'пробег': isVi ? '🔢 Số km' : (isEn ? '🔢 Mileage' : '🔢 Пробег'),
+                
+                // Фотосессия
+                'стиль': isVi ? '🎨 Phong cách' : (isEn ? '🎨 Style' : '🎨 Стиль'),
+                'длительность': isVi ? '⏱ Thời lượng' : (isEn ? '⏱ Duration' : '⏱ Длительность'),
+
+                // Рестораны
+                'тип заведения': isVi ? '🏷️ Loại quán *' : (isEn ? '🏷️ Place Type *' : '🏷️ Тип заведения *'),
+                'кухня': isVi ? '🍳 Phong cách ẩm thực' : (isEn ? '🍳 Cuisine' : '🍳 Кухня'),
+                'фишка': isVi ? '⭐ Điểm nổi bật' : (isEn ? '⭐ Special Feature' : '⭐ Фишка'),
+
+                // Недвижимость — тип объекта
+                'тип недвижимости': isVi ? '🏷️ Loại bất động sản *' : (isEn ? '🏷️ Property Type *' : '🏷️ Тип недвижимости *'),
+
+                // Туры/группы
+                'группа максимум': isVi ? '👥 Nhóm tối đa người' : (isEn ? '👥 Max group size' : '👥 Группа максимум человек'),
+                'количество человек': isVi ? '👥 Số người' : (isEn ? '👥 Number of people' : '👥 Количество человек'),
+                'количество дней': isVi ? '📅 Số ngày' : (isEn ? '📅 Number of days' : '📅 Количество дней'),
+
+                // Обменники
+                'валютные пары': isVi ? '💵 Cặp tiền tệ' : (isEn ? '💵 Currency Pairs' : '💵 Валютные пары'),
+
+                // Общее
+                'адрес': isVi ? '📍 Địa chỉ' : (isEn ? '📍 Address' : '📍 Адрес'),
+                'ссылка на google maps': isVi ? '🗺️ Link Google Maps' : (isEn ? '🗺️ Google Maps Link' : '🗺️ Ссылка на Google Maps'),
+                'тип': isVi ? '🏷️ Loại' : (isEn ? '🏷️ Type' : '🏷️ Тип'),
+
+                // Фото/съёмка
+                'тип съёмки': isVi ? '📷 Loại chụp ảnh' : (isEn ? '📷 Shoot Type' : '📷 Тип съёмки'),
+                'примеры работ': isVi ? '📷 Mẫu ảnh (tối đa 4)' : (isEn ? '📷 Portfolio (up to 4)' : '📷 Примеры работ (до 4 шт)'),
+
+                // Транспорт
+                'объём двигателя': isVi ? '🔧 Dung tích động cơ (cc)' : (isEn ? '🔧 Engine Volume (cc)' : '🔧 Объём двигателя (сс)')
+            };
+            
+            // Заголовки форм
+            const formHeaders = {
+                'submit-exchange': { title: '💱 ' + (tr.forms.addExchange || 'Thêm điểm đổi tiền') },
+                'submit-visas': { title: '🏖️ ' + (tr.forms.addVisa || 'Thêm dịch vụ visa') },
+                'submit-tour': { title: '🧳 ' + (tr.forms.addTour || 'Thêm tour du lịch') },
+                'submit-transport': { title: '🏍️ ' + (tr.forms.addTransport || 'Thêm phương tiện') },
+                'submit-entertainment': { title: '🎉 ' + (tr.forms.addEntertainment || 'Thêm giải trí') },
+                'submit-restaurant': { title: '🍽️ ' + (tr.forms.addRestaurant || 'Thêm nhà hàng') },
+                'submit-listing': { title: tr.forms.submitListingTitle || '📝 Подать объявление' },
+                'submit-realestate': { title: tr.forms.submitListingTitle || '📝 Подать объявление' }
+            };
+            
+            // Перевод всех форм
+            Object.keys(formHeaders).forEach(formId => {
+                const form = document.getElementById(formId);
+                if (!form) return;
+                
+                const header = form.previousElementSibling || form.closest('.content')?.querySelector('div > h2')?.parentElement;
+                if (header) {
+                    const h2 = header.querySelector('h2');
+                    const p = header.querySelector('p');
+                    if (h2 && formHeaders[formId]) h2.textContent = formHeaders[formId].title;
+                    if (p) p.remove();
+                }
+            });
+            
+            // Перевод всех label в формах
+            document.querySelectorAll('form[id^="submit-"] label').forEach(lbl => {
+                const storedKey = lbl.getAttribute('data-label-key');
+                const txt = storedKey || lbl.textContent.toLowerCase().trim();
+                for (const [key, value] of Object.entries(labelTranslations)) {
+                    if (txt.includes(key)) {
+                        if (!storedKey) lbl.setAttribute('data-label-key', key);
+                        // Сохраняем эмодзи если есть
+                        const emoji = lbl.textContent.match(/^[\p{Emoji}]/u)?.[0] || '';
+                        lbl.textContent = emoji ? emoji + ' ' + value.replace(/^[\p{Emoji}]\s*/u, '') : value;
+                        break;
+                    }
+                }
+            });
+            
+            // Перевод кнопок отправки
+            document.querySelectorAll('form[id^="submit-"] button[type="submit"]').forEach(btn => {
+                btn.textContent = tr.forms.submitBtn;
+            });
+            
+            // Перевод placeholder ответа капчи
+            document.querySelectorAll('input[id$="-captcha"]').forEach(inp => {
+                inp.placeholder = tr.forms.captchaAnswer;
+            });
+            
+            // Перевод всех placeholders в формах
+            const placeholderTranslations = {
+                'например': isTh ? 'เช่น' : (isVi ? 'Ví dụ' : (isEn ? 'Example' : 'Например')),
+                'подробное описание': tr.forms.descPlaceholder || (isVi ? 'Mô tả chi tiết...' : (isEn ? 'Detailed description...' : 'Подробное описание...')),
+                'ваше имя': tr.forms.yourName || (isVi ? 'Tên của bạn' : (isEn ? 'Your name' : 'Ваше имя')),
+                'центр': tr.forms.locationPlaceholder || (isVi ? 'Trung tâm, gần biển...' : (isEn ? 'Center, near the beach...' : 'Центр, у моря...')),
+                'состояние': isTh ? 'สภาพ, จำนวน กม...' : (isVi ? 'Tình trạng, số km...' : (isEn ? 'Condition, mileage...' : 'Состояние, пробег...')),
+                'ответ': tr.forms.captchaAnswer || (isVi ? 'Trả lời' : (isEn ? 'Answer' : 'Ответ')),
+                'скопируйте ссылку': tr.forms.geoHint || (isVi ? 'Sao chép liên kết từ Google Maps' : (isEn ? 'Copy link from Google Maps' : 'Скопируйте ссылку из Google Maps'))
+            };
+            
+            document.querySelectorAll('form[id^="submit-"] input[placeholder], form[id^="submit-"] textarea[placeholder]').forEach(el => {
+                const ph = el.placeholder.toLowerCase();
+                for (const [key, value] of Object.entries(placeholderTranslations)) {
+                    if (ph.includes(key)) {
+                        el.placeholder = value;
+                        break;
+                    }
+                }
+            });
+            
+            // Перевод select options в формах
+            const _o = (th, vi, en, ru) => isTh ? th : (isVi ? vi : (isEn ? en : ru));
+            const optionTranslations = {
+                'выберите': _o('เลือก...', 'Chọn...', 'Select...', 'Выберите...'),
+                'мотоцикл': _o('🏍️ มอเตอร์ไซค์', '🏍️ Xe máy', '🏍️ Motorbike', '🏍️ Мотоцикл'),
+                'авто': _o('🚗 รถยนต์', '🚗 Ô tô', '🚗 Car', '🚗 Авто'),
+                'велосипед': _o('🚲 จักรยาน', '🚲 Xe đạp', '🚲 Bicycle', '🚲 Велосипед'),
+                'яхта': _o('⛵ เรือยอช์ต', '⛵ Du thuyền', '⛵ Yacht', '⛵ Яхта'),
+                'продажа': _o('ขาย', 'Bán', 'Sale', 'Продажа'),
+                'аренда': _o('เช่า', 'Thuê', 'Rent', 'Аренда'),
+                'камбоджа': _o('🇰🇭 กัมพูชา', '🇰🇭 Campuchia', '🇰🇭 Cambodia', '🇰🇭 Камбоджа'),
+                'лаос': _o('🇱🇦 ลาว', '🇱🇦 Lào', '🇱🇦 Laos', '🇱🇦 Лаос'),
+                'россия': _o('🇷🇺 รัสเซีย', '🇷🇺 Nga', '🇷🇺 Russia', '🇷🇺 Россия'),
+                'казахстан': _o('🇰🇿 คาซัคสถาน', '🇰🇿 Kazakhstan', '🇰🇿 Kazakhstan', '🇰🇿 Казахстан'),
+                '45 дней': _o('45 วัน', '45 ngày', '45 days', '45 дней'),
+                '90 дней': _o('90 วัน', '90 ngày', '90 days', '90 дней'),
+                'мероприятия': _o('🎉 งานอีเวนต์', '🎉 Sự kiện', '🎉 Events', '🎉 Мероприятия'),
+                'няни': _o('👩‍👧 พี่เลี้ยง', '👩‍👧 Trông trẻ', '👩‍👧 Nannies', '👩‍👧 Няни'),
+                'школы': _o('🏫 โรงเรียน', '🏫 Trường học', '🏫 Schools', '🏫 Школы'),
+                'товары': _o('🧸 ของเล่น', '🧸 Đồ chơi', '🧸 Kindergartens', '🧸 Детские сады'),
+                'электроника': _o('📱 อิเล็กทรอนิกส์', '📱 Điện tử', '📱 Electronics', '📱 Электроника'),
+                'одежда': _o('👕 เสื้อผ้า', '👕 Quần áo', '👕 Clothing', '👕 Одежда'),
+                'мебель': _o('🪑 เฟอร์นิเจอร์', '🪑 Nội thất', '🪑 Furniture', '🪑 Мебель'),
+                'отдам бесплатно': _o('🆓 ฟรี', '🆓 Miễn phí', '🆓 Free', '🆓 Отдам бесплатно'),
+                'вопросы': _o('❓ คำถาม', '❓ Câu hỏi', '❓ Questions', '❓ Вопросы'),
+                'клиники': _o('🏥 คลินิก', '🏥 Phòng khám', '🏥 Clinics', '🏥 Клиники'),
+                'врачи': _o('👨‍⚕️ แพทย์', '👨‍⚕️ Bác sĩ', '👨‍⚕️ Doctors', '👨‍⚕️ Врачи'),
+                'страховка': _o('📋 ประกันภัย', '📋 Bảo hiểm', '📋 Insurance', '📋 Страховка'),
+                'направления': _o('🔬 ความเชี่ยวชาญ', '🔬 Chuyên khoa', '🔬 Specializations', '🔬 Направления')
+            };
+            
+            document.querySelectorAll('form[id^="submit-"] select option').forEach(opt => {
+                const txt = opt.textContent.toLowerCase().trim();
+                for (const [key, value] of Object.entries(optionTranslations)) {
+                    if (txt.includes(key)) {
+                        opt.textContent = value;
+                        break;
+                    }
+                }
+            });
+            
+            // Перевод чекбоксов и radio labels
+            const radioMap = {
+                'продажа': _o('ขาย', 'Bán', 'Sale', 'Продажа'),
+                'аренда': _o('เช่า', 'Thuê', 'Rent', 'Аренда'),
+                '🍽️ ресторан': _o('🍽️ ร้านอาหาร', '🍽️ Nhà hàng', '🍽️ Restaurant', '🍽️ Ресторан'),
+                '☕ кафе': _o('☕ คาเฟ่', '☕ Quán cà phê', '☕ Café', '☕ Кафе'),
+                '🍸 бар': _o('🍸 บาร์', '🍸 Quán bar', '🍸 Bar', '🍸 Бар'),
+                '🎵 ночной клуб': _o('🎵 ไนท์คลับ', '🎵 Club đêm', '🎵 Night Club', '🎵 Ночной клуб'),
+                '🥟 русская еда': _o('🥟 อาหารรัสเซีย', '🥟 Món Nga', '🥟 Russian Food', '🥟 Русская еда'),
+                '🦐 морепродукты': _o('🦐 อาหารทะเล', '🦐 Hải sản', '🦐 Seafood', '🦐 Морепродукты'),
+                '🏢 квартира': _o('🏢 คอนโด', '🏢 Căn hộ', '🏢 Apartment', '🏢 Квартира'),
+                '🏠 дом': _o('🏠 บ้าน', '🏠 Nhà', '🏠 House', '🏠 Дом'),
+                '🏡 вилла': _o('🏡 วิลล่า', '🏡 Biệt thự', '🏡 Villa', '🏡 Вилла'),
+                '🌳 участок': _o('🌳 ที่ดิน', '🌳 Đất', '🌳 Land', '🌳 Участок'),
+            };
+            document.querySelectorAll('form[id^="submit-"] label').forEach(lbl => {
+                if (lbl.querySelector('input[type="checkbox"]') || lbl.querySelector('input[type="radio"]')) {
+                    const txt = lbl.textContent.toLowerCase().trim();
+                    for (const [key, value] of Object.entries(radioMap)) {
+                        if (txt.includes(key)) {
+                            const inp = lbl.querySelector('input');
+                            lbl.innerHTML = '';
+                            if (inp) lbl.appendChild(inp);
+                            lbl.appendChild(document.createTextNode(' ' + value));
+                            break;
+                        }
+                    }
+                }
+            });
+        }
+        
+        let translationCache = {};
+        let translationObserver = null;
+        let translationQueue = [];
+        let translationFlushTimer = null;
+        let activeTranslationLang = null;
+
+        // Extract translatable elements from a card
+        function _getCardElems(card) {
+            const h3 = card.querySelector('h3');
+            if (!h3) return [];
+            const elems = [{ el: h3.querySelector('a') || h3, maxLen: 350 }];
+            const descEl = h3.nextElementSibling;
+            if (descEl && !descEl.querySelector('input,button,select')) {
+                elems.push({ el: descEl, maxLen: 500 });
+            }
+            return elems;
+        }
+
+        // Queue a single element for translation
+        function _queueElem(el, maxLen, lang) {
+            const original = el.getAttribute('data-orig') || el.textContent.trim();
+            if (!original || original.length < 3) return;
+            el.setAttribute('data-orig', original);
+            // Preserve original innerHTML for RU restoration
+            if (!el.getAttribute('data-orig-html')) {
+                el.setAttribute('data-orig-html', el.innerHTML);
+            }
+            const cacheKey = `${original.substring(0, 120)}:${lang}`;
+            if (translationCache[cacheKey]) {
+                el.textContent = translationCache[cacheKey];
+                return;
+            }
+            if (el.getAttribute('data-tq') === lang) return; // already queued
+            el.setAttribute('data-tq', lang);
+            translationQueue.push({ el, original, maxLen, lang });
+            _scheduleFlush();
+        }
+
+        function _scheduleFlush() {
+            if (translationFlushTimer) return;
+            translationFlushTimer = setTimeout(_flushQueue, 150);
+        }
+
+        async function _flushQueue() {
+            translationFlushTimer = null;
+            if (translationQueue.length === 0) return;
+            const batch = translationQueue.splice(0, 30);
+            const lang = batch[0].lang;
+            const texts = batch.map(item => item.original.substring(0, item.maxLen));
+            try {
+                const resp = await fetch('/api/translate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ texts, lang })
+                });
+                if (resp.ok) {
+                    const data = await resp.json();
+                    data.translations.forEach((translated, idx) => {
+                        if (!batch[idx] || !translated || translated === batch[idx].original) return;
+                        batch[idx].el.textContent = translated;
+                        batch[idx].el.removeAttribute('data-tq');
+                        translationCache[`${batch[idx].original.substring(0, 120)}:${lang}`] = translated;
+                    });
+                }
+            } catch (e) { console.log('[translate] flush error:', e); }
+            // Schedule next flush if items remain (500ms gap between API calls)
+            if (translationQueue.length > 0) {
+                translationFlushTimer = setTimeout(_flushQueue, 500);
+            }
+        }
+
+        function translateVisibleCards(lang = currentLang) {
+            // Cancel any existing observer and pending queue for old lang
+            translationQueue = [];
+            activeTranslationLang = lang;
+            if (translationObserver) { translationObserver.disconnect(); translationObserver = null; }
+
+            // Collect all cards from active grids
+            const allCards = [];
+            document.querySelectorAll('.listing-grid').forEach(grid => {
+                if (!grid.closest('.content.active') && !grid.closest('.content[style*="display: block"]')) return;
+                grid.querySelectorAll('.card, .listing-card').forEach(c => allCards.push(c));
+            });
+            if (allCards.length === 0) return;
+
+            // Helper: decide whether to translate a given element
+            function shouldQueue(el) {
+                if (lang !== 'ru') return true;
+                // For Russian UI: only translate elements whose text is in English
+                const txt = (el.getAttribute('data-orig') || el.textContent).trim();
+                return isEnglishOnly(txt);
+            }
+
+            // Phase 1: immediately queue viewport-visible cards (+ 300px margin)
+            const vh = window.innerHeight;
+            allCards.forEach(c => {
+                const r = c.getBoundingClientRect();
+                if (r.top < vh + 300 && r.bottom > -300) {
+                    _getCardElems(c).forEach(({ el, maxLen }) => {
+                        if (shouldQueue(el)) _queueElem(el, maxLen, lang);
+                    });
+                }
+            });
+
+            // Phase 2: observe deferred cards — translate as user scrolls
+            translationObserver = new IntersectionObserver((entries) => {
+                if (activeTranslationLang !== lang) return;
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    translationObserver.unobserve(entry.target);
+                    _getCardElems(entry.target).forEach(({ el, maxLen }) => {
+                        if (shouldQueue(el)) _queueElem(el, maxLen, lang);
+                    });
+                });
+            }, { rootMargin: '300px 0px' });
+
+            allCards.forEach(c => {
+                const r = c.getBoundingClientRect();
+                if (!(r.top < vh + 300 && r.bottom > -300)) {
+                    translationObserver.observe(c);
+                }
+            });
+        }
+        
+        function normalizeSeoContentsHeadings(root = document) {
+            const oldContentsTitles = new Set([
+                'подать объявление',
+                'добавить транспорт',
+                'добавить недвижимость',
+                'добавить экскурсию',
+                'добавить ресторан',
+                'добавить развлечение',
+                'добавить обменник',
+                'добавить визаран'
+            ]);
+            const normalizeLabel = value => (value || '')
+                .replace(/^[^A-Za-zА-Яа-яЁё0-9]+/, '')
+                .trim()
+                .toLocaleLowerCase('ru');
+
+            root.querySelectorAll('article[class*="seo-article"]').forEach(article => {
+                article.querySelectorAll('.thailand-seo-toc h2').forEach(title => {
+                    title.textContent = 'Содержание';
+                });
+                article.querySelectorAll('h2, h3').forEach(heading => {
+                    if (oldContentsTitles.has(normalizeLabel(heading.textContent))) {
+                        heading.textContent = 'Содержание';
+                    }
+                });
+                article.querySelectorAll('.thailand-seo-toc a').forEach(link => {
+                    if (oldContentsTitles.has(normalizeLabel(link.textContent))) {
+                        link.textContent = 'Содержание';
+                    }
+                });
+            });
+        }
+
+        function mountVietnamSeoArticle(pathname) {
+            const config = {
+                '/vizaran-vietnam': {tab: 'visas', sourceId: 'vietnam-seo-source-visas'},
+                '/nedvijimost-vietnam': {tab: 'realestate', sourceId: 'vietnam-seo-source-realestate'},
+                '/obmen-deneg-vietnam': {tab: 'exchange', label: 'Обмен денег во Вьетнаме'},
+                '/ekskursii-vietnam': {tab: 'tours', sourceId: 'vietnam-seo-source-tours'},
+                '/razvlecheniya-vo-vietname': {tab: 'entertainment', label: 'Развлечения во Вьетнаме'},
+                '/arenda-bayka-vo-vietname': {tab: 'transport', label: 'Аренда байка во Вьетнаме'},
+                '/restorani-vo-vietname': {tab: 'restaurants', label: 'Рестораны во Вьетнаме'}
+            };
+            const page = config[pathname];
+            if (!page) return;
+            const details = document.querySelector(`.vietnam-seo-details[data-vietnam-seo="${page.tab}"]`);
+            const article = details?.querySelector('.vietnam-seo-article');
+            if (!article) return;
+
+            if (page.sourceId) {
+                const source = document.getElementById(page.sourceId);
+                if (!source) return;
+                while (source.firstChild) article.appendChild(source.firstChild);
+                source.remove();
+            } else {
+                const sourceSection = Array.from(document.querySelectorAll('section[aria-label]'))
+                    .find(section => section.getAttribute('aria-label') === page.label);
+                if (!sourceSection) return;
+                const preceding = [];
+                let sibling = sourceSection.previousElementSibling;
+                while (sibling && ['H1', 'P'].includes(sibling.tagName)) {
+                    preceding.unshift(sibling);
+                    sibling = sibling.previousElementSibling;
+                }
+                preceding.forEach(node => {
+                    node.classList.remove('visually-hidden');
+                    node.hidden = false;
+                    article.appendChild(node);
+                });
+                while (sourceSection.firstChild) article.appendChild(sourceSection.firstChild);
+                sourceSection.remove();
+            }
+
+            article.querySelectorAll('.visually-hidden').forEach(node => node.classList.remove('visually-hidden'));
+            if (!article.querySelector('.thailand-seo-toc')) {
+                const headings = Array.from(article.querySelectorAll('h2, h3'));
+                if (headings.length) {
+                    const nav = document.createElement('nav');
+                    nav.className = 'thailand-seo-toc';
+                    nav.setAttribute('aria-label', 'Содержание статьи');
+                    const title = document.createElement('h2');
+                    title.textContent = 'Содержание';
+                    const list = document.createElement('ol');
+                    let parentItem = null;
+                    let subheadingList = null;
+                    headings.forEach((heading, index) => {
+                        const id = `vietnam-seo-heading-${index + 1}`;
+                        heading.id = id;
+                        heading.classList.add('thailand-seo-anchor');
+                        const item = document.createElement('li');
+                        const link = document.createElement('a');
+                        link.href = `#${id}`;
+                        link.textContent = heading.textContent.trim();
+                        item.appendChild(link);
+                        if (heading.tagName === 'H3' && parentItem) {
+                            if (!subheadingList) {
+                                subheadingList = document.createElement('ul');
+                                subheadingList.className = 'thailand-seo-toc-subheadings';
+                                parentItem.appendChild(subheadingList);
+                            }
+                            subheadingList.appendChild(item);
+                        } else {
+                            list.appendChild(item);
+                            parentItem = item;
+                            subheadingList = null;
+                        }
+                    });
+                    nav.append(title, list);
+                    headings[0].before(nav);
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('click', function(event) {
+                const link = event.target.closest?.('.thailand-seo-toc a[href^="#"]');
+                if (!link) return;
+
+                const targetId = decodeURIComponent(link.getAttribute('href').slice(1));
+                const article = link.closest('article');
+                const target = article && Array.from(article.querySelectorAll('[id]'))
+                    .find(element => element.id === targetId);
+                if (!target) return;
+
+                event.preventDefault();
+                const disclosure = target.closest('details');
+                if (disclosure) disclosure.open = true;
+                history.replaceState(history.state, '', `#${encodeURIComponent(targetId)}`);
+                requestAnimationFrame(() => {
+                    target.scrollIntoView({behavior: 'smooth', block: 'start'});
+                });
+            });
+
+            // ─── Telegram Mini App init ───────────────────────────
+            if (window.Telegram && window.Telegram.WebApp) {
+                const twa = window.Telegram.WebApp;
+                twa.ready();
+                twa.expand();
+                if (typeof twa.disableVerticalSwipes === 'function') {
+                    twa.disableVerticalSwipes();
+                }
+                if (typeof twa.setHeaderColor === 'function') {
+                    twa.setHeaderColor('#1a1a2e');
+                }
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlLang = urlParams.get('lang');
+            const landingPath = window.location.pathname;
+            const isThailandLandingPage = ['/vizaran-thailand', '/nedvijimost-thailand', '/arenda-bayka-thailand', '/restorani-thailand', '/razvlecheniya-thailand', '/obmen-deneg-thailand', '/ekskursii-thailand'].includes(landingPath);
+            const isVietnamLandingPage = ['/vizaran-vietnam', '/nedvijimost-vietnam', '/obmen-deneg-vietnam', '/ekskursii-vietnam', '/razvlecheniya-vo-vietname', '/arenda-bayka-vo-vietname', '/restorani-vo-vietname'].includes(landingPath);
+            const isIndiaBikeLandingPage = landingPath === '/arenda-bayka-goa';
+            const isIndiaRealestateLandingPage = landingPath === '/nedvijimost-arenda-goa';
+            const isIndiaRestaurantsLandingPage = landingPath === '/restorani-goa';
+            const isIndiaNightlifeLandingPage = landingPath === '/nochnie-klubi-goa';
+            const isIndiaExchangeLandingPage = landingPath === '/obmen-deneg-goa';
+            const isIndiaToursLandingPage = landingPath === '/ekskursii-goa';
+            const isIndiaVisaLandingPage = landingPath === '/vizaran-goa';
+            const isIndonesiaBikeLandingPage = landingPath === '/arenda-bayka-indonesia';
+            const isIndonesiaRealestateLandingPage = landingPath === '/nedvijimost-arenda-indonesia';
+            const isIndonesiaRestaurantsLandingPage = landingPath === '/restorani-indonesia';
+            const isIndonesiaEntertainmentLandingPage = landingPath === '/razvlecheniya-indonesia';
+            const isIndonesiaExchangeLandingPage = landingPath === '/obmen-deneg-indonesia';
+            const isIndonesiaToursLandingPage = landingPath === '/ekskursii-indonesia';
+            const isIndonesiaVisaLandingPage = landingPath === '/vizaran-indonesia';
+            const genericCategoryMatch = landingPath.match(/^\/sections\/(india|indonesia)\/(entertainment|restaurants|realestate|transport|exchange|tours|visas)$/);
+            let urlCountry = urlParams.get('country');
+            if (isThailandLandingPage) urlCountry = 'thailand';
+            else if (isVietnamLandingPage) urlCountry = 'vietnam';
+            else if (isIndonesiaBikeLandingPage || isIndonesiaRealestateLandingPage || isIndonesiaRestaurantsLandingPage || isIndonesiaEntertainmentLandingPage || isIndonesiaExchangeLandingPage || isIndonesiaToursLandingPage || isIndonesiaVisaLandingPage) urlCountry = 'indonesia';
+            else if (isIndiaBikeLandingPage || isIndiaRealestateLandingPage || isIndiaRestaurantsLandingPage || isIndiaNightlifeLandingPage || isIndiaExchangeLandingPage || isIndiaToursLandingPage || isIndiaVisaLandingPage) urlCountry = 'india';
+            else if (genericCategoryMatch) urlCountry = genericCategoryMatch[1];
+
+            if (urlLang && ['ru', 'en', 'vi', 'th'].includes(urlLang)) {
+                switchLang(urlLang);
+            } else {
+                const savedLang = localStorage.getItem('goldantelope_lang');
+                if (savedLang && ['ru', 'en', 'vi', 'th'].includes(savedLang)) {
+                    switchLang(savedLang);
+                } else {
+                    switchLang('ru');
+                }
+            }
+
+            if (!isVietnamLandingPage && urlCountry && ['vietnam', 'thailand', 'india', 'indonesia'].includes(urlCountry)) {
+                switchCountry(urlCountry, true);
+            }
+
+            // Open the matching Vietnam SEO landing page directly when its URL is requested.
+            if (isIndonesiaRealestateLandingPage) switchTab('realestate', true);
+            else if (isIndonesiaVisaLandingPage) switchTab('visas', true);
+            else if (isIndonesiaToursLandingPage) switchTab('tours', true);
+            else if (isIndonesiaExchangeLandingPage) switchTab('exchange', true);
+            else if (isIndonesiaEntertainmentLandingPage) switchTab('entertainment', true);
+            else if (isIndonesiaRestaurantsLandingPage) switchTab('restaurants', true);
+            else if (isIndonesiaBikeLandingPage) switchTab('transport', true);
+            else if (isIndiaVisaLandingPage) switchTab('visas', true);
+            else if (isIndiaToursLandingPage) switchTab('tours', true);
+            else if (isIndiaExchangeLandingPage) switchTab('exchange', true);
+            else if (isIndiaNightlifeLandingPage) switchTab('entertainment', true);
+            else if (isIndiaRestaurantsLandingPage) switchTab('restaurants', true);
+            else if (landingPath === '/nedvijimost-arenda-goa') switchTab('realestate', true);
+            else if (landingPath === '/arenda-bayka-goa') switchTab('transport', true);
+            else if (landingPath === '/razvlecheniya-thailand') switchTab('entertainment', true);
+            else if (landingPath === '/obmen-deneg-thailand') switchTab('exchange', true);
+            else if (landingPath === '/ekskursii-thailand') switchTab('tours', true);
+            else if (landingPath === '/restorani-thailand') switchTab('restaurants', true);
+            else if (landingPath === '/arenda-bayka-thailand') switchTab('transport', true);
+            else if (landingPath === '/nedvijimost-thailand') switchTab('realestate', true);
+            else if (landingPath === '/vizaran-thailand') switchTab('visas', true);
+            else if (landingPath === '/vizaran-vietnam') switchTab('visas', true);
+            else if (landingPath === '/nedvijimost-vietnam') switchTab('realestate', true);
+            else if (landingPath === '/obmen-deneg-vietnam') switchTab('exchange', true);
+            else if (landingPath === '/ekskursii-vietnam') switchTab('tours', true);
+            else if (landingPath === '/razvlecheniya-vo-vietname') switchTab('entertainment', true);
+            else if (landingPath === '/arenda-bayka-vo-vietname') switchTab('transport', true);
+            else if (landingPath === '/restorani-vo-vietname') switchTab('restaurants', true);
+            else if (landingPath === '/contacts') switchTab('contacts', true);
+            else if (genericCategoryMatch) switchTab(genericCategoryMatch[2], true);
+            else switchTab('entertainment', true);
+            if (isVietnamLandingPage) mountVietnamSeoArticle(landingPath);
+            normalizeSeoContentsHeadings();
+        });
+        
+        const countryConfig = {
+            'vietnam': { pair: 'USDT/VND', rubPair: 'VND/RUB', currency: 'VND' },
+            'thailand': { pair: 'USDT/THB', rubPair: 'THB/RUB', currency: 'THB' },
+            'india': { pair: 'USDT/INR', rubPair: 'INR/RUB', currency: 'INR' },
+            'indonesia': { pair: 'USDT/IDR', rubPair: 'IDR/RUB', currency: 'IDR' }
+        };
+        
+        function changeBanner(direction) {
+            const banners = typeof getCurrentBanners === 'function' ? getCurrentBanners() : (bannerConfig[currentCountry] || []);
+            if (banners.length <= 1) return;
+            let currentIdx = countryConfig[currentCountry].currentBanner || 0;
+            currentIdx = (currentIdx + direction + banners.length) % banners.length;
+            countryConfig[currentCountry].currentBanner = currentIdx;
+            if (typeof updateBanner === 'function') updateBanner();
+            // Если не на паузе — сбрасываем таймер (отсчёт начинается заново после ручного переключения)
+            // Если на паузе — просто показываем слайд без запуска таймера
+            if (!_bannerPaused && typeof _scheduleBannerTick === 'function') _scheduleBannerTick('manual');
+        }
+        
+        var currentCategory = 'entertainment';
+        const VIETNAM_VISARUN_PATH = '/vizaran-vietnam';
+        const THAILAND_VISARUN_PATH = '/vizaran-thailand';
+        const THAILAND_REALESTATE_PATH = '/nedvijimost-thailand';
+        const THAILAND_BIKE_RENTAL_PATH = '/arenda-bayka-thailand';
+        const THAILAND_RESTAURANTS_PATH = '/restorani-thailand';
+        const THAILAND_ENTERTAINMENT_PATH = '/razvlecheniya-thailand';
+        const THAILAND_EXCHANGE_PATH = '/obmen-deneg-thailand';
+        const THAILAND_TOURS_PATH = '/ekskursii-thailand';
+        const VIETNAM_REALESTATE_PATH = '/nedvijimost-vietnam';
+        const VIETNAM_EXCHANGE_PATH = '/obmen-deneg-vietnam';
+        const VIETNAM_TOURS_PATH = '/ekskursii-vietnam';
+        const VIETNAM_ENTERTAINMENT_PATH = '/razvlecheniya-vo-vietname';
+        const VIETNAM_BIKE_RENTAL_PATH = '/arenda-bayka-vo-vietname';
+        const VIETNAM_RESTAURANTS_PATH = '/restorani-vo-vietname';
+        const CONTACTS_PATH = '/contacts';
+        const DEFAULT_PAGE_TITLE = 'Всё для жизни во Вьетнаме /goldantelopeasia.com';
+        const CATEGORY_PAGE_PATHS = {
+            vietnam: {
+                entertainment: VIETNAM_ENTERTAINMENT_PATH,
+                restaurants: VIETNAM_RESTAURANTS_PATH,
+                realestate: VIETNAM_REALESTATE_PATH,
+                transport: VIETNAM_BIKE_RENTAL_PATH,
+                exchange: VIETNAM_EXCHANGE_PATH,
+                tours: VIETNAM_TOURS_PATH,
+                visas: VIETNAM_VISARUN_PATH
+            },
+            thailand: {
+                entertainment: THAILAND_ENTERTAINMENT_PATH,
+                restaurants: THAILAND_RESTAURANTS_PATH,
+                realestate: THAILAND_REALESTATE_PATH,
+                transport: THAILAND_BIKE_RENTAL_PATH,
+                exchange: THAILAND_EXCHANGE_PATH,
+                tours: THAILAND_TOURS_PATH,
+                visas: THAILAND_VISARUN_PATH
+            },
+            india: {
+                entertainment: '/nochnie-klubi-goa',
+                restaurants: '/restorani-goa',
+                realestate: '/nedvijimost-arenda-goa',
+                transport: '/arenda-bayka-goa',
+                exchange: '/obmen-deneg-goa',
+                tours: '/ekskursii-goa',
+                visas: '/vizaran-goa'
+            },
+            indonesia: {
+                entertainment: '/razvlecheniya-indonesia',
+                restaurants: '/restorani-indonesia',
+                realestate: '/nedvijimost-arenda-indonesia',
+                transport: '/arenda-bayka-indonesia',
+                exchange: '/obmen-deneg-indonesia',
+                tours: '/ekskursii-indonesia',
+                visas: '/vizaran-indonesia'
+            }
+        };
+        function categoryPagePath(tabName, country) {
+            return CATEGORY_PAGE_PATHS[country]?.[tabName] || `/sections/${country}/${tabName}`;
+        }
+        var nonTrackableTabs = ['admin', 'submit-restaurant', 'submit-tour', 'submit-transport', 'submit-exchange', 'submit-visas', 'submit-realestate', 'submit-entertainment'];
+        function switchTab(tabName, skipRouteUpdate = false) {
+            const pageTabs = ['entertainment', 'restaurants', 'realestate', 'transport', 'exchange', 'tours', 'visas'];
+            if (!skipRouteUpdate && pageTabs.includes(tabName)) {
+                const targetPath = categoryPagePath(tabName, currentCountry);
+                if (window.location.pathname !== targetPath) {
+                    window.location.assign(targetPath);
+                    return;
+                }
+            }
+            if (!nonTrackableTabs.includes(tabName)) currentCategory = tabName;
+            if (tabName === 'visas' && currentCountry === 'thailand') {
+                if (window.location.pathname !== THAILAND_VISARUN_PATH) {
+                    window.history.pushState({ page: 'visasThailand' }, '', THAILAND_VISARUN_PATH);
+                }
+                document.title = 'Визаран в Таиланде /goldantelopeasia.com';
+            } else if (tabName === 'visas' && currentCountry === 'vietnam') {
+                if (window.location.pathname !== VIETNAM_VISARUN_PATH) {
+                    window.history.pushState({ page: 'visas' }, '', VIETNAM_VISARUN_PATH);
+                }
+                document.title = 'Визаран Вьетнам /goldantelopeasia.com';
+            } else if (tabName === 'realestate' && currentCountry === 'vietnam') {
+                if (window.location.pathname !== VIETNAM_REALESTATE_PATH) {
+                    window.history.pushState({ page: 'realestate' }, '', VIETNAM_REALESTATE_PATH);
+                }
+                document.title = 'Недвижимость Вьетнам /goldantelopeasia.com';
+            } else if (tabName === 'realestate' && currentCountry === 'thailand') {
+                if (window.location.pathname !== THAILAND_REALESTATE_PATH) {
+                    window.history.pushState({ page: 'realestateThailand' }, '', THAILAND_REALESTATE_PATH);
+                }
+                document.title = 'Недвижимость в Таиланде /goldantelopeasia.com';
+            } else if (tabName === 'exchange' && currentCountry === 'thailand') {
+                if (window.location.pathname !== THAILAND_EXCHANGE_PATH) {
+                    window.history.pushState({ page: 'exchangeThailand' }, '', THAILAND_EXCHANGE_PATH);
+                }
+                document.title = 'Обмен денег в Таиланде /goldantelopeasia.com';
+            } else if (tabName === 'exchange' && currentCountry === 'vietnam') {
+                if (window.location.pathname !== VIETNAM_EXCHANGE_PATH) {
+                    window.history.pushState({ page: 'exchange' }, '', VIETNAM_EXCHANGE_PATH);
+                }
+                document.title = 'Обмен денег во Вьетнаме /goldantelopeasia.com';
+            } else if (tabName === 'tours' && currentCountry === 'vietnam') {
+                if (window.location.pathname !== VIETNAM_TOURS_PATH) {
+                    window.history.pushState({ page: 'tours' }, '', VIETNAM_TOURS_PATH);
+                }
+                document.title = 'Экскурсии во Вьетнаме /goldantelopeasia.com';
+            } else if (tabName === 'tours' && currentCountry === 'thailand') {
+                if (window.location.pathname !== THAILAND_TOURS_PATH) {
+                    window.history.pushState({ page: 'toursThailand' }, '', THAILAND_TOURS_PATH);
+                }
+                document.title = 'Экскурсии в Таиланде /goldantelopeasia.com';
+            } else if (tabName === 'entertainment' && currentCountry === 'thailand' && !skipRouteUpdate) {
+                if (window.location.pathname !== THAILAND_ENTERTAINMENT_PATH) {
+                    window.history.pushState({ page: 'entertainmentThailand' }, '', THAILAND_ENTERTAINMENT_PATH);
+                }
+                document.title = 'Развлечения в Таиланде /goldantelopeasia.com';
+            } else if (tabName === 'entertainment' && currentCountry === 'vietnam' && !skipRouteUpdate) {
+                if (window.location.pathname !== VIETNAM_ENTERTAINMENT_PATH) {
+                    window.history.pushState({ page: 'entertainment' }, '', VIETNAM_ENTERTAINMENT_PATH);
+                }
+                document.title = 'Развлечения во Вьетнаме /goldantelopeasia.com';
+            } else if (tabName === 'transport' && currentCountry === 'vietnam') {
+                if (window.location.pathname !== VIETNAM_BIKE_RENTAL_PATH) {
+                    window.history.pushState({ page: 'transport' }, '', VIETNAM_BIKE_RENTAL_PATH);
+                }
+                document.title = 'Аренда байка во Вьетнаме /goldantelopeasia.com';
+            } else if (tabName === 'transport' && currentCountry === 'thailand') {
+                if (window.location.pathname !== THAILAND_BIKE_RENTAL_PATH) {
+                    window.history.pushState({ page: 'transportThailand' }, '', THAILAND_BIKE_RENTAL_PATH);
+                }
+                document.title = 'Аренда байка в Таиланде /goldantelopeasia.com';
+            } else if (tabName === 'restaurants' && currentCountry === 'vietnam') {
+                if (window.location.pathname !== VIETNAM_RESTAURANTS_PATH) {
+                    window.history.pushState({ page: 'restaurants' }, '', VIETNAM_RESTAURANTS_PATH);
+                }
+                document.title = 'Рестораны во Вьетнаме /goldantelopeasia.com';
+            } else if (tabName === 'restaurants' && currentCountry === 'thailand') {
+                if (window.location.pathname !== THAILAND_RESTAURANTS_PATH) {
+                    window.history.pushState({ page: 'restaurantsThailand' }, '', THAILAND_RESTAURANTS_PATH);
+                }
+                document.title = 'Рестораны в Таиланде /goldantelopeasia.com';
+            } else if (tabName === 'contacts') {
+                if (window.location.pathname !== CONTACTS_PATH) {
+                    window.history.pushState({ page: 'contacts' }, '', CONTACTS_PATH);
+                }
+                document.title = 'Контакты Goldantelope Asia /goldantelopeasia.com';
+            } else if ([VIETNAM_VISARUN_PATH, THAILAND_VISARUN_PATH, VIETNAM_REALESTATE_PATH, THAILAND_REALESTATE_PATH, THAILAND_BIKE_RENTAL_PATH, THAILAND_RESTAURANTS_PATH, THAILAND_ENTERTAINMENT_PATH, VIETNAM_EXCHANGE_PATH, THAILAND_EXCHANGE_PATH, VIETNAM_TOURS_PATH, THAILAND_TOURS_PATH, VIETNAM_ENTERTAINMENT_PATH, VIETNAM_BIKE_RENTAL_PATH, VIETNAM_RESTAURANTS_PATH, CONTACTS_PATH].includes(window.location.pathname)) {
+                window.history.pushState({ page: 'home' }, '', currentCountry === 'thailand' ? '/?country=thailand' : '/');
+                document.title = DEFAULT_PAGE_TITLE;
+            }
+            updateLocalizedPageTitle();
+            window.currentSubcategory = null;
+            document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+
+            // Автопрокрутка к панели категорий (после баннера)
+            const tabsEl = document.querySelector('.tabs');
+            if (tabsEl) {
+                const top = tabsEl.getBoundingClientRect().top + window.pageYOffset - 4;
+                window.scrollTo({ top: top, behavior: 'smooth' });
+            }
+
+            let contentEl = document.getElementById(tabName);
+            if (contentEl) contentEl.classList.add('active');
+            let tabBtn = document.querySelector(`[data-tab="${tabName}"]`);
+            if (tabBtn) tabBtn.classList.add('active');
+            if (tabName === 'chat') {
+                if(typeof loadChatFeed==='function') loadChatFeed();
+                if(typeof loadChatiparsing==='function') loadChatiparsing();
+                const vnSec = document.getElementById('vn-chat-section');
+                const thSec = document.getElementById('th-chat-section');
+                if (currentCountry === 'thailand') {
+                    if(vnSec) vnSec.style.display = 'none';
+                    if(thSec) thSec.style.display = '';
+                    if(typeof loadThChatFeed==='function') loadThChatFeed(_activeThChat||'');
+                } else {
+                    if(thSec) thSec.style.display = 'none';
+                    if(vnSec) vnSec.style.display = '';
+                    if(typeof loadVnChatFeed==='function') loadVnChatFeed(_activeVnChat||'');
+                }
+            }
+            else if (tabName === 'settings') { if(typeof loadKidsFeed==='function') loadKidsFeed(); if(typeof loadKidsCounts==='function') loadKidsCounts(); }
+            else if (tabName === 'submit-exchange') { if(typeof loadExchangeCaptcha==='function') loadExchangeCaptcha(); }
+                        else if (tabName === 'submit-visas') { if(typeof loadVisasCaptcha==='function') loadVisasCaptcha(); }
+            else if (tabName === 'visas') { 
+                const visasCountries = ['vietnam', 'thailand', 'india', 'indonesia'];
+                visasCountries.forEach(c => {
+                    const btn = document.getElementById(`${c}-visas-buttons`);
+                    if (btn) btn.style.display = (currentCountry === c) ? 'block' : 'none';
+                });
+                if(typeof applyVisasFilters==='function') applyVisasFilters(); 
+                loadVisasCounts(); 
+            }
+            else if (tabName === 'tours') {
+                var isVNtours = currentCountry === 'vietnam';
+                var vnTours = document.getElementById('vietnam-tours-buttons');
+                var othTours = document.getElementById('other-tours-buttons');
+                if (vnTours) vnTours.style.display = isVNtours ? 'block' : 'none';
+                if (othTours) othTours.style.display = isVNtours ? 'none' : 'block';
+                if (!isVNtours && typeof renderOtherCountryCitySwitcher === 'function') {
+                    renderOtherCountryCitySwitcher('to-oth', 'tours', filterToursByCity, false);
+                }
+                if(typeof loadListings==='function') loadListings('tours', currentToursCity || '');
+                loadTopBanners('top-tours-wrap','top-tours-inner',{category:'tours',sort_by:'date_desc',days:90});
+            }
+            else if (tabName === 'realestate') {
+                if(typeof loadRealEstateCounts==='function') loadRealEstateCounts();
+                if(typeof loadListings==='function') loadListings('real_estate');
+                if (currentCountry === 'vietnam') {
+                    var _reo = document.getElementById('top-re-other-wrap');
+                    if (_reo) _reo.style.display = 'none';
+                    if (currentRealEstateCity === 'danang') {
+                        var _rnt = document.getElementById('top-re-nt-wrap');
+                        if (_rnt) _rnt.style.display = 'none';
+                        loadTopBanners('top-re-dn-wrap','top-re-dn-inner',{category:'real_estate',sort_by:'date_desc',city:'дананг',days:1});
+                    } else {
+                        var _rdn = document.getElementById('top-re-dn-wrap');
+                        if (_rdn) _rdn.style.display = 'none';
+                        loadTopBanners('top-re-nt-wrap','top-re-nt-inner',{category:'real_estate',sort_by:'date_desc',city:'нячанг',days:1});
+                    }
+                } else {
+                    ['top-re-nt-wrap','top-re-dn-wrap'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});
+                    loadTopBanners('top-re-other-wrap','top-re-other-inner',{category:'real_estate',sort_by:'date_desc',days:1});
+                }
+            }
+            else if (tabName === 'transport') {
+                var isVNtr = currentCountry === 'vietnam';
+                var vnTr = document.getElementById('vietnam-transport-buttons');
+                var othTr = document.getElementById('other-transport-buttons');
+                if (vnTr) vnTr.style.display = isVNtr ? 'block' : 'none';
+                if (othTr) othTr.style.display = isVNtr ? 'none' : 'block';
+                if (!isVNtr && typeof renderOtherCountryCitySwitcher === 'function') {
+                    renderOtherCountryCitySwitcher('tr-oth', 'transport', filterTransportCity, false);
+                }
+                if(typeof updateTransportCounts==='function') updateTransportCounts();
+                if(typeof loadListings==='function') loadListings('transport', currentTransportType);
+                loadTopBanners('top-transport-wrap','top-transport-inner',{category:'transport',sort_by:'date_desc',days:7});
+            }
+            else if (tabName === 'entertainment') {
+                var isVN = currentCountry === 'vietnam';
+                var vnEnt = document.getElementById('vietnam-entertainment-buttons');
+                var othEnt = document.getElementById('other-entertainment-buttons');
+                if (vnEnt) vnEnt.style.display = isVN ? 'block' : 'none';
+                if (othEnt) othEnt.style.display = isVN ? 'none' : 'block';
+                if (!isVN && typeof renderOtherCountryCitySwitcher === 'function') {
+                    renderOtherCountryCitySwitcher('ent-oth', 'entertainment', filterEntertainmentByCity, false);
+                }
+                if(typeof buildEntDateBar==='function') buildEntDateBar();
+                if(typeof loadListings==='function') loadListings('entertainment', currentEntertainmentCity);
+                loadTopBanners('top-ent-wrap','top-ent-inner',{category:'entertainment',sort_by:'date_desc',days:30});
+            }
+            else if (tabName === 'restaurants') {
+                if(typeof loadListings==='function') loadListings('restaurants');
+                loadTopBanners('top-rest-wrap','top-rest-inner',{category:'restaurants',sort_by:'date_desc',days:30});
+            }
+            else if (tabName === 'contacts') {
+                // The contact page has no listings to load.
+            }
+            else { let category = tabName === 'realestate' ? 'real_estate' : tabName; if(typeof loadListings==='function') loadListings(category); }
+        }
+
+        window.addEventListener('popstate', function() {
+            const genericRouteMatch = window.location.pathname.match(/^\/sections\/(india|indonesia)\/(entertainment|restaurants|realestate|transport|exchange|tours|visas)$/);
+            if (window.location.pathname === THAILAND_VISARUN_PATH) {
+                if (currentCountry !== 'thailand') switchCountry('thailand');
+                switchTab('visas');
+            } else if (window.location.pathname === THAILAND_REALESTATE_PATH) {
+                if (currentCountry !== 'thailand') switchCountry('thailand');
+                switchTab('realestate');
+            } else if (window.location.pathname === THAILAND_BIKE_RENTAL_PATH) {
+                if (currentCountry !== 'thailand') switchCountry('thailand');
+                switchTab('transport');
+            } else if (window.location.pathname === THAILAND_RESTAURANTS_PATH) {
+                if (currentCountry !== 'thailand') switchCountry('thailand');
+                switchTab('restaurants');
+            } else if (window.location.pathname === VIETNAM_VISARUN_PATH) {
+                if (currentCountry !== 'vietnam') switchCountry('vietnam');
+                switchTab('visas');
+            } else if (window.location.pathname === VIETNAM_REALESTATE_PATH) {
+                if (currentCountry !== 'vietnam') switchCountry('vietnam');
+                switchTab('realestate');
+            } else if (window.location.pathname === VIETNAM_EXCHANGE_PATH) {
+                if (currentCountry !== 'vietnam') switchCountry('vietnam');
+                switchTab('exchange');
+            } else if (window.location.pathname === THAILAND_EXCHANGE_PATH) {
+                if (currentCountry !== 'thailand') switchCountry('thailand');
+                switchTab('exchange');
+            } else if (window.location.pathname === VIETNAM_TOURS_PATH) {
+                if (currentCountry !== 'vietnam') switchCountry('vietnam');
+                switchTab('tours');
+            } else if (window.location.pathname === THAILAND_TOURS_PATH) {
+                if (currentCountry !== 'thailand') switchCountry('thailand');
+                switchTab('tours');
+            } else if (window.location.pathname === VIETNAM_ENTERTAINMENT_PATH) {
+                if (currentCountry !== 'vietnam') switchCountry('vietnam');
+                switchTab('entertainment', true);
+            } else if (window.location.pathname === THAILAND_ENTERTAINMENT_PATH) {
+                if (currentCountry !== 'thailand') switchCountry('thailand');
+                switchTab('entertainment');
+            } else if (window.location.pathname === VIETNAM_BIKE_RENTAL_PATH) {
+                if (currentCountry !== 'vietnam') switchCountry('vietnam');
+                switchTab('transport');
+            } else if (window.location.pathname === VIETNAM_RESTAURANTS_PATH) {
+                if (currentCountry !== 'vietnam') switchCountry('vietnam');
+                switchTab('restaurants');
+            } else if (window.location.pathname === CONTACTS_PATH) {
+                switchTab('contacts');
+            } else if (genericRouteMatch) {
+                if (currentCountry !== genericRouteMatch[1]) switchCountry(genericRouteMatch[1]);
+                switchTab(genericRouteMatch[2], true);
+            } else {
+                document.title = DEFAULT_PAGE_TITLE;
+                if (['visas', 'realestate', 'exchange', 'tours', 'restaurants', 'transport'].includes(document.querySelector('.content.active')?.id)) {
+                    switchTab('entertainment', true);
+                }
+            }
+        });
+
+        // Глобальный pin_id для навигации из ТОП-20
+        var _pinTopCardId = null;
+
+        // Internal navigation from TOP-20 card to listing
+        function openTopCard(id, category) {
+            if (!id) return;
+            // Устанавливаем pin_id — loadListings подхватит и запинит этот item первым
+            _pinTopCardId = String(id);
+
+            const _tabMap = { 'real_estate': 'realestate' };
+            const catTab = _tabMap[category] || category;
+
+            // Если уже на нужной вкладке — напрямую перезагружаем листинг с pin
+            const activeEl = document.querySelector('.tab.active');
+            const activeTab = activeEl ? (activeEl.getAttribute('onclick') || '').replace(/.*'([^']+)'.*/, '$1') : '';
+            const alreadyHere = (activeTab === catTab || activeTab === category);
+
+            function _scrollToCard() {
+                var card = document.getElementById('lc-' + id);
+                if (!card) return;
+                card.scrollIntoView({behavior:'smooth', block:'center'});
+                var prev = card.style.outline;
+                card.style.outline = '3px solid #d4af37';
+                card.style.borderRadius = '14px';
+                setTimeout(function(){ card.style.outline = prev; }, 2500);
+            }
+
+            function _waitForCard() {
+                var attempts = 0;
+                function _check() {
+                    var card = document.getElementById('lc-' + id);
+                    if (card) { _scrollToCard(); return; }
+                    if (++attempts < 20) setTimeout(_check, 250);
+                }
+                setTimeout(_check, 200);
+            }
+
+            if (alreadyHere) {
+                // Уже на вкладке — принудительно перезагружаем с pin_id
+                if (typeof loadListings === 'function') loadListings(category);
+                _waitForCard();
+            } else {
+                if (typeof switchTab === 'function') switchTab(catTab);
+                _waitForCard();
+            }
+        }
+
+        function buildListingDisplayTitle(item, category) {
+            const rawTitle = String(item.title || item.name || '').trim();
+            const rawDescription = String(item.description || item.text || '');
+            const metaRe = /^(источник|ссылка|link|source)\s*:/i;
+            const mainLines = rawDescription.split(/\r?\n/)
+                .filter(line => category !== 'tours' || !/^\s*.*Бронирование\s*:/i.test(line))
+                .filter(line => !metaRe.test(line.trim()));
+            const hasSourceMeta = /(?:^|\s)(?:источник|ссылка|source|link)\s*:/i.test(rawTitle)
+                || /https?:\/\/t\.me\//i.test(rawTitle);
+            const cleanFieldTitle = rawTitle
+                .replace(/(?:источник|source)\s*:\s*.*?(?=(?:ссылка|link)\s*:|$)/gi, ' ')
+                .replace(/(?:ссылка|link)\s*:\s*\S+/gi, ' ')
+                .replace(/https?:\/\/\S+/gi, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+            const candidates = mainLines
+                .map(line => line.trim())
+                .filter(line => line.length >= 12
+                    && !/^(?:id(?:\s+объекта)?|район|расположение|площадь|контакт(?:ы)?|telegram|whatsapp|zalo|телефон|источник|ссылка)\s*[:#-]?/i.test(line)
+                    && !/^(?:https?:\/\/|t\.me\/|@)/i.test(line));
+            const isRealEstate = category === 'real_estate' || category === 'realestate';
+            const bestTextTitle = candidates
+                .map((line, index) => {
+                    let score = Math.min(line.length, 160) / 20 - index * 0.15;
+                    if (/(?:аренд|сда[её]тся|прода|продам|купить|for rent|for sale|rent|sale)/i.test(line)) score += 10;
+                    if (isRealEstate && /(?:квартир|апартамент|студи|дом|вилл|комнат|bedroom|apartment|studio)/i.test(line)) score += 4;
+                    if (/\d[\d\s,.]*\s*(?:млн|миллион|vnd|донгов|₫|usd|thb|руб|\$)/i.test(line)) score += 5;
+                    if (/[.!?—:]/.test(line)) score += 1;
+                    return { line, score };
+                })
+                .sort((a, b) => b.score - a.score)[0]?.line || '';
+            const useTextTitle = hasSourceMeta || !rawTitle
+                || /^(?:объявление|предложение|без названия|listing)$/i.test(rawTitle);
+            const title = (useTextTitle ? (bestTextTitle || cleanFieldTitle) : rawTitle) || '';
+            return title.length > 180 ? `${title.slice(0, 177).trimEnd()}…` : title;
+        }
+
+        function buildSectionImageAlt(item, category, photoIndex = 0) {
+            const routeIsBikeRental = ['/arenda-bayka-vo-vietname', '/arenda-bayka-thailand'].includes(window.location.pathname);
+            const sectionNames = {
+                real_estate: 'Недвижимость',
+                realestate: 'Недвижимость',
+                exchange: 'Обмен валюты',
+                money_exchange: 'Обмен валюты',
+                tours: 'Экскурсии',
+                entertainment: 'Развлечения',
+                restaurants: 'Рестораны',
+                transport: routeIsBikeRental ? 'Аренда байка' : 'Транспорт',
+                bike_rentals: 'Аренда байка',
+                visas: 'Визаран',
+                medicine: 'Медицина',
+                marketplace: 'Объявления',
+                kids: 'Детские занятия',
+                news: 'Новости',
+                photoshoots: 'Фотосессии',
+                photoshoot: 'Фотосессии',
+                photosession: 'Фотосессии',
+                photography: 'Фотосессии',
+                chat: 'Чаты'
+            };
+            const sectionName = sectionNames[String(category || '').toLowerCase()] || 'Объявления';
+            const cityKey = String(item.city || item.city_ru || '').trim().toLowerCase();
+            const cityPhrases = {
+                'nha trang': 'в Нячанге', 'nhatrang': 'в Нячанге', 'нячанг': 'в Нячанге',
+                'da nang': 'в Дананге', 'danang': 'в Дананге', 'дананг': 'в Дананге',
+                'ho chi minh': 'в Хошимине', 'hochiminh': 'в Хошимине', 'хошимин': 'в Хошимине',
+                'hanoi': 'в Ханое', 'ханой': 'в Ханое',
+                'phu quoc': 'на Фукуоке', 'phuquoc': 'на Фукуоке', 'фукуок': 'на Фукуоке',
+                'hoi an': 'в Хойане', 'hoian': 'в Хойане', 'хойан': 'в Хойане',
+                'da lat': 'в Далате', 'dalat': 'в Далате', 'далат': 'в Далате',
+                'phan thiet': 'в Фантьете', 'phanthiet': 'в Фантьете', 'фантьет': 'в Фантьете',
+                'cam ranh': 'в Камрани', 'camranh': 'в Камрани', 'камрань': 'в Камрани',
+                'mui ne': 'в Муйне', 'muine': 'в Муйне', 'муйне': 'в Муйне',
+                'bangkok': 'в Бангкоке', 'бангкок': 'в Бангкоке',
+                'phuket': 'на Пхукете', 'пхукет': 'на Пхукете',
+                'pattaya': 'в Паттайе', 'паттайя': 'в Паттайе',
+                'samui': 'на Самуи', 'самуи': 'на Самуи',
+                'chiang mai': 'в Чиангмае', 'chiangmai': 'в Чиангмае', 'чиангмай': 'в Чиангмае',
+                'chiang rai': 'в Чианграе', 'chiangrai': 'в Чианграе', 'чианграй': 'в Чианграе',
+                'krabi': 'в Краби', 'краби': 'в Краби',
+                'hua hin': 'в Хуахине', 'huahin': 'в Хуахине', 'хуахин': 'в Хуахине',
+                'koh samet': 'на Самете', 'ko samet': 'на Самете', 'самет': 'на Самете',
+                'koh chang': 'на Чанге', 'ko chang': 'на Чанге', 'чанг': 'на Чанге',
+                'koh tao': 'на Тао', 'ko tao': 'на Тао', 'тао': 'на Тао',
+                'koh phangan': 'на Пхангане', 'ko phangan': 'на Пхангане', 'панган': 'на Пхангане',
+                'ayutthaya': 'в Аюттхае', 'аютая': 'в Аюттхае',
+                'bali': 'на Бали', 'бали': 'на Бали',
+                'jakarta': 'в Джакарте', 'джакарта': 'в Джакарте',
+                'yogyakarta': 'в Йогьякарте', 'йогьякарта': 'в Йогьякарте',
+                'bandung': 'в Бандунге', 'бандунг': 'в Бандунге',
+                'goa': 'в Гоа', 'гоа': 'в Гоа',
+                'kasol': 'в Касоле', 'касоль': 'в Касоле',
+                'mumbai': 'в Мумбаи', 'мумбаи': 'в Мумбаи',
+                'delhi': 'в Дели', 'дели': 'в Дели'
+            };
+            const countryPhrases = {
+                vietnam: 'во Вьетнаме',
+                thailand: 'в Таиланде',
+                indonesia: 'в Индонезии',
+                india: 'в Индии'
+            };
+            const place = cityPhrases[cityKey] || countryPhrases[currentCountry] || 'во Вьетнаме';
+            const title = buildListingDisplayTitle(item, category);
+            const photoLabel = photoIndex > 0 ? `, фото ${photoIndex + 1}` : '';
+            return `${sectionName} ${place}${title ? ` — ${title}` : ''}${photoLabel}`;
+        }
+
+        function syncImageHoverTitle(img) {
+            if (!img || img.tagName !== 'IMG') return;
+            const alt = (img.getAttribute('alt') || '').trim();
+            if (!alt) {
+                img.removeAttribute('title');
+                return;
+            }
+            if (alt && img.getAttribute('title') !== alt) img.setAttribute('title', alt);
+        }
+
+        function installImageHoverTitles() {
+            document.querySelectorAll('img[alt]').forEach(syncImageHoverTitle);
+            if (typeof MutationObserver === 'undefined' || !document.documentElement) return;
+            const observer = new MutationObserver(function(records) {
+                records.forEach(function(record) {
+                    if (record.type === 'attributes') {
+                        syncImageHoverTitle(record.target);
+                        return;
+                    }
+                    record.addedNodes.forEach(function(node) {
+                        if (node.nodeType !== 1) return;
+                        if (node.tagName === 'IMG') syncImageHoverTitle(node);
+                        if (node.querySelectorAll) node.querySelectorAll('img[alt]').forEach(syncImageHoverTitle);
+                    });
+                });
+            });
+            observer.observe(document.documentElement, {
+                subtree: true,
+                childList: true,
+                attributes: true,
+                attributeFilter: ['alt']
+            });
+        }
+
+        installImageHoverTitles();
+
+        async function loadTopBanners(wrapId, innerId, params) {
+            const wrap = document.getElementById(wrapId);
+            const inner = document.getElementById(innerId);
+            if (!wrap || !inner) return;
+            inner.innerHTML = '<div style="color:#aaa;font-size:11px;padding:4px 0;">...</div>';
+            wrap.style.display = 'block';
+            try {
+                const p = Object.assign({country: currentCountry}, params);
+                const qs = new URLSearchParams(p).toString();
+                const r = await fetch('/api/top-banners?' + qs);
+                const items = await r.json();
+                if (!items || items.length === 0) { wrap.style.display = 'none'; return; }
+                // Preload first 5 photos for faster display
+                const _internalCats = new Set(['entertainment','tours','restaurants','real_estate','transport','medicine','visas','kids','exchange']);
+                items.slice(0,5).forEach(function(it){ if(it.photo){ const im=new Image(); im.src=it.photo; } });
+                inner.innerHTML = '';
+                items.forEach(function(item, idx) {
+                    const a = document.createElement('a');
+                    const cat = item.category || params.category || '';
+                    if (_internalCats.has(cat) && item.id) {
+                        // internal navigation
+                        a.href = '#';
+                        a.onclick = function(e){ e.preventDefault(); openTopCard(item.id, cat); };
+                    } else {
+                        a.href = item.telegram_link || '#';
+                        if (item.telegram_link) { a.target = '_blank'; a.rel = 'noopener'; }
+                    }
+                    a.style.cssText = 'display:inline-block;position:relative;min-width:160px;max-width:190px;height:135px;border-radius:12px;overflow:hidden;flex-shrink:0;text-decoration:none;border:2px solid rgba(212,175,55,0.45);background:#1a1a2e;scroll-snap-align:start;';
+                    const loadMode = idx < 5 ? 'eager' : 'lazy';
+                    const priority = idx === 0 ? ' fetchpriority="high"' : '';
+                    const imgAlt = item.photo ? escapeHtml(buildSectionImageAlt(item, cat)).replace(/"/g, '&quot;') : '';
+                    const img = item.photo ? '<img src="' + item.photo + '" alt="' + imgAlt + '" style="width:100%;height:100%;object-fit:cover;display:block;" loading="' + loadMode + '"' + priority + ' onerror="this.style.display=\'none\'">' : '';
+                    const bottomText = item.price || item.title || '';
+                    const bottom = bottomText ? '<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.72);color:#fff;font-size:10px;font-weight:700;padding:3px 6px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + bottomText + '</div>' : '';
+                    a.innerHTML = img + bottom;
+                    inner.appendChild(a);
+                });
+            } catch(e) { wrap.style.display = 'none'; }
+        }
+
+        const _INTERNAL_PARSERS = new Set(['chatparsing_vn','tusaparsing_vn','chatiparsing','parsing_vn','parsing_th']);
+        function _resolveChannelName(item) {
+            let src = (item.source_channel || item.channel || '').replace('@','').toLowerCase();
+            if (src && !_INTERNAL_PARSERS.has(src)) return src;
+            return (item.contact || '').replace('@','');
+        }
+        function renderListingCard(item, category) {
+            try {
+            let channelName = _resolveChannelName(item);
+            let tgLink = item.telegram_link || item.tg_link || item.telegram_url || (item.message_id && channelName ? `https://t.me/${channelName}/${item.message_id}` : null);
+            
+            let _p = Array.isArray(item.photos) ? item.photos : [];
+            let _a = Array.isArray(item.all_images) ? item.all_images : [];
+            let _img = Array.isArray(item.images) ? item.images : [];
+            let _single = item.photo ? [item.photo] : (item.photo_url ? [item.photo_url] : []);
+            // Фильтруем emoji-картинки Telegram (//telegram.org/img/emoji/...) — они не фото объявления
+            function isRealPhoto(url) {
+                return url && typeof url === 'string' &&
+                    !url.includes('telegram.org/img/emoji') &&
+                    !url.includes('/img/emoji');
+            }
+            let images = [...new Set([..._p, ..._a, ..._img, ..._single])].filter(isRealPhoto);
+            if (category === 'real_estate') {
+                images = images.filter(url => url && typeof url === 'string' &&
+                    (/^https:\/\/t\.me\/(vietnamparsing|dom_vn|thailandparsing|doma_th)\/\d+$/.test(url) || url.includes('telesco.pe') || url.startsWith('/tg_img/') || url.startsWith('/g/') || url.startsWith('/gg/') || url.includes('/g/') || url.includes('/gg/') || url.startsWith('/api/tgphoto/') || url.startsWith('https://')));
+                images = images.map(url => {
+                    const tmeMatch = url.match(/^https:\/\/t\.me\/([^\/]+)\/(\d+)$/);
+                    if (tmeMatch) return `/tg_img/${tmeMatch[1]}/${tmeMatch[2]}`;
+                    return url;
+                }).filter(Boolean);
+            } else {
+                // Рестораны: используем photo_album_urls (групповой прокси, все фото одним запросом к t.me/s/)
+                if (category === 'restaurants' && Array.isArray(item.photo_album_urls) && item.photo_album_urls.length > 0) {
+                    images = item.photo_album_urls;
+                } else if (category === 'restaurants' && Array.isArray(item.all_images) && item.all_images.length > 0 && item.all_images[0].startsWith('/')) {
+                    images = item.all_images;
+                } else if (category === 'restaurants' && Array.isArray(item.tg_file_ids) && item.tg_file_ids.length > 0) {
+                    images = item.tg_file_ids.map(fid => `/tg_file/${encodeURIComponent(fid)}`);
+                } else {
+                    if (images.length === 0) {
+                        if (item.image_url && !item.image_url.startsWith('tg_file:')) images.push(item.image_url);
+                        if (item.image_url_2) images.push(item.image_url_2);
+                        if (item.image_url_3) images.push(item.image_url_3);
+                        if (item.image_url_4) images.push(item.image_url_4);
+                        if (images.length === 0 && item.photo_url) images.push(item.photo_url);
+                    }
+                    const cacheBuster = Date.now();
+                    images = images.filter(url => url && typeof url === 'string' && (url.startsWith('http') || url.startsWith('/')));
+                    images = images.map(url => {
+                        const tmeMatch = url.match(/^https:\/\/t\.me\/([^\/]+)\/(\d+)$/);
+                        if (tmeMatch) return `/tg_img/${tmeMatch[1]}/${tmeMatch[2]}`;
+                        if (url.startsWith('/tg_img/') || url.startsWith('/tg_file/') || url.startsWith('/api/tgphoto/') || url.startsWith('/g/') || url.startsWith('/gg/')) return url;
+                        if (url.includes('telesco.pe') || url.includes('api.telegram.org')) return url;
+                        return url + (url.includes('?') ? '&' : '?') + '_t=' + cacheBuster;
+                    });
+                }
+            }
+            
+            let badgesHtml = '';
+            if (category === 'medicine') {
+                badgesHtml = `<div style="position:absolute;top:8px;left:8px;display:none;gap:8px;z-index:10;flex-wrap:wrap;">
+                    ${item.city ? `<span style="color:#fff;font-size:16px;font-weight:400;text-shadow:0 1px 3px rgba(0,0,0,0.8);background:rgba(0,0,0,0.5);padding:2px 8px;border-radius:4px;">📍 ${item.city}</span>` : ''}
+                </div>`;
+            }
+            
+            let adminBtnsHtml = '';
+            if (adminAuthenticated) {
+                let editFunc = category === 'medicine' ? 'openMedicinePhotoEdit' : (category === 'visas' ? 'openVisasPhotoEdit' : 'openEditModal');
+                adminBtnsHtml = `<div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:15;">
+                    <button onclick="${editFunc}('${item.id}', event)" style="background:rgba(76,175,80,0.9);color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:bold;box-shadow:0 2px 6px rgba(0,0,0,0.3);">✏️</button>
+                    <button onclick="openDeleteModal('${item.id}', '${category}')" style="background:rgba(255,107,107,0.9);color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:bold;box-shadow:0 2px 6px rgba(0,0,0,0.3);">🗑️</button>
+                </div>`;
+            }
+            
+            let sliderHtml = '';
+            let imgFit = 'cover';
+            let imgH = (category === 'visas' || category === 'tours') ? '220px' : '180px';
+            let imgBg = '#1a1a2e';
+            if (images.length > 1) {
+                sliderHtml = `<div class="card-slider" style="position:relative;height:${imgH};overflow:hidden;border-radius:12px 12px 0 0;background:${imgBg};">
+                    ${badgesHtml}
+                    ${adminBtnsHtml}
+                    <div class="slides" style="display:flex;transition:transform 0.3s;height:100%;">
+                        ${images.map((img, i) => {
+                            const alt = escapeHtml(buildSectionImageAlt(item, category, i)).replace(/"/g, '&quot;');
+                            return `<img ${i === 0 ? `src="${img}"` : `data-lazy="${img}"`} data-src="${img}" alt="${alt}" style="min-width:100%;height:${imgH};object-fit:${imgFit};background:${imgBg};" loading="${i === 0 ? 'eager' : 'lazy'}" onerror="sliderImgError(this)">`;
+                        }).join('')}
+                    </div>
+                    <button class="slide-btn prev" onclick="event.stopPropagation();slideCard(this,-1)" style="position:absolute;left:5px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.5);color:white;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;">‹</button>
+                    <button class="slide-btn next" onclick="event.stopPropagation();slideCard(this,1)" style="position:absolute;right:5px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.5);color:white;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;">›</button>
+                </div>`;
+            } else if (images.length === 1) {
+                sliderHtml = `<div style="position:relative;height:${imgH};overflow:hidden;border-radius:12px 12px 0 0;background:${imgBg};">
+                    ${badgesHtml}
+                    ${adminBtnsHtml}
+                    <img src="${images[0]}" data-src="${images[0]}" alt="${escapeHtml(buildSectionImageAlt(item, category)).replace(/"/g, '&quot;')}" style="width:100%;height:${imgH};object-fit:${imgFit};background:${imgBg};" loading="eager" onerror="this.onerror=null;this.parentElement.innerHTML='<div style=\\'height:${imgH};background:linear-gradient(135deg,#2196F3 0%,#1976D2 100%);display:flex;align-items:center;justify-content:center;\\'><span style=\\'font-size:48px;opacity:0.3;\\'>🏖️</span></div>'">
+                </div>`;
+            } else {
+                sliderHtml = `<div style="position:relative;height:120px;background:linear-gradient(135deg,#2196F3 0%,#1976D2 100%);border-radius:12px 12px 0 0;display:flex;align-items:center;justify-content:center;">
+                    ${badgesHtml}
+                    ${adminBtnsHtml}
+                    <span style="font-size:48px;opacity:0.3;">🏖️</span>
+                </div>`;
+            }
+            
+            let title = buildListingDisplayTitle(item, category) || 'Предложение';
+            let desc = (item.description || item.text || '').substring(0, 2000);
+            let dateStr = item.date ? new Date(item.date).toLocaleDateString('ru-RU') : (item.created_at ? new Date(item.created_at).toLocaleDateString('ru-RU') : '');
+
+            if (category === 'real_estate') {
+                const stripEmoji = str => str.replace(/[\u{1F000}-\u{1FFFF}]|[\u{2600}-\u{27BF}]|[\u{FE00}-\u{FE0F}]|[\u{1FA00}-\u{1FAFF}]|[\u200D\u20E3\uFE0F]/gu, '').replace(/[#*0-9]\uFE0F?\u20E3/gu, '');
+                title = stripEmoji(title).replace(/\s+/g, ' ').trim();
+                desc = stripEmoji(desc).replace(/\s+/g, ' ').trim();
+            }
+            
+            let contactsHtml = '';
+            if (category === 'visas' || category === 'tours') {
+                let tgUsername = item.telegram || channelName || '';
+                let tgContactLink = tgUsername ? `https://t.me/${tgUsername.replace('@','').replace('https://t.me/','')}` : '';
+                let tgGroupLink = tgLink || '';
+                contactsHtml = `
+                    <div style="margin-top:auto;padding-top:12px;border-top:1px solid #eee;">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+                            <div style="padding:8px;text-align:center;">
+                                <div style="font-size:11px;color:#888;">📅 ${(translations[currentLang]||translations['ru']).common.date}</div>
+                                <div style="font-size:13px;font-weight:600;color:#333;">${dateStr || '-'}</div>
+                            </div>
+                            <div style="padding:8px;text-align:center;">
+                                <div style="font-size:11px;color:#888;">👤 ${(translations[currentLang]||translations['ru']).common.contact}</div>
+                                <div style="font-size:12px;font-weight:600;color:#333;">${item.contact_name || item.contact || channelName || '-'}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <a href="${tgContactLink || tgGroupLink || '#'}" target="_blank" onclick="event.stopPropagation()" style="display:block;background:transparent;color:${(tgContactLink || tgGroupLink) ? '#0088cc' : '#aaa'};padding:13px;border-radius:8px;text-align:center;text-decoration:none;font-weight:700;font-size:16px;border:2px solid ${(tgContactLink || tgGroupLink) ? '#0088cc' : '#ddd'};">✈️ Telegram</a>
+                        </div>
+                    </div>`;
+            } else if (category === 'medicine') {
+                let tgUsername = item.telegram || channelName || '';
+                let tgContactLink = tgUsername ? `https://t.me/${tgUsername.replace('@','').replace('https://t.me/','')}` : tgLink;
+                contactsHtml = `
+                    <div style="margin-top:auto;padding-top:12px;border-top:1px solid #eee;">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+                            <div style="background:#f5f5f5;padding:8px;border-radius:6px;text-align:center;">
+                                <div style="font-size:11px;color:#888;">📅 ${(translations[currentLang]||translations['ru']).common.date}</div>
+                                <div style="font-size:13px;font-weight:600;color:#333;">${dateStr || '-'}</div>
+                            </div>
+                            <div style="background:#fff3e0;padding:8px;border-radius:6px;text-align:center;">
+                                <div style="font-size:11px;color:#888;">👤 ${(translations[currentLang]||translations['ru']).common.contact}</div>
+                                <div style="font-size:12px;font-weight:600;color:#e65100;">${item.contact_name || item.contact || channelName || '-'}</div>
+                            </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                            <a href="${item.whatsapp ? 'https://wa.me/' + item.whatsapp.replace(/[^0-9]/g,'') : '#'}" target="_blank" onclick="event.stopPropagation()" style="background:${item.whatsapp ? '#25D366' : '#ccc'};color:white;padding:10px;border-radius:6px;text-align:center;text-decoration:none;font-weight:600;font-size:13px;">💬 WhatsApp</a>
+                            <a href="${tgContactLink || '#'}" target="_blank" onclick="event.stopPropagation()" style="background:${tgContactLink ? '#0088cc' : '#ccc'};color:white;padding:10px;border-radius:6px;text-align:center;text-decoration:none;font-weight:600;font-size:13px;">✈️ Telegram</a>
+                        </div>
+                    </div>`;
+            } else if (category === 'transport') {
+                let tgUsername = item.telegram || channelName || '';
+                let tgContactLink = tgUsername ? `https://t.me/${tgUsername.replace('@','').replace('https://t.me/','')}` : tgLink;
+                contactsHtml = `
+                    <div style="margin-top:auto;padding-top:12px;border-top:1px solid #eee;">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+                            <div style="background:#f5f5f5;padding:8px;border-radius:6px;text-align:center;">
+                                <div style="font-size:11px;color:#888;">📅 ${(translations[currentLang]||translations['ru']).common.date}</div>
+                                <div style="font-size:13px;font-weight:600;color:#333;">${dateStr || '-'}</div>
+                            </div>
+                            <div style="background:#fff3e0;padding:8px;border-radius:6px;text-align:center;">
+                                <div style="font-size:11px;color:#888;">👤 ${(translations[currentLang]||translations['ru']).common.contact}</div>
+                                <div style="font-size:12px;font-weight:600;color:#e65100;">${item.contact_name || item.contact || channelName || '-'}</div>
+                            </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                            <a href="${tgLink || '#'}" target="_blank" onclick="event.stopPropagation()" style="background:${tgLink ? '#0088cc' : '#ccc'};color:white;padding:10px;border-radius:6px;text-align:center;text-decoration:none;font-weight:600;font-size:13px;">✈️ Первоисточник</a>
+                            <a href="${tgContactLink || '#'}" target="_blank" onclick="event.stopPropagation()" style="background:${tgContactLink ? '#0088cc' : '#ccc'};color:white;padding:10px;border-radius:6px;text-align:center;text-decoration:none;font-weight:600;font-size:13px;">📢 ${item.contact || channelName || 'Канал'}</a>
+                        </div>
+                    </div>`;
+            }
+            
+            let titleHtml = (category === 'restaurants' && tgLink)
+                ? `<a href="${tgLink}" target="_blank" onclick="event.stopPropagation()" style="color:#333;text-decoration:none;hover:color:#0088cc;">${title}</a>`
+                : title;
+
+            return `<div class="listing-card" id="lc-${item.id || ''}" data-id="${item.id || ''}" data-category="${category}" style="background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);overflow:hidden;display:flex;flex-direction:column;">
+                ${sliderHtml}
+                <div style="padding:14px;flex:1;display:flex;flex-direction:column;">
+                    <h3 style="margin:0 0 10px 0;font-size:16px;font-weight:700;color:#333;line-height:1.3;">${titleHtml}</h3>
+                    <p style="margin:0;font-size:13px;color:#555;line-height:1.5;white-space:${category === 'real_estate' ? 'normal' : 'pre-wrap'};overflow-y:auto;max-height:26em;scrollbar-width:thin;-webkit-overflow-scrolling:touch;touch-action:pan-y;overscroll-behavior:contain;">${desc}</p>
+                    ${contactsHtml}
+                </div>
+            </div>`;
+            } catch(e) {
+                console.error('renderListingCard error:', e, 'item:', item);
+                return `<div style="background:#fff;border-radius:12px;padding:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+                    <p style="color:#333;">${item.title || item.name || 'Объявление'}</p>
+                    <p style="color:#666;font-size:13px;">${(item.description || item.text || '').substring(0,100)}...</p>
+                </div>`;
+            }
+        }
+
+        function sliderImgError(img) {
+            img.onerror = null;
+            const slides = img.parentElement;
+            if (!slides) { img.style.display = 'none'; return; }
+            const slider = slides.parentElement;
+            const isSliderContext = slider && slider.querySelector('.slides');
+            if (!isSliderContext) { img.style.display = 'none'; return; }
+            const allImgs = Array.from(slides.querySelectorAll('img'));
+            const removedIdx = allImgs.indexOf(img);
+            const currentIdx = parseInt(slides.dataset.idx || 0);
+            img.remove();
+            const remaining = slides.querySelectorAll('img');
+            if (remaining.length <= 1) {
+                slider.querySelectorAll('.slide-btn').forEach(b => b.style.display = 'none');
+            }
+            const newIdx = removedIdx <= currentIdx ? Math.max(0, currentIdx - 1) : currentIdx;
+            slides.dataset.idx = newIdx;
+            const w = slider.offsetWidth;
+            slides.style.transition = 'none';
+            slides.style.transform = `translateX(-${newIdx * w}px)`;
+        }
+
+        function slideCard(btn, dir) {
+            const slider = btn.closest('.card-slider');
+            if (!slider) return;
+            const slides = slider.querySelector('.slides');
+            const imgs = slides.querySelectorAll('img');
+            if (imgs.length <= 1) return;
+            const w = slider.offsetWidth;
+            let idx = parseInt(slides.dataset.idx || 0);
+            idx = (idx + dir + imgs.length) % imgs.length;
+            slides.dataset.idx = idx;
+            slides.style.transition = 'transform 0.3s';
+            slides.style.transform = `translateX(-${idx * w}px)`;
+            // Lazy load the target image
+            const target = imgs[idx];
+            if (target && !target.src && target.dataset.src) {
+                target.src = target.dataset.src;
+            }
+        }
+
+        function slideSlider(slider, dir) {
+            const slides = slider.querySelector('.slides');
+            const imgs = slides.querySelectorAll('img');
+            if (imgs.length <= 1) return;
+            const w = slider.offsetWidth;
+            let idx = parseInt(slides.dataset.idx || 0);
+            idx = (idx + dir + imgs.length) % imgs.length;
+            slides.dataset.idx = idx;
+            slides.style.transition = 'transform 0.3s';
+            slides.style.transform = `translateX(-${idx * w}px)`;
+            const target = imgs[idx];
+            if (target && !target.src && (target.dataset.src || target.dataset.lazy)) {
+                target.src = target.dataset.src || target.dataset.lazy;
+            }
+        }
+
+        function initSwipeListeners() {
+            document.addEventListener('touchstart', function(e) {
+                const slider = e.target.closest('.card-slider');
+                if (slider) {
+                    slider.dataset.touchStartX = e.touches[0].clientX;
+                    slider.dataset.touchStartY = e.touches[0].clientY;
+                }
+                const banner = e.target.closest('#banner');
+                if (banner) {
+                    banner.dataset.touchStartX = e.touches[0].clientX;
+                    banner.dataset.touchStartY = e.touches[0].clientY;
+                }
+            }, { passive: true });
+
+            document.addEventListener('touchend', function(e) {
+                // Banner swipe
+                const banner = e.target.closest('#banner');
+                if (banner && banner.dataset.touchStartX) {
+                    const startX = parseFloat(banner.dataset.touchStartX);
+                    const startY = parseFloat(banner.dataset.touchStartY);
+                    const endX = e.changedTouches[0].clientX;
+                    const endY = e.changedTouches[0].clientY;
+                    const diffX = startX - endX;
+                    const diffY = startY - endY;
+                    if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+                        changeBanner(diffX > 0 ? 1 : -1);
+                    }
+                    delete banner.dataset.touchStartX;
+                    delete banner.dataset.touchStartY;
+                }
+                // Card slider swipe
+                const slider = e.target.closest('.card-slider');
+                if (!slider || !slider.dataset.touchStartX) return;
+                const startX = parseFloat(slider.dataset.touchStartX);
+                const startY = parseFloat(slider.dataset.touchStartY);
+                const endX = e.changedTouches[0].clientX;
+                const endY = e.changedTouches[0].clientY;
+                const diffX = startX - endX;
+                const diffY = startY - endY;
+                if (Math.abs(diffX) > 50 && Math.abs(diffX) > Math.abs(diffY)) {
+                    const dir = diffX > 0 ? 1 : -1;
+                    if (slider.querySelector('.slides')) {
+                        slideSlider(slider, dir);
+                    } else if (slider.id && slider.id.startsWith('slider-')) {
+                        const listingId = slider.id.slice(7);
+                        changeListingImage(listingId, dir, null);
+                    }
+                }
+                delete slider.dataset.touchStartX;
+                delete slider.dataset.touchStartY;
+            }, { passive: true });
+        }
+
+        initSwipeListeners();
+
+        function _formatCount(value) {
+            const count = Number(value);
+            return Number.isFinite(count) ? count.toLocaleString(currentLang || 'ru') : '0';
+        }
+
+        async function loadCityCounts(category, btnClass) {
+            try {
+                const r = await fetch(`/api/city-counts/${category}?country=${currentCountry}`);
+                const counts = await r.json();
+                const tr = translations[currentLang];
+                document.querySelectorAll(btnClass).forEach(btn => {
+                    const city = btn.dataset.city;
+                    if (city && counts[city] !== undefined) {
+                        const countEl = btn.querySelector('.tour-count');
+                        if (countEl) {
+                            const num = counts[city];
+                            let word = tr.filters.listings || 'предложений';
+                            // Русская грамматика для числительных
+                            if (currentLang === 'ru') {
+                                if (num % 10 === 1 && num % 100 !== 11) word = 'предложение';
+                                else if ([2,3,4].includes(num % 10) && ![12,13,14].includes(num % 100)) word = 'предложения';
+                            }
+                            countEl.textContent = `${_formatCount(num)} ${word}`;
+                        }
+                    }
+                });
+            } catch(e) { console.error('Error loading city counts:', e); }
+        }
+        
+        function updateAllCityCounts() {
+            if (currentCountry === 'vietnam') {
+                loadCityCounts('entertainment', '.entertainment-city-btn');
+                loadCityCounts('restaurants', '.restaurant-city-btn');
+                loadCityCounts('tours', '.tours-city-btn');
+                loadCityCounts('real_estate', '.realestate-city-btn');
+                loadCityCounts('news', '.news-city-btn');
+                loadMedicineTypeCounts();
+            } else {
+                // For Thailand and other countries — load counts after dynamic buttons are rendered
+                setTimeout(() => {
+                    loadCityCounts('real_estate', '.realestate-city-btn');
+                    loadCityCounts('restaurants', '.restaurants-city-btn');
+                    loadCityCounts('tours', '.tours-city-btn');
+                    loadCityCounts('entertainment', '.entertainment-city-btn');
+                }, 200);
+            }
+        }
+        
+        async function loadMedicineTypeCounts() {
+        }
+        
+        // ── Предзагрузка видео-баннеров ──────────────────────────────────────
+        // Пул: url → { cdnUrl, video, ready }
+        const _bannerPreloadPool = {};
+
+        function _preloadBannerVideo(url) {
+            if (!url || _bannerPreloadPool[url]) return;
+            // Для /api/banner-video/ НЕ резолвим CDN URL заранее:
+            // токены telesco.pe истекают за минуты — браузер сам запросит свежий URL при воспроизведении
+            if (url.startsWith('/api/banner-video/')) {
+                _bannerPreloadPool[url] = { cdnUrl: url, video: null, ready: false };
+                console.log('[BannerPreload] proxy mode (no CDN preload): ' + url);
+                return;
+            }
+            _bannerPreloadPool[url] = { cdnUrl: null, video: null, ready: false };
+            // /gv/ URL: резолвим CDN URL через HEAD
+            fetch(url, { method: 'HEAD', redirect: 'follow' })
+                .then(function(r) {
+                    const cdnUrl = r.url;
+                    if (!cdnUrl || cdnUrl === url) return;
+                    _bannerPreloadPool[url].cdnUrl = cdnUrl;
+                    console.log('[BannerPreload] CDN resolved for ' + url + ' → ' + cdnUrl.slice(0, 60));
+                    const v = document.createElement('video');
+                    v.muted = true;
+                    v.playsInline = true;
+                    v.preload = 'auto';
+                    v.style.cssText = 'position:fixed;width:1px;height:1px;top:-9999px;left:-9999px;opacity:0;pointer-events:none;';
+                    document.body.appendChild(v);
+                    v.src = cdnUrl;
+                    v.load();
+                    v.addEventListener('canplay', function() {
+                        _bannerPreloadPool[url].ready = true;
+                        console.log('[BannerPreload] buffered: ' + url);
+                    }, { once: true });
+                    _bannerPreloadPool[url].video = v;
+                })
+                .catch(function() {});
+        }
+
+        function _preloadNextBanner() {
+            const banners = getCurrentBanners();
+            if (banners.length <= 1) return;
+            const currentIdx = countryConfig[currentCountry] ? (countryConfig[currentCountry].currentBanner || 0) : 0;
+            // Предзагружаем следующий и послеследующий
+            for (let i = 1; i <= 2; i++) {
+                const nextUrl = banners[(currentIdx + i) % banners.length];
+                if (nextUrl && (nextUrl.startsWith('/gv/') || nextUrl.startsWith('/api/banner-video/'))) _preloadBannerVideo(nextUrl);
+            }
+        }
+        // ─────────────────────────────────────────────────────────────────────
+
+        async function loadBanners() {
+            try {
+                console.log('Loading banners...');
+                const r = await fetch('/api/banners');
+                bannerConfig = await r.json();
+                console.log('Banner config loaded:', bannerConfig);
+                
+                // Normalize to new format if needed and preload all banners
+                for (const country in bannerConfig) {
+                    if (bannerConfig[country]) {
+                        const countryData = bannerConfig[country];
+                        // If old format (array), convert to new format
+                        if (Array.isArray(countryData)) {
+                            bannerConfig[country] = { web: countryData, mobile: [] };
+                        }
+                        // Preload web and mobile banners (images only — videos handled separately)
+                        const webBanners = bannerConfig[country].web || [];
+                        const mobileBanners = bannerConfig[country].mobile || [];
+                        [...webBanners, ...mobileBanners].forEach(src => {
+                            const isVid = src && (src.startsWith('/gv/') || src.startsWith('/api/banner-video/') || /\.(mp4|mov|webm|avi)(\?|$)/i.test(src));
+                            if (!isVid) {
+                                const img = new Image();
+                                img.src = src;
+                            } else {
+                                // Для видео — предзагружаем через пул
+                                _preloadBannerVideo(src);
+                            }
+                        });
+                    }
+                }
+                
+                updateBanner();
+                _preloadNextBanner();
+                if (adminAuthenticated) {
+                    renderAdminBanners();
+                    switchBannerTab(currentBannerTab);
+                }
+            } catch (e) {
+                console.error('Error loading banners:', e);
+            }
+        }
+
+        function isMobileDevice() {
+            const isTelegramWebApp = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData;
+            const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const isSmallScreen = window.innerWidth <= 768;
+            return isTelegramWebApp || isMobileUA || isSmallScreen;
+        }
+        
+        function getCurrentBanners() {
+            const countryData = bannerConfig[currentCountry] || {};
+            // Handle old array format
+            if (Array.isArray(countryData)) {
+                return countryData;
+            }
+            const bannerType = isMobileDevice() ? 'mobile' : 'web';
+            let banners = countryData[bannerType] || [];
+            // Fallback to other type if current type has no banners
+            if (banners.length === 0) {
+                banners = countryData['web'] || countryData['mobile'] || [];
+            }
+            return banners;
+        }
+        
+        function updateBanner() {
+            const banners = getCurrentBanners();
+            const banner = document.getElementById('banner');
+            if (!banner) return;
+            
+            const navs = banner.querySelectorAll('.banner-nav');
+            const dotsEl = document.getElementById('banner-dots');
+            
+            if (banners.length > 0) {
+                if (countryConfig[currentCountry].currentBanner === undefined) countryConfig[currentCountry].currentBanner = 0;
+                let currentIdx = countryConfig[currentCountry].currentBanner;
+                
+                if (currentIdx >= banners.length) {
+                    currentIdx = 0;
+                    countryConfig[currentCountry].currentBanner = 0;
+                }
+
+                navs.forEach(nav => nav.style.display = banners.length > 1 ? 'flex' : 'none');
+
+                const mediaUrl = banners[currentIdx];
+                const bannerImg = document.getElementById('banner-img');
+                const bannerVideo = document.getElementById('banner-video');
+                if (bannerImg) {
+                    const bannerCountries = { vietnam: 'Вьетнам', thailand: 'Таиланд', indonesia: 'Индонезия', india: 'Индия' };
+                    bannerImg.alt = `Баннер Goldantelope Asia — ${bannerCountries[currentCountry] || currentCountry}`;
+                    syncImageHoverTitle(bannerImg);
+                }
+                const isVideo = mediaUrl && (
+                    mediaUrl.startsWith('/gv/') ||
+                    mediaUrl.startsWith('/api/banner-video/') ||
+                    /\.(mp4|mov|webm|avi)(\?|$)/i.test(mediaUrl)
+                );
+                if (isVideo) {
+                    if (bannerVideo) {
+                        const _isProxyUrl = mediaUrl.startsWith('/api/banner-video/');
+                        const _pool = (!_isProxyUrl && typeof _bannerPreloadPool !== 'undefined') ? _bannerPreloadPool[mediaUrl] : null;
+                        const _targetSrc = _isProxyUrl ? mediaUrl : ((_pool && _pool.cdnUrl) ? _pool.cdnUrl : mediaUrl);
+                        const _alreadySet = bannerVideo.getAttribute('data-proxy-src') === _targetSrc ||
+                            (!_isProxyUrl && (bannerVideo.src === _targetSrc ||
+                            bannerVideo.src.endsWith(mediaUrl) ||
+                            (_pool && _pool.cdnUrl && bannerVideo.src === _pool.cdnUrl)));
+
+                        console.log('[Banner] updateBanner isVideo=true idx=' + currentIdx + ' src=' + _targetSrc + ' alreadySet=' + _alreadySet);
+
+                        // Показываем постер (изображение) пока видео грузится
+                        if (bannerImg && _isProxyUrl) {
+                            const _midMatch = mediaUrl.match(/\/api\/banner-video\/(\d+)/);
+                            if (_midMatch) {
+                                bannerImg.src = '/api/banner-img/' + _midMatch[1];
+                                bannerImg.style.display = '';
+                            }
+                        }
+
+                        if (!_alreadySet) {
+                            _bannerVideoPlayCount = 0;
+                            bannerVideo.setAttribute('data-proxy-src', _targetSrc);
+                            bannerVideo.style.display = 'none';
+                            // Всегда стартуем muted — обязательно для autoplay на мобильном
+                            bannerVideo.muted = true;
+                            bannerVideo.src = _targetSrc;
+                            console.log('[Banner] calling load() for', _targetSrc);
+                            bannerVideo.load();
+                            bannerVideo.oncanplay = function() {
+                                bannerVideo.oncanplay = null;
+                                bannerVideo.play().then(function() {
+                                    if (bannerImg) bannerImg.style.display = 'none';
+                                    bannerVideo.style.display = 'block';
+                                    // Пробуем включить звук после успешного старта
+                                    if (_userSetSound) {
+                                        // Пользователь уже выбрал состояние — уважаем его выбор
+                                        bannerVideo.muted = !_bannerSoundOn;
+                                        _setBannerSound(_bannerSoundOn);
+                                    } else {
+                                        // Первый запуск — пробуем включить звук
+                                        bannerVideo.muted = false;
+                                        var _soundOn = !bannerVideo.muted && bannerVideo.volume > 0;
+                                        console.log('[Banner] play OK, muted=' + bannerVideo.muted + ', volume=' + bannerVideo.volume + ', soundOn=' + _soundOn);
+                                        _setBannerSound(_soundOn);
+                                        if (!_soundOn) {
+                                            var _sb = document.getElementById('banner-sound-btn');
+                                            if (_sb) _sb.style.animation = 'bsPulse 1.5s ease-in-out 3';
+                                        }
+                                    }
+                                }).catch(function(err) {
+                                    // play() заблокирован — показываем видео без звука
+                                    console.log('[Banner] play blocked:', err && err.name);
+                                    bannerVideo.muted = true;
+                                    bannerVideo.play().then(function() {
+                                        if (bannerImg) bannerImg.style.display = 'none';
+                                        bannerVideo.style.display = 'block';
+                                        _setBannerSound(false);
+                                        var _sb = document.getElementById('banner-sound-btn');
+                                        if (_sb) _sb.style.animation = 'bsPulse 1.5s ease-in-out 3';
+                                    }).catch(function() {
+                                        bannerVideo.style.display = 'block';
+                                    });
+                                });
+                            };
+                        } else {
+                            // Источник тот же — просто воспроизводим
+                            bannerVideo.play().then(function() {
+                                if (bannerImg) bannerImg.style.display = 'none';
+                                bannerVideo.style.display = 'block';
+                            }).catch(function() {});
+                        }
+                    }
+                    // Запускаем предзагрузку следующего баннера в фоне
+                    if (typeof _preloadNextBanner === 'function') _preloadNextBanner();
+                } else {
+                    if (bannerVideo) { bannerVideo.pause(); bannerVideo.style.display = 'none'; }
+                    if (bannerImg) {
+                        bannerImg.style.display = '';
+                        bannerImg.src = mediaUrl;
+                    }
+                }
+                banner.style.display = 'block';
+
+                // Dots indicator
+                if (dotsEl) {
+                    if (banners.length > 1) {
+                        dotsEl.innerHTML = banners.map((_, i) =>
+                            `<span class="banner-dot${i === currentIdx ? ' active' : ''}"></span>`
+                        ).join('');
+                        dotsEl.style.display = 'flex';
+                    } else {
+                        dotsEl.style.display = 'none';
+                    }
+                }
+
+                banner.onclick = null;
+            } else {
+                banner.style.display = 'none';
+                if (dotsEl) dotsEl.style.display = 'none';
+            }
+        }
+
+        // Для видео-баннеров (Вьетнам): переключение после 2 воспроизведений через событие ended
+        // Для остальных стран: переключение по таймеру
+        const _BANNER_VIDEO_PLAYS = 2; // сколько раз воспроизвести видео перед сменой
+        let _bannerVideoPlayCount = 0;
+        // Таймер — резервный механизм (на случай если видео не загрузилось)
+        const _BANNER_INTERVAL = { vietnam: 30000 };
+        const _BANNER_DEFAULT_INTERVAL = 7000;
+        let _bannerTimer = null;
+        let _bannerLastTick = Date.now();
+        let _bannerTickCount = 0;
+        let _bannerPaused = false;
+
+        function toggleBannerPause() {
+            _bannerPaused = !_bannerPaused;
+            const btn = document.getElementById('banner-pause-btn');
+            const bv = document.getElementById('banner-video');
+            if (_bannerPaused) {
+                if (_bannerTimer) { clearTimeout(_bannerTimer); _bannerTimer = null; }
+                if (bv && !bv.paused) bv.pause();
+                if (btn) { btn.innerHTML = '&#9654;'; btn.classList.add('paused'); btn.title = 'Возобновить'; }
+            } else {
+                if (bv && bv.paused) bv.play().catch(function() {});
+                if (btn) { btn.innerHTML = '&#9646;&#9646;'; btn.classList.remove('paused'); btn.title = 'Пауза'; }
+                _scheduleBannerTick('resume');
+            }
+        }
+        let _bannerSoundOn = false;
+        let _userSetSound = false; // true после первого нажатия кнопки звука
+        function _setBannerSound(on) {
+            const bv = document.getElementById('banner-video');
+            const btn = document.getElementById('banner-sound-btn');
+            _bannerSoundOn = on;
+            if (bv) bv.muted = !on;
+            if (btn) {
+                btn.textContent = on ? '🔊' : '🔇';
+                if (on) { btn.classList.add('sound-on'); btn.style.animation = ''; }
+                else { btn.classList.remove('sound-on'); }
+            }
+        }
+
+        // Делегирование — самый надёжный способ, не зависит от времени загрузки DOM
+        document.addEventListener('click', function(e) {
+            var target = e.target;
+            // Кнопка звука
+            if (target && (target.id === 'banner-sound-btn' || target.closest && target.closest('#banner-sound-btn'))) {
+                e.stopPropagation();
+                e.preventDefault();
+                var bv = document.getElementById('banner-video');
+                console.log('[Sound] btn clicked via delegation, bv=', !!bv, 'paused=', bv && bv.paused, 'muted=', bv && bv.muted, 'soundOn=', _bannerSoundOn);
+                if (!bv) return;
+                _userSetSound = true;
+                if (!_bannerSoundOn) {
+                    // iOS/Android: pause → unmute → play — единственный надёжный способ
+                    var _wasPaused = bv.paused;
+                    bv.pause();
+                    bv.muted = false;
+                    bv.play().then(function() {
+                        _setBannerSound(true);
+                        console.log('[Sound] unmuted play OK');
+                    }).catch(function(err) {
+                        console.log('[Sound] play failed:', err && err.name);
+                        bv.muted = false;
+                        _setBannerSound(true);
+                        if (_wasPaused) bv.play().catch(function(){});
+                    });
+                } else {
+                    bv.muted = true;
+                    _setBannerSound(false);
+                }
+                return;
+            }
+            // Кнопка паузы
+            if (target && (target.id === 'banner-pause-btn' || target.closest && target.closest('#banner-pause-btn'))) {
+                e.stopPropagation();
+                toggleBannerPause();
+            }
+        }, true); // capture=true — перехватываем до любых других обработчиков
+
+        function _advanceBanner() {
+            if (_bannerPaused) return;
+            _bannerVideoPlayCount = 0;
+            const banners = getCurrentBanners();
+            if (banners.length > 1) {
+                const currentIdx = countryConfig[currentCountry].currentBanner || 0;
+                countryConfig[currentCountry].currentBanner = (currentIdx + 1) % banners.length;
+                console.log('[Banner] switching to idx=' + countryConfig[currentCountry].currentBanner);
+                updateBanner();
+            }
+        }
+
+        function _scheduleBannerTick(caller) {
+            if (_bannerPaused) return;
+            if (_bannerTimer) clearTimeout(_bannerTimer);
+            const delay = _BANNER_INTERVAL[currentCountry] || _BANNER_DEFAULT_INTERVAL;
+            _bannerLastTick = Date.now();
+            console.log('[BannerTimer] scheduled delay=' + delay + 'ms, caller=' + (caller || 'unknown') + ', country=' + currentCountry);
+            _bannerTimer = setTimeout(function _tick() {
+                if (_bannerPaused) return;
+                _bannerTickCount++;
+                const elapsed = Date.now() - _bannerLastTick;
+                console.log('[BannerTimer] TICK #' + _bannerTickCount + ' elapsed=' + elapsed + 'ms, country=' + currentCountry);
+                _advanceBanner();
+                _scheduleBannerTick('auto');
+            }, delay);
+        }
+
+        // Видео-событие ended — считаем воспроизведения, переключаем после _BANNER_VIDEO_PLAYS раз
+        (function() {
+            const _bv = document.getElementById('banner-video');
+            if (_bv) {
+                _bv.addEventListener('ended', function() {
+                    if (_bannerPaused) return;
+                    _bannerVideoPlayCount++;
+                    console.log('[Banner] video ended, play#' + _bannerVideoPlayCount + ', country=' + currentCountry);
+                    if (_bannerVideoPlayCount >= _BANNER_VIDEO_PLAYS) {
+                        _advanceBanner();
+                        _scheduleBannerTick('video_ended');
+                    } else {
+                        _bv.play().catch(function() {});
+                    }
+                });
+                _bv.addEventListener('error', function(e) {
+                    var err = _bv.error;
+                    console.log('[Banner] video ERROR code=' + (err ? err.code : '?') + ' msg=' + (err ? err.message : '?') + ' src=' + _bv.currentSrc);
+                });
+                _bv.addEventListener('stalled', function() {
+                    console.log('[Banner] video STALLED src=' + _bv.currentSrc);
+                });
+                _bv.addEventListener('waiting', function() {
+                    console.log('[Banner] video WAITING src=' + _bv.currentSrc);
+                });
+                _bv.addEventListener('canplay', function() {
+                    console.log('[Banner] canplay fired src=' + _bv.currentSrc);
+                });
+                _bv.addEventListener('loadstart', function() {
+                    console.log('[Banner] loadstart src=' + _bv.currentSrc);
+                });
+                _bv.addEventListener('loadedmetadata', function() {
+                    console.log('[Banner] loadedmetadata dur=' + _bv.duration + ' src=' + _bv.currentSrc);
+                });
+            }
+        })();
+
+        _scheduleBannerTick('init');
+
+        // Сброс таймера при возврате в приложение (Telegram WebApp паузирует таймеры в фоне)
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible') {
+                console.log('[BannerTimer] page visible — resetting timer');
+                _scheduleBannerTick('visibilitychange');
+            }
+        });
+
+        function switchCountry(country, suppressTabRouteUpdate = false) {
+            // Запоминаем активную вкладку ДО смены страны
+            const _prevActiveContent = document.querySelector('.content.active');
+            const _prevTab = _prevActiveContent ? _prevActiveContent.id : null;
+
+            // Если админ авторизован, он может работать только со своей страной (кроме супер-админа)
+            if (adminAuthenticated && adminCountry && adminCountry !== 'all' && country !== adminCountry) {
+                const countryNames = {
+                    'vietnam': '🇻🇳 Вьетнам',
+                    'thailand': '🇹🇭 Таиланд',
+                    'india': '🇮🇳 Индия',
+                    'indonesia': '🇮🇩 Индонезия'
+                };
+                alert('Вы авторизованы как админ ' + countryNames[adminCountry] + '. Для работы с другой страной выйдите и войдите с другим паролем.');
+                return;
+            }
+            
+            currentCountry = country;
+            // Скрываем RE cheap banners при смене страны
+            var _rcw = document.getElementById('re-cheap-banners-wrap');
+            if (_rcw) _rcw.style.display = 'none';
+            document.querySelectorAll('.country-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('onclick').includes(country));
+            });
+            
+            // Reset real estate filters when switching countries
+            currentRealEstateCity = country === 'vietnam' ? 'nhatrang' : '';
+            currentRealEstateGroup = '';
+            currentRealEstateSort = '';
+            currentRealEstatePriceMax = null;
+            currentRealEstatePriceMin = null;
+            currentRealEstateType = '';
+            // Remove city highlight from all city buttons
+            document.querySelectorAll('.realestate-city-btn').forEach(btn => {
+                btn.style.border = '3px solid transparent';
+            });
+            // Highlight the default nhatrang button for Vietnam
+            if (country === 'vietnam') {
+                const ntrBtn = document.querySelector('.realestate-city-btn[data-city="nhatrang"]');
+                if (ntrBtn) ntrBtn.style.border = '3px solid #d4af37';
+            }
+            
+            // Показываем кнопки городов для Вьетнама или других стран
+            const isVietnam = (country === 'vietnam');
+            if (document.getElementById('vietnam-entertainment-buttons'))
+                document.getElementById('vietnam-entertainment-buttons').style.display = isVietnam ? 'block' : 'none';
+            if (document.getElementById('vietnam-realestate-buttons'))
+                document.getElementById('vietnam-realestate-buttons').style.display = isVietnam ? 'block' : 'none';
+            if (document.getElementById('vietnam-tours-buttons'))
+                document.getElementById('vietnam-tours-buttons').style.display = isVietnam ? 'block' : 'none';
+            if (document.getElementById('vietnam-transport-buttons'))
+                document.getElementById('vietnam-transport-buttons').style.display = isVietnam ? 'block' : 'none';
+            if (document.getElementById('vietnam-restaurants-buttons'))
+                document.getElementById('vietnam-restaurants-buttons').style.display = isVietnam ? 'block' : 'none';
+            if (document.getElementById('vietnam-visas-buttons'))
+                document.getElementById('vietnam-visas-buttons').style.display = isVietnam ? 'block' : 'none';
+            if (document.getElementById('vietnam-news-buttons'))
+                document.getElementById('vietnam-news-buttons').style.display = isVietnam ? 'block' : 'none';
+            if (document.getElementById('vietnam-medicine-buttons'))
+                document.getElementById('vietnam-medicine-buttons').style.display = isVietnam ? 'block' : 'none';
+            
+            // Показываем динамические кнопки для других стран
+            if (document.getElementById('other-restaurants-buttons'))
+                document.getElementById('other-restaurants-buttons').style.display = isVietnam ? 'none' : 'block';
+            if (document.getElementById('other-tours-buttons'))
+                document.getElementById('other-tours-buttons').style.display = isVietnam ? 'none' : 'block';
+            if (document.getElementById('other-entertainment-buttons'))
+                document.getElementById('other-entertainment-buttons').style.display = isVietnam ? 'none' : 'block';
+            if (document.getElementById('other-transport-buttons'))
+                document.getElementById('other-transport-buttons').style.display = isVietnam ? 'none' : 'block';
+            currentTransportCity = '';
+            currentTransportType = 'bikes';
+            if (typeof currentEntertainmentCity !== 'undefined') currentEntertainmentCity = '';
+            if (typeof currentRestaurantCity !== 'undefined') currentRestaurantCity = '';
+            if (typeof currentToursCity !== 'undefined') currentToursCity = '';
+            if (document.getElementById('other-realestate-buttons'))
+                document.getElementById('other-realestate-buttons').style.display = isVietnam ? 'none' : 'block';
+            if (document.getElementById('vietnam-re-filters-section'))
+                document.getElementById('vietnam-re-filters-section').style.display = isVietnam ? 'block' : 'none';
+            if (document.getElementById('vietnam-realestate-filters'))
+                document.getElementById('vietnam-realestate-filters').style.display = isVietnam ? 'flex' : 'none';
+            if (document.getElementById('vietnam-realestate-groups'))
+                document.getElementById('vietnam-realestate-groups').style.display = isVietnam ? 'flex' : 'none';
+            
+            // Показываем/скрываем секции по странам для всех категорий
+            const allCountries = ['vietnam', 'thailand', 'india', 'indonesia'];
+            const categories = ['exchange', 'marketplace', 'visas', 'news', 'medicine'];
+            categories.forEach(cat => {
+                allCountries.forEach(c => {
+                    const btn = document.getElementById(`${c}-${cat}-buttons`);
+                    if (btn) btn.style.display = (c === country) ? 'block' : 'none';
+                });
+            });
+
+            const ratesBoard = document.getElementById('exchange-rates-board');
+            if (ratesBoard) {
+                ratesBoard.style.display = isVietnam ? 'block' : 'none';
+                if (isVietnam) loadExchangeRatesBoard();
+            }
+            if (!isVietnam) {
+                loadExchangeRatesBoardLocal(country);
+            }
+            
+            // Генерируем динамические города для других стран
+            if (!isVietnam) {
+                renderDynamicCityButtons();
+                // Генерируем city switcher для обменников
+                var exchSuffix = {thailand: 'exch-th', india: 'exch-in', indonesia: 'exch-id'}[country];
+                if (exchSuffix) {
+                    renderOtherCountryCitySwitcher(exchSuffix, 'exchange', filterExchangeByCity, false);
+                }
+            }
+            // Загружаем группы для любой страны
+            loadRealEstateGroups();
+            
+            // Обновляем фильтр городов для детей
+            renderKidsCityFilter();
+            updateKidsCitySelect();
+            
+            // Обновляем валюту в формах
+            updateFormCurrency();
+            
+            // Обновляем города в формах подачи объявлений
+            updateFormCities();
+
+            
+            if (!countryConfig[country].currentBanner) countryConfig[country].currentBanner = 0;
+            updateBanner();
+            if (adminAuthenticated) renderAdminBanners();
+            
+            updateRates();
+            updateAllCityCounts();
+            _loadInitData(country);
+            if (document.getElementById('chat').classList.contains('active')) { loadChatFeed(); loadVnChatFeed(''); loadChatiparsing(); }
+            // Сбрасываем фильтр даты развлечений и перестраиваем бар при смене страны
+            currentEntertainmentDate = '';
+            if (typeof buildEntDateBar === 'function') buildEntDateBar();
+
+            // Переключаем активную вкладку обратно (если пользователь был в какой-то категории)
+            const _validTabs = new Set(['realestate','restaurants','entertainment','transport','exchange','tours','visas','chat','settings','news','medicine','marketplace']);
+            if (_prevTab && _validTabs.has(_prevTab)) {
+                switchTab(_prevTab, suppressTabRouteUpdate);
+            } else {
+                loadListings('restaurants');
+                loadListings('real_estate');
+            }
+        }
+        
+        // Счётчики на вкладках
+        const _cityKeyToRu = {
+            'nhatrang':'Нячанг','danang':'Дананг','hochiminh':'Хошимин','phuquoc':'Фукуок',
+            'hanoi':'Ханой','phanthiet':'Фантьет','muine':'Муйне','camranh':'Камрань',
+            'dalat':'Далат','hoian':'Хойан','pattaya':'Паттайя','phuket':'Пхукет',
+            'bangkok':'Бангкок','samui':'Самуи','chiangmai':'Чиангмай',
+            'huahin':'Хуахин','krabi':'Краби','goa':'Гоа','kasol':'Касол',
+            'mumbai':'Мумбаи','delhi':'Дели','bangalore':'Бангалор','bali':'Бали'
+        };
+
+        function _setTabBadge(tab, n) {
+            const el = document.getElementById('cnt-' + tab);
+            if (!el) return;
+            if (n && n > 0) {
+                el.textContent = _formatCount(n);
+                el.title = _formatCount(n) + ' объявлений';
+                el.style.display = 'inline-block';
+            } else {
+                el.style.display = 'none';
+            }
+        }
+
+        async function updateTabCounts() {
+            try {
+                // Загружаем общие счётчики по стране (показываем тотал, не по городу)
+                const r = await fetch('/api/counts?country=' + currentCountry, { cache: 'no-store' });
+                const counts = await r.json();
+                _setTabBadge('realestate',    counts.real_estate);
+                _setTabBadge('transport',     counts.transport);
+                _setTabBadge('restaurants',   counts.restaurants);
+                _setTabBadge('tours',         counts.tours);
+                _setTabBadge('entertainment', counts.entertainment);
+                _setTabBadge('exchange',      counts.money_exchange);
+                _setTabBadge('visas',         counts.visas);
+            } catch(e) {}
+        }
+
+        // Погода по странам
+        const weatherCities = {
+            vietnam: { city: 'Nha Trang', name: { ru: 'Нячанг', en: 'Nha Trang', vi: 'Nha Trang' } },
+            thailand: { city: 'Bangkok', name: { ru: 'Бангкок', en: 'Bangkok', vi: 'Bangkok' } },
+            india: { city: 'Delhi', name: { ru: 'Дели', en: 'Delhi', vi: 'Delhi' } },
+            indonesia: { city: 'Bali,Indonesia', name: { ru: 'Бали', en: 'Bali', vi: 'Bali' } }
+        };
+        
+        function updateRates() {
+            updateWeather();
+        }
+        
+        function updateWeather() {
+            const config = weatherCities[currentCountry] || weatherCities.vietnam;
+            const cityName = config.name[currentLang] || config.name.en;
+            document.getElementById('weather-city').textContent = cityName;
+            
+            fetch(`/api/weather?city=${encodeURIComponent(config.city)}`)
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('weather-temp').textContent = data.temp || '--°C';
+                })
+                .catch(err => {
+                    console.log('Weather error:', err);
+                    document.getElementById('weather-temp').textContent = '--°C';
+                });
+        }
+        
+        setInterval(updateWeather, 3600000);
+
+        let _activeVnChat = '';
+
+        // Авто-генерация уникального ID пользователя
+        function getOrCreateUserId() {
+            let uid = localStorage.getItem('chat_user_id');
+            if (!uid) {
+                const rnd = Math.floor(10000 + Math.random() * 89999);
+                uid = `GA-${rnd}`;
+                localStorage.setItem('chat_user_id', uid);
+                localStorage.setItem('chat_nickname', uid);
+            }
+            return uid;
+        }
+
+        let chatTelegramProfilePromise = null;
+        function getChatTelegramInitData() {
+            return window.Telegram?.WebApp?.initData || '';
+        }
+
+        async function getChatTelegramProfile() {
+            const initData = getChatTelegramInitData();
+            if (!initData) return null;
+            if (!chatTelegramProfilePromise) {
+                chatTelegramProfilePromise = fetch('/api/chat/session', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({init_data: initData})
+                }).then(async response => {
+                    const data = await response.json();
+                    if (!response.ok || !data.success) {
+                        throw new Error(data.error || 'Не удалось подтвердить Telegram-профиль');
+                    }
+                    return data.user;
+                }).catch(error => {
+                    chatTelegramProfilePromise = null;
+                    throw error;
+                });
+            }
+            return chatTelegramProfilePromise;
+        }
+
+        let _activeThChat = '';
+        async function switchThChat(channel) {
+            _activeThChat = channel;
+            document.querySelectorAll('.th-chat-btn').forEach(btn => {
+                const isActive = btn.dataset.channel === channel;
+                btn.style.background = isActive ? '#d4af37' : '#fafafa';
+                btn.style.color = isActive ? '#5a3e00' : '#444';
+                btn.style.borderColor = isActive ? '#d4af37' : '#e0e0e0';
+                btn.style.fontWeight = isActive ? '700' : '400';
+                btn.style.boxShadow = isActive ? '0 2px 8px rgba(212,175,55,0.35)' : 'none';
+            });
+            const label = document.getElementById('th-chat-active-label');
+            if (label) label.textContent = channel ? `@${channel}` : '';
+            await loadThChatFeed(channel);
+        }
+
+        const TH_CHAT_CHANNELS = new Set([
+            'phuket_chatbg','barakholka_pkhuket','chat_phuket','chats_phuket',
+            'huahinrus','rentinthai','bangkok_chat_znakomstva','bangkok_market_bg',
+            'vse_svoi_bangkok','visa_thailand_chat','thailand_4at','rent_thailand_chat',
+            'thailand_chatt1','thailandchat_inf','chat_thailand','bangkok_chatbg',
+            'chat_bangkok','bangkok_chats','pattayasale',
+            'pattayachatonline','pattayapar','chats_pattaya','phuketdating','krabichat'
+        ]);
+
+        async function loadThChatFeed(channel, silent) {
+            const feed = document.getElementById('th-chat-feed');
+            if (!feed) return;
+            if (!silent) feed.innerHTML = '<div style="text-align:center;padding:20px;color:#bbb;font-size:13px;">⏳ Загрузка...</div>';
+            if (!window._thChatInterval) {
+                window._thChatInterval = setInterval(() => {
+                    if (document.getElementById('chat') && document.getElementById('chat').classList.contains('active') && currentCountry === 'thailand') {
+                        loadThChatFeed(_activeThChat || '', true);
+                    }
+                }, 5000);
+            }
+            try {
+                let url = `/api/listings/chat?country=thailand&limit=200`;
+                if (channel) url += `&source_channel=${encodeURIComponent(channel)}`;
+                const r = await fetch(url);
+                let items = await r.json();
+                // Если канал не выбран — фильтруем только тайские каналы
+                if (!channel) {
+                    items = items.filter(item => {
+                        const src = (item.source_channel || '').replace('@','').toLowerCase();
+                        return TH_CHAT_CHANNELS.has(src);
+                    });
+                }
+                if (!items || items.length === 0) {
+                    feed.innerHTML = '<div style="text-align:center;padding:30px;color:#bbb;font-size:13px;">Сообщений пока нет — парсер только начал работу</div>';
+                    return;
+                }
+                const sorted = items.slice().sort((a, b) => {
+                    const da = a.date ? new Date(a.date) : 0;
+                    const db = b.date ? new Date(b.date) : 0;
+                    return db - da;
+                });
+                const isDark = document.documentElement.classList.contains('dark');
+                feed.innerHTML = sorted.slice(0, 60).map(item => {
+                    const src = _resolveChannelName(item);
+                    const link = item.telegram_link || item.tg_link || (src && item.message_id ? `https://t.me/${src}/${item.message_id}` : null);
+                    let dateStr = '';
+                    if (item.date) {
+                        const d = new Date(item.date);
+                        const dd = String(d.getDate()).padStart(2,'0');
+                        const mm = String(d.getMonth()+1).padStart(2,'0');
+                        const hh = String(d.getHours()).padStart(2,'0');
+                        const mi = String(d.getMinutes()).padStart(2,'0');
+                        dateStr = `${dd}.${mm}, ${hh}:${mi}`;
+                    }
+                    const text = (item.description || item.title || '').substring(0, 300);
+                    const bg = isDark ? '#1e2035' : '#f8f9fa';
+                    const border = isDark ? '#2a2a3d' : '#e8e8e8';
+                    const txtColor = isDark ? '#d0d0e0' : '#333';
+                    const timeColor = isDark ? '#d4af37' : '#888';
+                    return `<div style="background:${bg};border-radius:8px;padding:10px 13px;border:1px solid ${border};border-left:3px solid #d4af37;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+                            <a href="https://t.me/${src}" target="_blank" style="color:#0088cc;font-size:12px;font-weight:600;text-decoration:none;">@${src}</a>
+                            <span style="color:${timeColor};font-size:12px;font-weight:600;">${dateStr}</span>
+                        </div>
+                        <div style="color:${txtColor};font-size:13px;line-height:1.5;white-space:pre-wrap;">${text}</div>
+                        ${link ? `<a href="${link}" target="_blank" style="display:inline-block;margin-top:6px;font-size:11px;color:#0088cc;text-decoration:none;">→ открыть в Telegram</a>` : ''}
+                    </div>`;
+                }).join('');
+            } catch(e) {
+                feed.innerHTML = '<div style="text-align:center;padding:20px;color:#f44;font-size:13px;">Ошибка загрузки</div>';
+            }
+        }
+
+        let _thChatCollapsed = true;
+        function toggleThChatCollapse() {
+            _thChatCollapsed = !_thChatCollapsed;
+            const body = document.getElementById('th-chat-body');
+            const btn = document.getElementById('th-chat-collapse-btn');
+            const _ui = ((translations[currentLang] || translations['ru']).ui || {});
+            if (_thChatCollapsed) {
+                body.style.display = 'none';
+                btn.textContent = _ui.showChats || 'Показать ▼';
+            } else {
+                body.style.display = '';
+                btn.textContent = _ui.hideChats || 'Скрыть ▲';
+            }
+        }
+
+        let _vnChatCollapsed = true;
+        function toggleVnChatCollapse() {
+            _vnChatCollapsed = !_vnChatCollapsed;
+            const body = document.getElementById('vn-chat-body');
+            const btn = document.getElementById('vn-chat-collapse-btn');
+            const _ui = ((translations[currentLang] || translations['ru']).ui || {});
+            if (_vnChatCollapsed) {
+                body.style.display = 'none';
+                btn.textContent = _ui.showChats || 'Показать ▼';
+            } else {
+                body.style.display = '';
+                btn.textContent = _ui.hideChats || 'Скрыть ▲';
+            }
+        }
+
+        async function switchVnChat(channel) {
+            _activeVnChat = channel;
+            document.querySelectorAll('.vn-chat-btn').forEach(btn => {
+                const isActive = btn.dataset.channel === channel;
+                btn.style.background = isActive ? '#d4af37' : '#fafafa';
+                btn.style.color = isActive ? '#5a3e00' : '#444';
+                btn.style.borderColor = isActive ? '#d4af37' : '#e0e0e0';
+                btn.style.fontWeight = isActive ? '700' : '400';
+                btn.style.boxShadow = isActive ? '0 2px 8px rgba(212,175,55,0.35)' : 'none';
+            });
+            const label = document.getElementById('vn-chat-active-label');
+            if (label) label.textContent = channel ? `@${channel}` : '';
+            await loadVnChatFeed(channel);
+        }
+
+        async function loadChatiparsing(silent) {
+            const feed = document.getElementById('chatiparsing-feed');
+            if (!feed) return;
+            if (!silent) feed.innerHTML = '<div style="text-align:center;padding:20px;color:#bbb;font-size:13px;">⏳ Загрузка...</div>';
+            if (!window._chatiparsingInterval) {
+                window._chatiparsingInterval = setInterval(() => {
+                    if (document.getElementById('chat') && document.getElementById('chat').classList.contains('active')) {
+                        loadChatiparsing(true);
+                    }
+                }, 30000);
+            }
+            try {
+                const r = await fetch('/api/chatiparsing/feed');
+                const items = await r.json();
+                if (!Array.isArray(items) || items.length === 0) {
+                    feed.innerHTML = '<div style="text-align:center;padding:30px;color:#bbb;font-size:13px;">Сообщений пока нет</div>';
+                    return;
+                }
+                const isDark = document.documentElement.classList.contains('dark');
+                feed.innerHTML = items.map(item => {
+                    let dateStr = '';
+                    if (item.date) {
+                        const d = new Date(item.date);
+                        const dd = String(d.getDate()).padStart(2,'0');
+                        const mm = String(d.getMonth()+1).padStart(2,'0');
+                        const hh = String(d.getHours()).padStart(2,'0');
+                        const mi = String(d.getMinutes()).padStart(2,'0');
+                        dateStr = `${dd}.${mm}, ${hh}:${mi}`;
+                    }
+                    const text = (item.text || '').substring(0, 400);
+                    const srcCh = item.src_channel || '';
+                    const bg = isDark ? '#1e2035' : '#f8f9fa';
+                    const border = isDark ? '#2a2a3d' : '#e8e8e8';
+                    const txtColor = isDark ? '#d0d0e0' : '#333';
+                    const timeColor = isDark ? '#d4af37' : '#888';
+                    return `<div style="background:${bg};border-radius:9px;padding:10px 13px;border:1px solid ${border};border-left:3px solid #d4af37;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;gap:8px;">
+                            ${srcCh ? `<a href="https://t.me/${srcCh}" target="_blank" style="color:#0088cc;font-size:12px;font-weight:600;text-decoration:none;flex-shrink:0;">@${srcCh}</a>` : '<span></span>'}
+                            <span style="color:${timeColor};font-size:12px;font-weight:600;white-space:nowrap;">${dateStr}</span>
+                        </div>
+                        <div style="color:${txtColor};font-size:13px;line-height:1.5;white-space:pre-wrap;">${text}</div>
+                        ${item.src_link ? `<a href="${item.src_link}" target="_blank" style="display:inline-block;margin-top:5px;font-size:11px;color:#0088cc;text-decoration:none;">→ оригинал</a>` : ''}
+                    </div>`;
+                }).join('');
+            } catch(e) {
+                feed.innerHTML = '<div style="text-align:center;padding:20px;color:#f44;font-size:13px;">Ошибка загрузки</div>';
+            }
+        }
+
+        async function loadVnChatFeed(channel, silent) {
+            const feed = document.getElementById('vn-chat-feed');
+            if (!feed) return;
+            if (!silent) feed.innerHTML = '<div style="text-align:center;padding:20px;color:#bbb;font-size:13px;">⏳ Загрузка...</div>';
+            if (!window._vnChatInterval) {
+                window._vnChatInterval = setInterval(() => {
+                    if (document.getElementById('chat') && document.getElementById('chat').classList.contains('active') && currentCountry !== 'thailand') {
+                        loadVnChatFeed(_activeVnChat || '', true);
+                    }
+                }, 5000);
+            }
+            try {
+                let url = `/api/listings/chat?country=vietnam&limit=60`;
+                if (channel) url += `&source_channel=${encodeURIComponent(channel)}`;
+                const r = await fetch(url);
+                const items = await r.json();
+                if (!items || items.length === 0) {
+                    feed.innerHTML = '<div style="text-align:center;padding:30px;color:#bbb;font-size:13px;">Сообщений пока нет — парсер только начал работу</div>';
+                    return;
+                }
+                // Сортируем: новые сверху, старые вниз
+                const sorted = items.slice().sort((a, b) => {
+                    const da = a.date ? new Date(a.date) : 0;
+                    const db = b.date ? new Date(b.date) : 0;
+                    return db - da;
+                });
+                const isDark = document.documentElement.classList.contains('dark');
+                feed.innerHTML = sorted.slice(0, 60).map(item => {
+                    const src = _resolveChannelName(item);
+                    const link = item.telegram_link || item.tg_link || (src && item.message_id ? `https://t.me/${src}/${item.message_id}` : null);
+                    let dateStr = '';
+                    if (item.date) {
+                        const d = new Date(item.date);
+                        const dd = String(d.getDate()).padStart(2,'0');
+                        const mm = String(d.getMonth()+1).padStart(2,'0');
+                        const hh = String(d.getHours()).padStart(2,'0');
+                        const mi = String(d.getMinutes()).padStart(2,'0');
+                        dateStr = `${dd}.${mm}, ${hh}:${mi}`;
+                    }
+                    const text = (item.description || item.title || '').substring(0, 300);
+                    const bg = isDark ? '#1e2035' : '#f8f9fa';
+                    const border = isDark ? '#2a2a3d' : '#e8e8e8';
+                    const txtColor = isDark ? '#d0d0e0' : '#333';
+                    const timeColor = isDark ? '#d4af37' : '#888';
+                    return `<div style="background:${bg};border-radius:8px;padding:10px 13px;border:1px solid ${border};border-left:3px solid #d4af37;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+                            <a href="https://t.me/${src}" target="_blank" style="color:#0088cc;font-size:12px;font-weight:600;text-decoration:none;">@${src}</a>
+                            <span style="color:${timeColor};font-size:12px;font-weight:600;">${dateStr}</span>
+                        </div>
+                        <div style="color:${txtColor};font-size:13px;line-height:1.5;white-space:pre-wrap;">${text}</div>
+                        ${link ? `<a href="${link}" target="_blank" style="display:inline-block;margin-top:6px;font-size:11px;color:#0088cc;text-decoration:none;">→ открыть в Telegram</a>` : ''}
+                    </div>`;
+                }).join('');
+            } catch(e) {
+                feed.innerHTML = '<div style="text-align:center;padding:20px;color:#f44;font-size:13px;">Ошибка загрузки</div>';
+            }
+        }
+
+        function loadChatFeed() {
+            const telegramInitData = getChatTelegramInitData();
+            // Не показываем гостевой GA-ID внутри Telegram, пока загружается
+            // подтверждённый профиль.
+            const uid = telegramInitData ? '' : getOrCreateUserId();
+            const nicknameInput = document.getElementById('chat-username-input');
+            if (nicknameInput && !telegramInitData && !nicknameInput.value) nicknameInput.value = uid;
+            const userInfo = document.getElementById('chat-user-info');
+            if (userInfo && !telegramInitData) {
+                userInfo.innerHTML = `<span style="font-size:12px;color:#888;">Ваш ID: </span><span style="font-weight:700;color:#d4af37;font-size:13px;letter-spacing:1px;">${uid}</span>`;
+            }
+            const logoutBtn = document.getElementById('chat-logout-btn');
+            if (logoutBtn) logoutBtn.style.display = 'none';
+            loadChatMessages();
+            if (telegramInitData) {
+                getChatTelegramProfile().then(profile => {
+                    const visibleName = profile.username || profile.display_name || 'Пользователь Telegram';
+                    if (nicknameInput) {
+                        nicknameInput.value = (profile.username || visibleName).replace(/^@/, '');
+                        nicknameInput.readOnly = true;
+                    }
+                    if (userInfo) {
+                        userInfo.replaceChildren();
+                        if (profile.photo_url) {
+                            const image = document.createElement('img');
+                            image.src = profile.photo_url;
+                            image.alt = '';
+                            image.style.cssText = 'width:42px;height:42px;flex:0 0 42px;border:1px solid #d4af37;border-radius:50%;object-fit:cover;background:#17192d;';
+                            image.addEventListener('error', () => image.remove(), {once: true});
+                            userInfo.appendChild(image);
+                        }
+                        const identityLabel = document.createElement('span');
+                        identityLabel.style.cssText = 'display:flex;flex-direction:column;gap:2px;';
+                        const name = document.createElement('strong');
+                        name.textContent = profile.display_name || profile.username;
+                        name.style.cssText = 'color:#d4af37;font-size:13px;';
+                        identityLabel.appendChild(name);
+                        if (profile.username) {
+                            const handle = document.createElement('span');
+                            handle.textContent = profile.username;
+                            handle.style.cssText = 'color:#b8b8c3;font-size:12px;font-weight:500;';
+                            identityLabel.appendChild(handle);
+                        }
+                        userInfo.appendChild(identityLabel);
+                    }
+                    loadChatMessages();
+                }).catch(error => {
+                    if (userInfo) userInfo.textContent = error.message;
+                });
+            }
+            
+            if (!window.chatRefreshInterval) {
+                window.chatRefreshInterval = setInterval(() => {
+                    if (document.getElementById('chat').classList.contains('active')) {
+                        loadChatMessages();
+                    }
+                }, 5000);
+            }
+        }
+        
+        async function loadChatMessages() {
+            const container = document.getElementById('chat-messages');
+            if (!container) return;
+            try {
+                const r = await fetch(`/api/chat/messages?country=${currentCountry}`);
+                const data = await r.json();
+                const messages = data.messages || [];
+                if (messages.length === 0) {
+                    container.innerHTML = '';
+                    return;
+                }
+                const isAdmin = adminAuthenticated;
+                const myNickname = localStorage.getItem('chat_nickname') || '';
+                const myProfile = await getChatTelegramProfile().catch(() => null);
+                container.innerHTML = messages.map(msg => {
+                    const date = new Date(msg.timestamp);
+                    const timeStr = date.toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+                    const isMe = (myProfile?.user_key && msg.telegram_user_key === myProfile.user_key)
+                        || (myNickname && msg.username === myNickname);
+                    const deleteBtn = isAdmin ? `<button onclick="deleteChatMessage('${msg.id}')" style="background: #dc3545; color: white; border: none; padding: 2px 6px; border-radius: 4px; font-size: 10px; cursor: pointer; margin-left: 5px;">🗑️</button>` : '';
+                    const encodedUsername = encodeURIComponent(String(msg.username || ''));
+                    const blockBtn = isAdmin && !isMe ? `<button onclick="blockChatUser(decodeURIComponent('${encodedUsername}'))" style="background: #ff9800; color: white; border: none; padding: 2px 6px; border-radius: 4px; font-size: 10px; cursor: pointer; margin-left: 3px;">🚫</button>` : '';
+                    const isDark = document.documentElement.classList.contains('dark');
+                    const bg = isMe ? (isDark ? '#1a2a3a' : '#e3f2fd') : (isDark ? '#1e2035' : 'white');
+                    const border = isMe ? (isDark ? '#2a4a6a' : '#90caf9') : (isDark ? '#2a2a3d' : '#e0e0e0');
+                    const textColor = isDark ? '#d0d0e0' : '#333';
+                    const timeColor = isDark ? '#7a7a9a' : '#999';
+                    const safe = value => String(value ?? '').replace(/[&<>"']/g, ch => ({
+                        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+                    }[ch]));
+                    const senderName = safe(msg.username || 'Гость');
+                    const displayName = safe(msg.display_name || msg.username || 'Гость');
+                    const telegramUsername = safe(msg.telegram_username || '');
+                    const photoAlt = safe(buildSectionImageAlt({ city: msg.city || '', title: 'Фото участника чата' }, 'chat'));
+                    const photo = typeof msg.photo_url === 'string' && /^https:\/\/(?:t\.me|(?:[\w-]+\.)*telegram\.org)\//.test(msg.photo_url)
+                        ? `<img src="${safe(msg.photo_url)}" alt="${photoAlt}" style="width:48px;height:48px;flex:0 0 48px;border:1px solid #d4af37;border-radius:50%;object-fit:cover;background:#17192d;" onerror="this.remove()">`
+                        : `<span style="width:48px;height:48px;flex:0 0 48px;border:1px solid #d4af37;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#e3c34e;background:#17192d;font-size:16px;">${safe((msg.display_name || msg.username || 'Г').replace(/^@/, '').slice(0, 1).toUpperCase())}</span>`;
+                    const senderLabel = msg.telegram_user_key
+                        ? `<span style="display:flex;flex-direction:column;gap:2px;min-width:0;"><strong style="font-weight:700;color:#e3c34e;">${displayName}</strong>${telegramUsername ? `<span style="color:#b8b8c3;font-size:11px;font-weight:500;">${telegramUsername.startsWith('@') ? telegramUsername : `@${telegramUsername}`}</span>` : ''}</span>`
+                        : `<span style="overflow-wrap:anywhere;">${senderName.startsWith('@') ? senderName : `@${senderName}`}</span>`;
+                    return `
+                        <div style="background: ${bg}; border-radius: 8px; padding: 8px 12px; margin-bottom: 6px; border: 1px solid ${border};">
+                            <div style="display: flex; justify-content: space-between; align-items: center; gap:8px; margin-bottom: 4px;">
+                                <span style="display:flex;align-items:center;gap:8px;min-width:0;font-size:13px;">${photo}${senderLabel}${deleteBtn}${blockBtn}</span>
+                                <span style="flex:0 0 auto;color: ${timeColor}; font-size: 11px;">${timeStr}</span>
+                            </div>
+                            <div style="color: ${textColor}; font-size: 14px; line-height: 1.4; white-space: pre-wrap;">${safe(msg.message)}</div>
+                        </div>
+                    `;
+                }).join('');
+                container.scrollTop = container.scrollHeight;
+            } catch(e) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: #f44;">Ошибка загрузки</div>';
+            }
+        }
+        
+        async function sendChatMessage() {
+            const usernameInput = document.getElementById('chat-username-input');
+            const messageInput = document.getElementById('chat-message-input');
+            const targetSelect = document.getElementById('chat-target-select');
+            let profile = null;
+            try {
+                profile = await getChatTelegramProfile();
+            } catch (error) {
+                alert(error.message || 'Не удалось подтвердить Telegram-профиль');
+                return;
+            }
+            const username = profile
+                ? (profile.username || profile.display_name || 'Пользователь Telegram').replace(/^@/, '')
+                : ((usernameInput ? usernameInput.value.trim() : '') || localStorage.getItem('chat_nickname') || 'Гость');
+            const message = messageInput.value.trim();
+            const targetChannel = targetSelect ? targetSelect.value : '';
+            if (!message) return;
+            // Сохраняем ник
+            if (username && username !== 'Гость') {
+                localStorage.setItem('chat_nickname', username);
+            }
+            // Если выбран конкретный Telegram-чат — открываем его
+            if (targetChannel) {
+                const encodedMsg = encodeURIComponent(message);
+                window.open(`https://t.me/${targetChannel}`, '_blank');
+                messageInput.value = '';
+                return;
+            }
+            messageInput.value = '';
+            try {
+                const headers = {'Content-Type': 'application/json'};
+                const initData = getChatTelegramInitData();
+                if (initData) headers['X-Telegram-Init-Data'] = initData;
+                const r = await fetch('/api/chat/send', {
+                    method: 'POST',
+                    headers,
+                    body: JSON.stringify({username: username, message: message, country: currentCountry})
+                });
+                const data = await r.json();
+                if (!data.success) {
+                    alert(data.error || 'Ошибка отправки');
+                    messageInput.value = message;
+                } else {
+                    loadChatMessages();
+                }
+            } catch(e) {
+                alert('Ошибка сети');
+                messageInput.value = message;
+            }
+        }
+        
+        async function deleteChatMessage(msgId) {
+            if (!confirm('Удалить это сообщение?')) return;
+            try {
+                await fetch('/api/admin/chat-delete', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({admin_key: adminPassword, message_id: msgId})
+                });
+                loadChatMessages();
+            } catch(e) {}
+        }
+        
+        
+        async function thSendCode() {
+            const phone = document.getElementById('th-phone-input').value.trim();
+            const status = document.getElementById('th-auth-status');
+            if (!phone) { status.textContent = 'Введите номер телефона'; return; }
+            status.textContent = 'Отправка кода...';
+            try {
+                const r = await fetch('/api/admin/thailand-auth-start', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({password: adminPassword, phone: phone})
+                });
+                const d = await r.json();
+                if (d.success) {
+                    status.style.color = '#2e7d32';
+                    status.textContent = d.message + '. Введите код ниже.';
+                    document.getElementById('th-code-step').style.display = 'block';
+                } else {
+                    status.style.color = '#c62828';
+                    status.textContent = 'Ошибка: ' + (d.error || 'unknown');
+                }
+            } catch(e) {
+                status.style.color = '#c62828';
+                status.textContent = 'Ошибка: ' + e.message;
+            }
+        }
+
+        async function thVerifyCode() {
+            const code = document.getElementById('th-code-input').value.trim();
+            const status = document.getElementById('th-auth-status');
+            if (!code) { status.textContent = 'Введите код'; return; }
+            status.textContent = 'Проверка кода...';
+            try {
+                const r = await fetch('/api/admin/thailand-auth-verify', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({password: adminPassword, code: code})
+                });
+                const d = await r.json();
+                if (d.success) {
+                    status.style.color = '#2e7d32';
+                    status.textContent = '✅ ' + d.message + '. Теперь можно загрузить историю!';
+                    document.getElementById('th-code-step').style.display = 'none';
+                } else {
+                    status.style.color = '#c62828';
+                    status.textContent = 'Ошибка: ' + (d.error || 'unknown');
+                }
+            } catch(e) {
+                status.style.color = '#c62828';
+                status.textContent = 'Ошибка: ' + e.message;
+            }
+        }
+
+        async function thFetchHistory() {
+            const status = document.getElementById('th-fetch-status');
+            status.textContent = 'Запуск загрузки истории...';
+            try {
+                const r = await fetch('/api/admin/thailand-fetch-history', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({password: adminPassword})
+                });
+                const d = await r.json();
+                if (d.success) {
+                    status.style.color = '#1565c0';
+                    status.textContent = '⏳ ' + d.message;
+                } else {
+                    status.style.color = '#c62828';
+                    status.textContent = 'Ошибка: ' + (d.error || 'unknown');
+                }
+            } catch(e) {
+                status.style.color = '#c62828';
+                status.textContent = 'Ошибка: ' + e.message;
+            }
+        }
+
+        async function thFetchPhotos() {
+            const status = document.getElementById('th-fetch-status');
+            status.textContent = 'Запуск загрузки фото...';
+            try {
+                const r = await fetch('/api/admin/thailand-fetch-photos', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({password: adminPassword})
+                });
+                const d = await r.json();
+                if (d.success) {
+                    status.style.color = '#6a1b9a';
+                    status.textContent = '⏳ ' + d.message + ' Следите за логами сервера.';
+                } else {
+                    status.style.color = '#c62828';
+                    status.textContent = 'Ошибка: ' + (d.error || 'unknown');
+                }
+            } catch(e) {
+                status.style.color = '#c62828';
+                status.textContent = 'Ошибка: ' + e.message;
+            }
+        }
+
+
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            const messagesDiv = document.getElementById('chat-messages');
+            const msgEl = document.createElement('div');
+            msgEl.style.cssText = 'background: white; padding: 12px; border-radius: 6px; margin-bottom: 10px; border-left: 3px solid #d4af37;';
+            msgEl.innerHTML = `<div style="font-weight: 600; color: #333; font-size: 13px;">Вы</div><div style="color: #666; font-size: 12px; margin-top: 4px;">${message}</div><div style="color: #999; font-size: 11px; margin-top: 4px;">${new Date().toLocaleTimeString('ru-RU')}</div>`;
+            
+            messagesDiv.appendChild(msgEl);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            input.value = '';
+        }
+
+        // Allow Enter key to send message
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatInput = document.getElementById('chat-input');
+            if (chatInput) {
+                chatInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        sendMessage();
+                    }
+                });
+            }
+            
+            // Photo upload color change handler with 3MB size limit
+            const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
+            document.querySelectorAll('.photo-upload-wrapper input[type="file"]').forEach(input => {
+                input.addEventListener('change', function() {
+                    if (this.files && this.files.length > 0) {
+                        const file = this.files[0];
+                        if (file.size > MAX_FILE_SIZE) {
+                            alert('Размер фото не должен превышать 20 МБ. Выберите другой файл.');
+                            this.value = '';
+                            this.classList.remove('has-file');
+                            return;
+                        }
+                        this.classList.add('has-file');
+                    } else {
+                        this.classList.remove('has-file');
+                    }
+                });
+            });
+        });
+
+        function loadStats() {
+            fetch(`/api/status?country=${currentCountry}`)
+                .then(r => r.json())
+                .then(data => {
+                    const totalEl = document.getElementById('total-items');
+                    const statusEl = document.getElementById('parser-status-badge');
+                    const updateEl = document.getElementById('last-update');
+                    if (totalEl) totalEl.innerText = data.total_listings;
+                    if (statusEl) statusEl.innerText = data.parser_status === 'connected' ? 'Подключен' : 'Отключен';
+                    if (updateEl) updateEl.innerText = new Date(data.last_update).toLocaleTimeString('ru-RU');
+                });
+        }
+        
+        // Маппинг категорий API на названия tabs
+        function getCategoryTabName(cat) {
+            const mapping = {
+                'real_estate': 'realestate',
+                'transport': 'transport',
+                'money_exchange': 'exchange',
+                'chat': 'chat',
+                'restaurants': 'restaurants',
+                'tours': 'tours',
+                'entertainment': 'entertainment',
+                'marketplace': 'marketplace',
+                'visas': 'visas',
+                'news': 'news',
+                'medicine': 'medicine'
+            };
+            return mapping[cat] || cat;
+        }
+        
+        const citiesByCountry = {
+            'vietnam': ['Нячанг', 'Хошимин', 'Дананг', 'Ханой', 'Фукуок', 'Фантьет', 'Муйне', 'Далат', 'Камрань'],
+            'thailand': ['Бангкок', 'Пхукет', 'Паттайя', 'Самуи'],
+            'indonesia': ['Бали', 'Джакарта', 'Йогьякарта', 'Бандунг'],
+            'india': ['Гоа', 'Касол', 'Мумбаи', 'Дели']
+        };
+        
+        const sectionCityImages = {
+            restaurants: {
+                vietnam: {
+                    'Нячанг': '/static/images/realestate_nhatrang.jpg',
+                    'Хошимин': '/static/images/realestate_hochiminh.jpg',
+                    'Дананг': '/static/images/realestate_danang.jpg',
+                    'Ханой': '/static/images/realestate_hanoi.jpg',
+                    'Фукуок': '/static/images/realestate_phuquoc.jpg',
+                    'Фантьет': 'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=300&h=200&fit=crop',
+                    'Муйне': 'https://images.unsplash.com/photo-1528127269322-539801943592?w=300&h=200&fit=crop',
+                    'Далат': '/static/images/realestate_dalat.jpg',
+                    'Камрань': 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=300&h=200&fit=crop'
+                },
+                thailand: {
+                    'Бангкок': 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=300&h=200&fit=crop',
+                    'Пхукет': 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=300&h=200&fit=crop',
+                    'Чиангмай': 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=300&h=200&fit=crop',
+                    'Паттайя': 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=300&h=200&fit=crop',
+                    'Самуи': 'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=300&h=200&fit=crop',
+                    'Хуахин': 'https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=300&h=200&fit=crop',
+                    'Краби': 'https://images.unsplash.com/photo-1537047902294-62a40c20a6ae?w=300&h=200&fit=crop',
+                    'Чианграй': 'https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=300&h=200&fit=crop',
+                    'Удон Тхани': 'https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=300&h=200&fit=crop'
+                },
+                indonesia: {
+                    'Бали': 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=300&h=200&fit=crop',
+                    'Джакарта': 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=300&h=200&fit=crop',
+                    'Йогьякарта': 'https://images.unsplash.com/photo-1551218808-94e220e084d2?w=300&h=200&fit=crop',
+                    'Бандунг': 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=300&h=200&fit=crop',
+                    'Сурабая': 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=300&h=200&fit=crop'
+                },
+                india: {
+                    'Гоа': 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=300&h=200&fit=crop',
+                    'Касол': 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=300&h=200&fit=crop',
+                    'Мумбаи': 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=300&h=200&fit=crop',
+                    'Дели': 'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=300&h=200&fit=crop',
+                    'Бангалор': 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=200&fit=crop'
+                }
+            },
+            tours: {
+                vietnam: {
+                    'Нячанг': '/static/images/realestate_nhatrang.jpg',
+                    'Хошимин': '/static/images/realestate_hochiminh.jpg',
+                    'Дананг': '/static/images/realestate_danang.jpg',
+                    'Ханой': '/static/images/realestate_hanoi.jpg',
+                    'Фукуок': '/static/images/realestate_phuquoc.jpg',
+                    'Фантьет': 'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=300&h=200&fit=crop',
+                    'Муйне': 'https://images.unsplash.com/photo-1528127269322-539801943592?w=300&h=200&fit=crop',
+                    'Далат': '/static/images/realestate_dalat.jpg',
+                    'Камрань': 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=300&h=200&fit=crop'
+                },
+                thailand: {
+                    'Бангкок': 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=300&h=200&fit=crop',
+                    'Пхукет': 'https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?w=300&h=200&fit=crop',
+                    'Чиангмай': 'https://images.unsplash.com/photo-1504214208698-ea1916a2195a?w=300&h=200&fit=crop',
+                    'Паттайя': 'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=300&h=200&fit=crop',
+                    'Самуи': 'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=300&h=200&fit=crop',
+                    'Хуахин': 'https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?w=300&h=200&fit=crop',
+                    'Краби': 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=300&h=200&fit=crop',
+                    'Чианграй': 'https://images.unsplash.com/photo-1528181304800-259b08848526?w=300&h=200&fit=crop',
+                    'Удон Тхани': 'https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=300&h=200&fit=crop'
+                },
+                indonesia: {
+                    'Бали': 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=300&h=200&fit=crop',
+                    'Джакарта': 'https://images.unsplash.com/photo-1555899434-94d1368aa7af?w=300&h=200&fit=crop',
+                    'Йогьякарта': 'https://images.unsplash.com/photo-1584810359583-96fc3448beaa?w=300&h=200&fit=crop',
+                    'Бандунг': 'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=300&h=200&fit=crop',
+                    'Сурабая': 'https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=300&h=200&fit=crop'
+                },
+                india: {
+                    'Гоа': 'https://images.unsplash.com/photo-1587922546307-776227941871?w=300&h=200&fit=crop',
+                    'Касол': 'https://images.unsplash.com/photo-1529253355930-ddbe423a2ac7?w=300&h=200&fit=crop',
+                    'Мумбаи': 'https://images.unsplash.com/photo-1529253355930-ddbe423a2ac7?w=300&h=200&fit=crop',
+                    'Дели': 'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=300&h=200&fit=crop',
+                    'Бангалор': 'https://images.unsplash.com/photo-1596176530529-78163a4f7af2?w=300&h=200&fit=crop'
+                }
+            },
+            exchange: {
+                vietnam: {
+                    'Нячанг': '/static/images/categories/exchange/nhatrang.jpg',
+                    'Хошимин': '/static/images/categories/exchange/saigon.jpg',
+                    'Дананг': '/static/images/categories/exchange/danang.jpg',
+                    'Фукуок': '/static/images/categories/exchange/phuquoc.jpg'
+                },
+                thailand: {
+                    'Бангкок': 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=300&h=200&fit=crop',
+                    'Пхукет': 'https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?w=300&h=200&fit=crop',
+                    'Паттайя': 'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=300&h=200&fit=crop',
+                    'Самуи': 'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=300&h=200&fit=crop'
+                },
+                indonesia: {
+                    'Бали': 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=300&h=200&fit=crop',
+                    'Джакарта': 'https://images.unsplash.com/photo-1555899434-94d1368aa7af?w=300&h=200&fit=crop',
+                    'Йогьякарта': 'https://images.unsplash.com/photo-1584810359583-96fc3448beaa?w=300&h=200&fit=crop',
+                    'Бандунг': 'https://images.unsplash.com/photo-1596402184320-417e7178b2cd?w=300&h=200&fit=crop'
+                },
+                india: {
+                    'Гоа': 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=300&h=200&fit=crop',
+                    'Касол': 'https://images.unsplash.com/photo-1529253355930-ddbe423a2ac7?w=300&h=200&fit=crop',
+                    'Мумбаи': 'https://images.unsplash.com/photo-1562979314-bee7453e911c?w=300&h=200&fit=crop',
+                    'Дели': 'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=300&h=200&fit=crop'
+                }
+            },
+            entertainment: {
+                vietnam: {
+                    'Нячанг': '/static/images/realestate_nhatrang.jpg',
+                    'Хошимин': '/static/images/realestate_hochiminh.jpg',
+                    'Дананг': '/static/images/realestate_danang.jpg',
+                    'Ханой': '/static/images/realestate_hanoi.jpg',
+                    'Фукуок': '/static/images/realestate_phuquoc.jpg',
+                    'Фантьет': 'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=300&h=200&fit=crop',
+                    'Муйне': 'https://images.unsplash.com/photo-1528127269322-539801943592?w=300&h=200&fit=crop',
+                    'Далат': '/static/images/realestate_dalat.jpg',
+                    'Камрань': 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=300&h=200&fit=crop'
+                },
+                thailand: {
+                    'Бангкок': 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300&h=200&fit=crop',
+                    'Пхукет': 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=300&h=200&fit=crop',
+                    'Чиангмай': 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=300&h=200&fit=crop',
+                    'Паттайя': 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=300&h=200&fit=crop',
+                    'Самуи': 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=200&fit=crop',
+                    'Хуахин': 'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=300&h=200&fit=crop',
+                    'Краби': 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=300&h=200&fit=crop',
+                    'Чианграй': 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=300&h=200&fit=crop',
+                    'Удон Тхани': 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=300&h=200&fit=crop'
+                },
+                indonesia: {
+                    'Бали': 'https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=300&h=200&fit=crop',
+                    'Джакарта': 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=300&h=200&fit=crop',
+                    'Йогьякарта': 'https://images.unsplash.com/photo-1485872299829-c673f5194813?w=300&h=200&fit=crop',
+                    'Бандунг': 'https://images.unsplash.com/photo-1571266028243-e4733b0f0bb0?w=300&h=200&fit=crop',
+                    'Сурабая': 'https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=300&h=200&fit=crop'
+                },
+                india: {
+                    'Гоа': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300&h=200&fit=crop',
+                    'Касол': 'https://images.unsplash.com/photo-1429514513361-8fa32282fd5f?w=300&h=200&fit=crop',
+                    'Мумбаи': 'https://images.unsplash.com/photo-1429514513361-8fa32282fd5f?w=300&h=200&fit=crop',
+                    'Дели': 'https://images.unsplash.com/photo-1504680177321-2e6a879aac86?w=300&h=200&fit=crop',
+                    'Бангалор': 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=300&h=200&fit=crop'
+                }
+            },
+            transport: {
+                vietnam: {
+                    'Нячанг': '/static/images/realestate_nhatrang.jpg',
+                    'Хошимин': '/static/images/realestate_hochiminh.jpg',
+                    'Дананг': '/static/images/realestate_danang.jpg',
+                    'Ханой': '/static/images/realestate_hanoi.jpg',
+                    'Фукуок': '/static/images/realestate_phuquoc.jpg',
+                    'Фантьет': 'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=300&h=200&fit=crop',
+                    'Муйне': 'https://images.unsplash.com/photo-1528127269322-539801943592?w=300&h=200&fit=crop',
+                    'Далат': '/static/images/realestate_dalat.jpg',
+                    'Камрань': 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=300&h=200&fit=crop'
+                },
+                thailand: {
+                    'Бангкок': 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=300&h=200&fit=crop',
+                    'Пхукет': 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=200&fit=crop',
+                    'Чиангмай': 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=300&h=200&fit=crop',
+                    'Паттайя': 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=300&h=200&fit=crop',
+                    'Самуи': 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=300&h=200&fit=crop',
+                    'Хуахин': 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=300&h=200&fit=crop',
+                    'Краби': 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=300&h=200&fit=crop',
+                    'Чианграй': 'https://images.unsplash.com/photo-1558980664-769d59546b3d?w=300&h=200&fit=crop',
+                    'Удон Тхани': 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=300&h=200&fit=crop'
+                },
+                indonesia: {
+                    'Джакарта': 'https://images.unsplash.com/photo-1485291571150-772bcfc10da5?w=300&h=200&fit=crop',
+                    'Бали': 'https://images.unsplash.com/photo-1558981285-6f0c94958bb6?w=300&h=200&fit=crop',
+                    'Сурабая': 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=300&h=200&fit=crop',
+                    'Бандунг': 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=300&h=200&fit=crop',
+                    'Медан': 'https://images.unsplash.com/photo-1502877338535-766e1452684a?w=300&h=200&fit=crop',
+                    'Семаранг': 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=300&h=200&fit=crop',
+                    'Денпасар': 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=300&h=200&fit=crop',
+                    'Макасар': 'https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=300&h=200&fit=crop',
+                    'Джокьякарта': 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=300&h=200&fit=crop'
+                },
+                india: {
+                    'Мумбаи': 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=300&h=200&fit=crop',
+                    'Дели': 'https://images.unsplash.com/photo-1493238792000-8113da705763?w=300&h=200&fit=crop',
+                    'Бангалор': 'https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?w=300&h=200&fit=crop',
+                    'Хайдарабад': 'https://images.unsplash.com/photo-1542362567-b07e54358753?w=300&h=200&fit=crop',
+                    'Ченнаи': 'https://images.unsplash.com/photo-1504215680853-026ed2a45def?w=300&h=200&fit=crop',
+                    'Пуна': 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=300&h=200&fit=crop',
+                    'Колката': 'https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=300&h=200&fit=crop',
+                    'Ахмедабад': 'https://images.unsplash.com/photo-1526726538690-5cbf956ae2fd?w=300&h=200&fit=crop',
+                    'Гоа': 'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=300&h=200&fit=crop'
+                }
+            },
+            realestate: {
+                vietnam: {
+                    'Нячанг': '/static/images/realestate_nhatrang.jpg',
+                    'Хошимин': '/static/images/realestate_hochiminh.jpg',
+                    'Дананг': '/static/images/realestate_danang.jpg',
+                    'Ханой': '/static/images/realestate_hanoi.jpg',
+                    'Фукуок': '/static/images/realestate_phuquoc.jpg',
+                    'Фантьет': 'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=300&h=200&fit=crop',
+                    'Муйне': 'https://images.unsplash.com/photo-1528127269322-539801943592?w=300&h=200&fit=crop',
+                    'Далат': '/static/images/realestate_dalat.jpg',
+                    'Камрань': 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=300&h=200&fit=crop'
+                },
+                thailand: {
+                    'Бангкок': 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=300&h=200&fit=crop',
+                    'Пхукет': 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=300&h=200&fit=crop',
+                    'Чиангмай': 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=300&h=200&fit=crop',
+                    'Паттайя': 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=300&h=200&fit=crop',
+                    'Самуи': 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=300&h=200&fit=crop',
+                    'Хуахин': 'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=300&h=200&fit=crop',
+                    'Краби': 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=300&h=200&fit=crop',
+                    'Чианграй': 'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=300&h=200&fit=crop',
+                    'Удон Тхани': 'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=300&h=200&fit=crop'
+                },
+                indonesia: {
+                    'Джакарта': 'https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=300&h=200&fit=crop',
+                    'Бали': 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=300&h=200&fit=crop',
+                    'Сурабая': 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=300&h=200&fit=crop',
+                    'Бандунг': 'https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=300&h=200&fit=crop',
+                    'Медан': 'https://images.unsplash.com/photo-1599809275671-b5942cabc7a2?w=300&h=200&fit=crop',
+                    'Семаранг': 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=300&h=200&fit=crop',
+                    'Денпасар': 'https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=300&h=200&fit=crop',
+                    'Макасар': 'https://images.unsplash.com/photo-1600585153490-76fb20a32601?w=300&h=200&fit=crop',
+                    'Джокьякарта': 'https://images.unsplash.com/photo-1600563438938-a9a27215b1fc?w=300&h=200&fit=crop'
+                },
+                india: {
+                    'Мумбаи': 'https://images.unsplash.com/photo-1600566753051-f0b89df2dd90?w=300&h=200&fit=crop',
+                    'Дели': 'https://images.unsplash.com/photo-1600047509358-9dc75507daeb?w=300&h=200&fit=crop',
+                    'Бангалор': 'https://images.unsplash.com/photo-1600585154363-67eb9e2e2099?w=300&h=200&fit=crop',
+                    'Хайдарабад': 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=300&h=200&fit=crop',
+                    'Ченнаи': 'https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=300&h=200&fit=crop',
+                    'Пуна': 'https://images.unsplash.com/photo-1600566752229-250ed79470f8?w=300&h=200&fit=crop',
+                    'Колката': 'https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?w=300&h=200&fit=crop',
+                    'Ахмедабад': 'https://images.unsplash.com/photo-1600607688969-a5bfcd646154?w=300&h=200&fit=crop',
+                    'Гоа': 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=300&h=200&fit=crop'
+                }
+            }
+        };
+        
+        const cityImages = sectionCityImages.tours.thailand;
+        
+        // Города для форм подачи объявлений с русскими названиями
+        const formCitiesByCountry = {
+            'vietnam': [
+                {value: 'Nha Trang', label: 'Нячанг'},
+                {value: 'Ho Chi Minh', label: 'Хошимин'},
+                {value: 'Da Nang', label: 'Дананг'},
+                {value: 'Hanoi', label: 'Ханой'},
+                {value: 'Phu Quoc', label: 'Фукуок'},
+                {value: 'Phan Thiet', label: 'Фантьет'},
+                {value: 'Cam Ranh', label: 'Камрань'},
+                {value: 'Da Lat', label: 'Далат'},
+                {value: 'Hoi An', label: 'Хойан'}
+            ],
+            'thailand': [
+                {value: 'Bangkok', label: 'Бангкок'},
+                {value: 'Phuket', label: 'Пхукет'},
+                {value: 'Chiang Mai', label: 'Чиангмай'},
+                {value: 'Pattaya', label: 'Паттайя'},
+                {value: 'Samui', label: 'Самуи'},
+                {value: 'Hua Hin', label: 'Хуахин'},
+                {value: 'Krabi', label: 'Краби'},
+                {value: 'Chiang Rai', label: 'Чианграй'},
+                {value: 'Udon Thani', label: 'Удон Тхани'}
+            ],
+            'indonesia': [
+                {value: 'Jakarta', label: 'Джакарта'},
+                {value: 'Bali', label: 'Бали'},
+                {value: 'Surabaya', label: 'Сурабая'},
+                {value: 'Bandung', label: 'Бандунг'},
+                {value: 'Medan', label: 'Медан'},
+                {value: 'Semarang', label: 'Семаранг'},
+                {value: 'Denpasar', label: 'Денпасар'},
+                {value: 'Makassar', label: 'Макасар'},
+                {value: 'Yogyakarta', label: 'Джокьякарта'}
+            ],
+            'india': [
+                {value: 'Mumbai', label: 'Мумбаи'},
+                {value: 'Delhi', label: 'Дели'},
+                {value: 'Bangalore', label: 'Бангалор'},
+                {value: 'Hyderabad', label: 'Хайдарабад'},
+                {value: 'Chennai', label: 'Ченнаи'},
+                {value: 'Pune', label: 'Пуна'},
+                {value: 'Kolkata', label: 'Колката'},
+                {value: 'Ahmedabad', label: 'Ахмедабад'},
+                {value: 'Goa', label: 'Гоа'}
+            ]
+        };
+        
+        function updateFormCities() {
+            const cities = formCitiesByCountry[currentCountry] || formCitiesByCountry['vietnam'];
+            const formSelects = ['tour-city', 'restaurant-city', 'entertainment-city', 'transport-city', 'realestate-city', 'exchange-city', 'kids-city', 'visas-city', 'photosession-city', 'medicine-city'];
+            
+            formSelects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                if (!select) return;
+                
+                let html = '';
+                cities.forEach(city => {
+                    html += `<option value="${city.value}">${city.label}</option>`;
+                });
+                select.innerHTML = html;
+            });
+        }
+        
+        function renderOtherCountryCitySwitcher(key, section, onSelectFn, isRealestate) {
+            var wrapId = key + '-switcher-wrap';
+            var wrap = document.getElementById(wrapId);
+            if (!wrap) return;
+            var cities = citiesByCountry[currentCountry] || [];
+            if (!cities.length) { wrap.innerHTML = ''; return; }
+            var sectionImgData = sectionCityImages[section] || {};
+            var imagesMap = sectionImgData[currentCountry] || {};
+            var fallback = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=200&fit=crop';
+            var firstCity = cities[0];
+            var firstImg = imagesMap[firstCity] || fallback;
+
+            cityDropData[key] = {
+                cities: cities.map(function(city) {
+                    return { name: city, img: imagesMap[city] || fallback, value: city };
+                }),
+                idx: 0,
+                onSelect: function(c) { onSelectFn(c.value); }
+            };
+
+            var _tr = translations[currentLang] || translations['ru'];
+            var _tcm = _tr.thailandCities || {};
+
+            var dropItems = cities.map(function(city, i) {
+                var img = imagesMap[city] || fallback;
+                var displayCity = _tcm[city] || city;
+                var imgAlt = escapeHtml(buildSectionImageAlt({city: city}, section)).replace(/"/g, '&quot;');
+                if (isRealestate) {
+                    return '<div class="tcs-drop-item" data-city-value="' + city + '" onclick="selectCityFromDrop(\'' + key + '\',' + i + ')">' +
+                           '<img src="' + img + '" alt="' + imgAlt + '"><span class="drop-item-label">' + displayCity + '</span><span class="drop-city-count"></span></div>';
+                }
+                return '<div class="tcs-drop-item" onclick="selectCityFromDrop(\'' + key + '\',' + i + ')">' +
+                       '<img src="' + img + '" alt="' + imgAlt + '">' + displayCity + '</div>';
+            }).join('');
+
+            var firstCityDisplay = _tcm[firstCity] || firstCity;
+            var firstCityAlt = escapeHtml(buildSectionImageAlt({city: firstCity}, section)).replace(/"/g, '&quot;');
+            wrap.innerHTML =
+                '<div class="tours-city-switcher" id="' + key + '-switcher" onclick="toggleCityDrop(\'' + key + '\')">' +
+                '<img class="tcs-sw-img" id="' + key + '-sw-img" src="' + firstImg + '" alt="' + firstCityAlt + '">' +
+                '<div class="tcs-sw-info"><span class="tcs-sw-hint" data-i18n="ui.selectCity">' + (_tr.ui.selectCity || 'Выбрать город') + '</span>' +
+                '<span class="tcs-sw-label" id="' + key + '-sw-label">' + firstCityDisplay + '</span></div>' +
+                '<div class="tcs-sw-arrow" id="' + key + '-sw-arrow">▾</div></div>' +
+                '<div class="tcs-drop" id="' + key + '-drop">' + dropItems + '</div>';
+            // Не вызываем onSelectFn здесь — loadListings будет вызван из switchCountry после
+
+            // Заполняем счётчики городов для real_estate dropdown (не-Вьетнам)
+            if (isRealestate && cities.length > 0) {
+                fetch('/api/city-counts/real_estate?country=' + currentCountry)
+                    .then(function(r) { return r.json(); })
+                    .then(function(counts) {
+                        var drop = document.getElementById(key + '-drop');
+                        if (!drop) return;
+                        drop.querySelectorAll('.tcs-drop-item').forEach(function(item) {
+                            var cityVal = item.dataset.cityValue;
+                            if (!cityVal) return;
+                            var countEl = item.querySelector('.drop-city-count');
+                            if (!countEl) return;
+                            // API возвращает count по cityVal (lowercase)
+                            var n = counts[cityVal] || counts[cityVal.toLowerCase()] || 0;
+                            if (n > 0) countEl.textContent = _formatCount(n);
+                        });
+                    }).catch(function() {});
+            }
+        }
+
+        function renderDynamicCityButtons() {
+            const cities = citiesByCountry[currentCountry] || [];
+            const tr = translations[currentLang] || translations['ru'];
+
+            // City switchers (dropdown style) for all sections
+            renderOtherCountryCitySwitcher('rest-oth', 'restaurants', filterRestaurantsByCity, false);
+            renderOtherCountryCitySwitcher('re-oth', 'realestate', filterRealEstateByCity, true);
+            renderOtherCountryCitySwitcher('ent-oth', 'entertainment', filterEntertainmentByCity, false);
+            renderOtherCountryCitySwitcher('tr-oth', 'transport', filterTransportCity, false);
+            renderOtherCountryCitySwitcher('to-oth', 'tours', filterToursByCity, false);
+
+            // No grid sections remain — all use dropdown
+            const sections = [];
+            const sectionLabels = tr.sectionLabels || {
+                'tours': 'экскурсий',
+                'entertainment': 'развлечений',
+                'transport': 'предложений'
+            };
+            const sectionFilters = {
+                'tours': 'filterToursByCity',
+                'entertainment': 'filterEntertainmentByCity',
+                'transport': 'filterByCity'
+            };
+            
+            sections.forEach(section => {
+                const container = document.getElementById(`${section}-city-grid`);
+                if (!container) return;
+                
+                const sectionData = sectionCityImages[section] || sectionCityImages.tours;
+                const sectionImages = sectionData[currentCountry] || sectionData.thailand || {};
+                
+                let html = '';
+                cities.forEach((city, idx) => {
+                    const isFirst = idx === 0;
+                    const img = sectionImages[city] || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=200&fit=crop';
+                    const editBtn = adminAuthenticated ? 
+                        `<button onclick="event.stopPropagation(); openCityEditModal('${section}', ${idx}, '${city}', '${img}')" style="position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; background: rgba(255,255,255,0.95); border: none; border-radius: 50%; cursor: pointer; font-size: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); z-index: 10;">✏️</button>` : '';
+                    // translate city name: for thailand use cyrillicKey→tr.thailandCities, for vietnam use city key
+                    const cityDisplayName = (currentCountry !== 'vietnam' && tr.thailandCities && tr.thailandCities[city])
+                        ? tr.thailandCities[city]
+                        : (tr.cities && tr.cities[city] ? tr.cities[city] : city);
+                    html += `
+                        <div class="tour-city-btn ${section}-city-btn" data-city="${city}" onclick="${sectionFilters[section]}('${city}')" style="cursor: pointer; position: relative; border-radius: 12px; overflow: hidden; aspect-ratio: 4/3; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 3px solid ${isFirst ? '#d4af37' : 'transparent'};">
+                            ${editBtn}
+                            <img src="${img}" alt="${escapeHtml(buildSectionImageAlt({city: city}, section)).replace(/"/g, '&quot;')}" style="width: 100%; height: 100%; object-fit: cover;">
+                            <div class="city-info" style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.95); color: #333; padding: 12px; text-align: center;">
+                                <div class="city-name" style="font-weight: bold; font-size: 16px;">${cityDisplayName}</div>
+                                <div class="tour-count" style="font-size: 13px; margin-top: 4px; color: #666;">0 ${sectionLabels[section]}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                container.innerHTML = html;
+            });
+        }
+        
+        function renderKidsCityFilter() {
+            const container = document.getElementById('kids-city-filter');
+            if (!container) return;
+            
+            const cities = formCitiesByCountry[currentCountry] || [];
+            
+            let html = `<button class="kids-city-btn" data-city="" onclick="filterKidsCity('')" style="padding: 8px 16px; border: 2px solid #d4af37; background: #d4af37; color: white; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: 600;">Все</button>`;
+            
+            cities.forEach(city => {
+                html += `<button class="kids-city-btn" data-city="${city.value}" onclick="filterKidsCity('${city.value}')" style="padding: 8px 16px; border: 2px solid #ccc; background: #fff; color: #333; border-radius: 20px; cursor: pointer; font-size: 13px;">${city.label}</button>`;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        function updateKidsCitySelect() {
+            const select = document.getElementById('kids-city');
+            if (!select) return;
+            
+            const cities = formCitiesByCountry[currentCountry] || [];
+            let html = '';
+            cities.forEach(city => {
+                html += `<option value="${city.value}">${city.label}</option>`;
+            });
+            select.innerHTML = html;
+        }
+        
+        function updateFormCurrency() {
+            const currencies = {
+                'vietnam': 'VND',
+                'thailand': 'THB',
+                'india': 'INR',
+                'indonesia': 'IDR'
+            };
+            const currency = currencies[currentCountry] || 'VND';
+            
+            const transportLabel = document.getElementById('transport-price-label');
+            if (transportLabel) transportLabel.textContent = '💰 Цена (' + currency + ') *';
+            
+            const realestateLabel = document.getElementById('realestate-price-label');
+            if (realestateLabel) realestateLabel.textContent = '💰 Цена (' + currency + ') *';
+
+            // Update real estate price filter buttons for other countries
+            const rePriceData = {
+                'vietnam':   { p1: 7000000,  l1: 'До 7 млн VND',    p2: 15000000,  l2: 'До 15 млн VND'   },
+                'thailand':  { p1: 30000,    l1: 'До 30,000 THB',    p2: 100000,    l2: 'До 100,000 THB'  },
+                'india':     { p1: 50000,    l1: 'До 50,000 INR',    p2: 150000,    l2: 'До 150,000 INR'  },
+                'indonesia': { p1: 5000000,  l1: 'До 5 млн IDR',     p2: 15000000,  l2: 'До 15 млн IDR'   }
+            };
+            const pd = rePriceData[currentCountry] || rePriceData['thailand'];
+            const pBtn1 = document.getElementById('other-price-btn-1');
+            const pBtn2 = document.getElementById('other-price-btn-2');
+            if (pBtn1) { pBtn1.textContent = pd.l1; pBtn1.onclick = function(){ filterRealEstatePrice(pd.p1); }; }
+            if (pBtn2) { pBtn2.textContent = pd.l2; pBtn2.onclick = function(){ filterRealEstatePrice(pd.p2); }; }
+        }
+        
+        function isEnglishOnly(text) {
+            if (!text) return false;
+            for (let i = 0; i < text.length; i++) {
+                const code = text.charCodeAt(i);
+                if (code > 127 && '.,!?-…()[]{}":;/\\ '.indexOf(text[i]) === -1) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function filterByCity(city) {
+            console.log("Filtering by city:", city);
+            loadListings(null, city);
+        }
+        
+        let currentEntertainmentCity = 'Нячанг';
+        
+        function filterEntertainmentByCity(city) {
+            currentEntertainmentCity = city;
+            document.querySelectorAll('.entertainment-city-btn').forEach(btn => {
+                btn.style.border = btn.dataset.city === city ? '3px solid #d4af37' : '3px solid transparent';
+            });
+            loadListings('entertainment', city);
+            updateTabCounts();
+        }
+
+        let currentEntertainmentDate = '';
+
+        function buildEntDateBar() {
+            var bar = document.getElementById('ent-date-bar');
+            if (!bar) return;
+            var _ui = (translations[currentLang] || translations['ru']).ui;
+            var _daysShort = _ui.daysShort || ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
+            var _daysAll = _ui.daysAll || 'Все';
+            var html = '';
+            html += '<button class="ent-date-btn' + (currentEntertainmentDate === '' ? ' active' : '') + '" onclick="filterEntertainmentByDate(\'\')">'+_daysAll+'</button>';
+            var now = new Date();
+            for (var i = 0; i < 7; i++) {
+                var d = new Date(now);
+                d.setDate(now.getDate() + i);
+                var dd = String(d.getDate()).padStart(2,'0');
+                var mm = String(d.getMonth()+1).padStart(2,'0');
+                var dateStr = dd + '.' + mm;
+                var dayName = _daysShort[d.getDay()];
+                var isActive = currentEntertainmentDate === dateStr;
+                html += '<button class="ent-date-btn' + (isActive ? ' active' : '') + '" onclick="filterEntertainmentByDate(\'' + dateStr + '\')">'
+                      + dateStr
+                      + '<span class="edb-day">' + dayName + '</span>'
+                      + '</button>';
+            }
+            bar.innerHTML = html;
+        }
+
+        function filterEntertainmentByDate(dateStr) {
+            currentEntertainmentDate = dateStr;
+            // Перерисовываем кнопки с новым активным состоянием
+            buildEntDateBar();
+            // Перезагружаем листинги с фильтром даты
+            loadListings('entertainment', currentEntertainmentCity);
+        }
+
+        let currentVisasCity = '';
+        
+        function filterVisasByCity(city) {
+            currentVisasCity = city;
+            document.querySelectorAll('.visas-city-btn').forEach(btn => {
+                btn.style.border = btn.dataset.city === city ? '3px solid #d4af37' : '3px solid transparent';
+            });
+            applyVisasFilters();
+        }
+
+        let currentVisasNationality = 'all';
+        let currentVisasDays = 'all';
+
+        function filterVisasByNationality(nationality) {
+            currentVisasNationality = nationality;
+            document.querySelectorAll('.visa-nationality-btn').forEach(btn => {
+                if (btn.dataset.nationality === nationality) {
+                    btn.style.background = '#d4af37';
+                    btn.style.color = 'white';
+                    btn.style.fontWeight = '600';
+                } else {
+                    btn.style.background = 'white';
+                    btn.style.color = '#333';
+                    btn.style.fontWeight = 'normal';
+                }
+            });
+            applyVisasFilters();
+        }
+
+        function filterVisasByDays(days) {
+            currentVisasDays = days;
+            document.querySelectorAll('.visa-days-btn').forEach(btn => {
+                if (btn.dataset.days === days) {
+                    btn.style.background = '#00BCD4';
+                    btn.style.color = 'white';
+                    btn.style.fontWeight = '600';
+                } else {
+                    btn.style.background = 'white';
+                    btn.style.color = '#333';
+                    btn.style.fontWeight = 'normal';
+                }
+            });
+            applyVisasFilters();
+        }
+
+        function applyVisasFilters() {
+            let url = `/api/listings/visas?country=${currentCountry}`;
+            if (currentVisasCity && currentVisasCity !== 'all') {
+                url += `&destination=${encodeURIComponent(currentVisasCity)}`;
+            }
+            if (currentVisasNationality && currentVisasNationality !== 'all') {
+                url += `&nationality=${currentVisasNationality}`;
+            }
+            if (currentVisasDays && currentVisasDays !== 'all') {
+                url += `&days=${currentVisasDays}`;
+            }
+            url += `&_t=${Date.now()}`;
+            
+            console.log('Fetching visas:', url);
+
+            const grid = document.getElementById('visas-grid');
+            if (!grid) {
+                console.error('visas-grid not found!');
+                return;
+            }
+            grid.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+
+            fetch(url)
+                .then(r => r.json())
+                .then(items => {
+                    console.log('DEBUG: API returned', items.length, 'items for visas');
+                    if (items.length === 0) {
+                        grid.innerHTML = '<div style="text-align: center; padding: 40px; color: #888;">Нет объявлений</div>';
+                    } else {
+                        try {
+                            grid.innerHTML = items.map(item => renderListingCard(item, 'visas')).join('');
+                            console.log('DEBUG: Rendered', items.length, 'visas cards');
+                            // Переводим карточки (включая авто-перевод английских на русский)
+                            if (typeof translateVisibleCards === 'function') {
+                                setTimeout(() => translateVisibleCards(), 600);
+                            }
+                        } catch(renderErr) {
+                            console.error('Visas render error:', renderErr);
+                            grid.innerHTML = '<div style="text-align: center; padding: 40px; color: #f44;">Ошибка отображения</div>';
+                        }
+                    }
+                })
+                .catch(err => {
+                    console.error('Visas fetch error:', err);
+                    grid.innerHTML = '<div style="text-align: center; padding: 40px; color: #f44;">Ошибка загрузки</div>';
+                });
+        }
+        
+        let currentKidsCategory = '';
+        let currentKidsCity = '';
+        let currentKidsAge = '';
+        
+        function filterKidsCategory(type) {
+            currentKidsCategory = type;
+            document.querySelectorAll('.kids-category-btn').forEach(btn => {
+                btn.style.border = btn.dataset.type === type ? '3px solid #d4af37' : '3px solid transparent';
+            });
+            loadKidsFeed();
+        }
+        
+        function filterKidsCity(city) {
+            currentKidsCity = city;
+            document.querySelectorAll('.kids-city-btn').forEach(btn => {
+                if (btn.dataset.city === city) {
+                    btn.style.background = '#d4af37';
+                    btn.style.color = 'white';
+                    btn.style.border = '2px solid #d4af37';
+                    btn.style.fontWeight = '600';
+                } else {
+                    btn.style.background = '#fff';
+                    btn.style.color = '#333';
+                    btn.style.border = '2px solid #ccc';
+                    btn.style.fontWeight = 'normal';
+                }
+            });
+            loadKidsFeed();
+        }
+        
+        function filterKidsAge(age) {
+            currentKidsAge = age;
+            document.querySelectorAll('.kids-age-btn').forEach(btn => {
+                if (btn.dataset.age === age) {
+                    btn.style.background = '#9C27B0';
+                    btn.style.color = 'white';
+                    btn.style.border = '2px solid #9C27B0';
+                    btn.style.fontWeight = '600';
+                } else {
+                    btn.style.background = '#fff';
+                    btn.style.color = '#333';
+                    btn.style.border = '2px solid #ccc';
+                    btn.style.fontWeight = 'normal';
+                }
+            });
+            loadKidsFeed();
+        }
+        
+        function kidsImgError(img) {
+            img.onerror = null;
+            img.parentElement.innerHTML = '<div style="width:100%;height:100%;background:linear-gradient(135deg,#FFE0B2 0%,#FFCC80 100%);display:flex;align-items:center;justify-content:center;"><span style="font-size:56px;">👶</span></div>';
+        }
+
+        function loadKidsFeed() {
+            const feed = document.getElementById('kids-feed');
+            feed.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+            
+            let url = `/api/listings/kids?country=${currentCountry}&_t=${Date.now()}`;
+            if (currentKidsCity) url += `&city=${encodeURIComponent(currentKidsCity)}`;
+            if (currentKidsAge) url += `&max_age=${currentKidsAge}`;
+            
+            fetch(url)
+                .then(r => r.json())
+                .then(data => {
+                    if (!data || data.length === 0) {
+                        feed.innerHTML = '<p style="text-align: center; color: #999; padding: 40px;">Объявлений пока нет</p>';
+                        return;
+                    }
+                    
+                    const kidsTypeLabels = {
+                        'schools': '🏫 Школы',
+                        'events': '🎈 Мероприятия', 
+                        'nannies': '👩‍👧 Няни',
+                        'products': '🧸 Товары'
+                    };
+                    
+                    let html = '<div class="listing-grid">' + data.map(item => {
+                        // ONLY use item.image_url — the backend refreshes it via Telegram Bot API.
+                        // item.all_images and item.photos contain expired CDN URLs (telesco.pe → 404).
+                        let images = [];
+                        if (item.image_url) images.push(item.image_url);
+                        const cacheBuster = Date.now();
+                        images = images.filter(url => url && typeof url === 'string' && url.startsWith('http'));
+                        images = images.map(url => {
+                            const tmeMatch = url.match(/^https:\/\/t\.me\/([^\/]+)\/(\d+)$/);
+                            if (tmeMatch) return `/tg_img/${tmeMatch[1]}/${tmeMatch[2]}`;
+                            if (url.includes('telesco.pe') || url.includes('api.telegram.org')) return url;
+                            return url + (url.includes('?') ? '&' : '?') + '_t=' + cacheBuster;
+                        });
+                        const kidsTypeLabel = kidsTypeLabels[kidsType] || '';
+                        
+                        let imageHtml = images.length > 0 
+                            ? `<img src="" data-lazy="${images[0]}" alt="${escapeHtml(buildSectionImageAlt(item, 'kids')).replace(/"/g, '&quot;')}" style="width:100%;height:100%;object-fit:cover;background:#1a1a2e;" loading="lazy" onerror="kidsImgError(this)">`
+                            : `<div style="width:100%;height:100%;background:linear-gradient(135deg,#FFE0B2 0%,#FFCC80 100%);display:flex;align-items:center;justify-content:center;"><span style="font-size:56px;">👶</span></div>`;
+                        
+                        return `<div class="card" style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,0.08);display:flex;flex-direction:column;height:100%;">
+                            <div style="position:relative;height:250px;">
+                                ${imageHtml}
+                                <div style="position:absolute;top:8px;left:8px;display:flex;flex-wrap:wrap;gap:8px;z-index:10;">
+                                    ${kidsTypeLabel ? `<span style="color:#fff;font-size:16px;font-weight:400;text-shadow:0 1px 3px rgba(0,0,0,0.8);background:rgba(0,0,0,0.5);padding:2px 8px;border-radius:4px;">${kidsTypeLabel}</span>` : ''}
+                                    ${item.city ? `<span style="color:#fff;font-size:16px;font-weight:400;text-shadow:0 1px 3px rgba(0,0,0,0.8);background:rgba(0,0,0,0.5);padding:2px 8px;border-radius:4px;">📍 ${item.city}</span>` : ''}
+                                    ${item.age ? `<span style="color:#fff;font-size:16px;font-weight:400;text-shadow:0 1px 3px rgba(0,0,0,0.8);background:rgba(0,0,0,0.5);padding:2px 8px;border-radius:4px;">👶 ${item.age}</span>` : ''}
+                                </div>
+                                ${adminAuthenticated ? `
+                                    <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:15;">
+                                        <button onclick="openKidsPhotoEdit('${item.id}', event)" style="background:rgba(76,175,80,0.9);color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:bold;box-shadow:0 2px 6px rgba(0,0,0,0.3);">✏️</button>
+                                        <button onclick="openDeleteModal('${item.id}', 'kids')" style="background:rgba(255,107,107,0.9);color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:bold;box-shadow:0 2px 6px rgba(0,0,0,0.3);">🗑️</button>
+                                    </div>
+                                ` : ''}
+                            </div>
+                            <div style="padding:15px;display:flex;flex-direction:column;flex-grow:1;">
+                                <h3 style="color:#d4af37;margin:0 0 10px 0;font-size:16px;font-weight:600;">${escapeHtml(item.title || 'Без названия')}</h3>
+                                <div style="font-size:14px;color:#444;line-height:1.7;white-space:pre-wrap;margin-bottom:15px;overflow-y:auto;max-height:12em;scrollbar-width:thin;">${escapeHtml(item.description || '')}</div>
+                                <div style="margin-top:auto;padding-top:12px;border-top:1px solid #eee;">
+                                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+                                        <div style="background:#f5f5f5;padding:8px;border-radius:6px;text-align:center;">
+                                            <div style="font-size:11px;color:#888;">📅 ${(translations[currentLang]||translations['ru']).common.date}</div>
+                                            <div style="font-size:13px;font-weight:600;color:#333;">${(item.date ? item.date.substring(0, 10) : '-')}</div>
+                                        </div>
+                                        <div style="background:#fff3e0;padding:8px;border-radius:6px;text-align:center;">
+                                            <div style="font-size:11px;color:#888;">👤 ${(translations[currentLang]||translations['ru']).common.contact}</div>
+                                            <div style="font-size:12px;font-weight:600;color:#e65100;">${item.contact_name || item.contact || '-'}</div>
+                                        </div>
+                                    </div>
+                                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                                        <a href="${item.whatsapp ? 'https://wa.me/' + item.whatsapp.replace(/[^0-9]/g,'') : '#'}" target="_blank" onclick="event.stopPropagation()" style="background:${item.whatsapp ? '#25D366' : '#ccc'};color:white;padding:10px;border-radius:6px;text-align:center;text-decoration:none;font-weight:600;font-size:13px;">💬 WhatsApp</a>
+                                        <a href="${item.telegram ? 'https://t.me/' + item.telegram.replace('@','').replace('https://t.me/','') : '#'}" target="_blank" onclick="event.stopPropagation()" style="background:${item.telegram ? '#0088cc' : '#ccc'};color:white;padding:10px;border-radius:6px;text-align:center;text-decoration:none;font-weight:600;font-size:13px;">✈️ Telegram</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                    }).join('') + '</div>';
+                    
+                    feed.innerHTML = html;
+                })
+                .catch(err => {
+                    feed.innerHTML = '<p style="text-align: center; color: #ff6b6b; padding: 40px;">Ошибка загрузки</p>';
+                });
+        }
+        
+        let currentRestaurantCity = 'Нячанг';
+        let currentRestaurantType = 'all';
+        
+        function filterRestaurantsByCity(city) {
+            currentRestaurantCity = city;
+            document.querySelectorAll('.restaurant-city-btn').forEach(btn => {
+                btn.style.border = btn.dataset.city === city ? '3px solid #d4af37' : '3px solid transparent';
+            });
+            loadListings('restaurants', city);
+            updateTabCounts();
+        }
+        
+        // Exchange city filter
+        let currentExchangeCity = '';
+        function filterExchangeByCity(city) {
+            currentExchangeCity = city;
+            document.querySelectorAll('.exchange-city-btn').forEach(btn => {
+                btn.style.border = btn.dataset.city === city ? '3px solid #d4af37' : '3px solid transparent';
+            });
+            loadListings('money_exchange');
+        }
+        
+        // Marketplace category filter
+        let currentMarketplaceCategory = '';
+        
+        // Marketplace city filter
+        let currentMarketplaceCity = '';
+        
+        function filterRestaurantType(type) {
+            currentRestaurantType = type;
+            document.querySelectorAll('.rest-type-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.type === type);
+            });
+            loadListings('restaurants', currentRestaurantCity);
+        }
+        
+        function searchNearby5km() {
+            if (!navigator.geolocation) {
+                alert('Геолокация не поддерживается вашим браузером');
+                return;
+            }
+            
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    const url = `https://www.google.com/maps/search/restaurants/@${lat},${lon},14z`;
+                    window.open(url, '_blank');
+                },
+                (error) => {
+                    alert('Не удалось определить местоположение. Разрешите доступ к геолокации.');
+                }
+            );
+        }
+
+        let currentToursCity = 'Нячанг';
+        
+        var tourCities = [
+            { name: 'Нячанг',  img: '/static/images/tours/nyachang.jpg'   },
+            { name: 'Дананг',  img: '/static/images/tours/danang.jpg'      },
+            { name: 'Хошимин', img: '/static/images/tours/hochiminh.jpg'   },
+            { name: 'Фукуок',  img: '/static/images/tours/phuquoc.jpg'     }
+        ];
+        var tourCityIndex = 0;
+
+        function toggleTourCityDrop() {
+            var drop  = document.getElementById('tcs-drop');
+            var arrow = document.getElementById('tcs-sw-arrow');
+            var sw    = document.getElementById('tours-city-switcher');
+            if (!drop) return;
+            var isOpen = drop.classList.contains('open');
+            if (isOpen) {
+                drop.classList.remove('open');
+                if (arrow) arrow.classList.remove('open');
+                if (sw)    sw.classList.remove('open');
+            } else {
+                drop.querySelectorAll('.tcs-drop-item').forEach(function(el, i) {
+                    el.classList.toggle('selected', i === tourCityIndex);
+                });
+                drop.classList.add('open');
+                if (arrow) arrow.classList.add('open');
+                if (sw)    sw.classList.add('open');
+                setTimeout(function() {
+                    document.addEventListener('click', closeTourDrop, { once: true });
+                }, 10);
+            }
+        }
+
+        function closeTourDrop(e) {
+            var drop  = document.getElementById('tcs-drop');
+            var arrow = document.getElementById('tcs-sw-arrow');
+            var sw    = document.getElementById('tours-city-switcher');
+            if (drop)  drop.classList.remove('open');
+            if (arrow) arrow.classList.remove('open');
+            if (sw)    sw.classList.remove('open');
+        }
+
+        function selectTourCity(idx) {
+            tourCityIndex = idx;
+            var c = tourCities[idx];
+            // Закрыть дроп
+            var drop  = document.getElementById('tcs-drop');
+            var arrow = document.getElementById('tcs-sw-arrow');
+            if (drop)  drop.classList.remove('open');
+            if (arrow) arrow.classList.remove('open');
+            filterToursByCity(c.name, c.img);
+        }
+
+        function filterToursByCity(city, img) {
+            currentToursCity = city;
+            // Обновляем кнопку
+            var lbl   = document.getElementById('tcs-sw-label');
+            var swImg = document.getElementById('tcs-sw-img');
+            if (lbl) lbl.textContent = city;
+            if (swImg) {
+                var c = tourCities.find(function(x){ return x.name === city; });
+                if (c) swImg.src = c.img;
+                else if (img) swImg.src = img;
+                swImg.alt = buildSectionImageAlt({ city: city }, 'tours');
+            }
+            tourCityIndex = tourCities.findIndex(function(c){ return c.name === city; });
+            if (tourCityIndex < 0) tourCityIndex = 0;
+            // Переключаем дашборд
+            document.querySelectorAll('.tours-city-dashboard').forEach(function(d) {
+                d.style.display = d.dataset.dashboard === city ? 'block' : 'none';
+            });
+            loadListings('tours', city);
+        }
+
+        // ===== Generic City Dropdown System =====
+        var cityDropData = {
+            'rvn': {
+                cities: [
+                    {name:'Нячанг',  img:'/static/images/restaurants/nyachang.jpg',  value:'Нячанг'},
+                    {name:'Дананг',  img:'/static/images/restaurants/danang.jpg',    value:'Дананг'},
+                    {name:'Хошимин', img:'/static/images/restaurants/hochiminh.jpg', value:'Хошимин'},
+                    {name:'Фукуок',  img:'/static/images/restaurants/phuquoc.jpg',   value:'Фукуок'}
+                ], idx:0, onSelect: function(c){ filterRestaurantsByCity(c.value); }
+            },
+            'exvn': {
+                cities: [
+                    {name:'Нячанг',  img:'/static/images/categories/exchange/nhatrang.jpg', value:'Нячанг'},
+                    {name:'Дананг',  img:'/static/images/categories/exchange/danang.jpg',   value:'Дананг'},
+                    {name:'Хошимин', img:'/static/images/categories/exchange/saigon.jpg',   value:'Хошимин'},
+                    {name:'Фукуок',  img:'/static/images/categories/exchange/phuquoc.jpg',  value:'Фукуок'}
+                ], idx:0, onSelect: function(c){ filterExchangeByCity(c.value); }
+            },
+            'trvn-type': {
+                cities: [
+                    {name:'🏍️ Байки',      img:'/static/images/transport/bikes.jpg',    value:'bikes'},
+                    {name:'🚗 Авто',        img:'/static/images/transport/cars.jpg',     value:'cars'},
+                    {name:'⛵ Яхты',        img:'/static/images/transport/yachts.jpg',   value:'yachts'},
+                    {name:'🚲 Велосипеды',  img:'/static/images/transport/bicycles.jpg', value:'bicycles'}
+                ], idx:0, onSelect: function(c){ filterTransportByType(c.value); }
+            },
+            'trvn': {
+                cities: [
+                    {name:'Нячанг',  img:'/static/images/restaurants/nyachang.jpg',  value:'Nha Trang'},
+                    {name:'Дананг',  img:'/static/images/restaurants/danang.jpg',     value:'Da Nang'},
+                    {name:'Хошимин', img:'/static/images/restaurants/hochiminh.jpg',  value:'Ho Chi Minh'},
+                    {name:'Фукуок',  img:'/static/images/restaurants/phuquoc.jpg',    value:'Phu Quoc'}
+                ], idx:0, onSelect: function(c){ filterTransportCity(c.value); }
+            },
+            'revn': {
+                cities: [
+                    {name:'Нячанг',  img:'/static/images/realestate_nhatrang.jpg',  value:'nhatrang'},
+                    {name:'Дананг',  img:'/static/images/realestate_danang.jpg',    value:'danang'},
+                    {name:'Хошимин', img:'/static/images/realestate_hochiminh.jpg', value:'hochiminh'},
+                    {name:'Фукуок',  img:'/static/images/realestate_phuquoc.jpg',   value:'phuquoc'}
+                ], idx:0, onSelect: function(c){ filterRealEstateByCity(c.value); }
+            },
+            'envn': {
+                cities: [
+                    {name:'Нячанг',  img:'/static/images/entertainment/nyachang.jpg',  value:'Нячанг'},
+                    {name:'Дананг',  img:'/static/images/entertainment/danang.jpg',     value:'Дананг'},
+                    {name:'Хошимин', img:'/static/images/entertainment/hochiminh.jpg',  value:'Хошимин'},
+                    {name:'Фукуок',  img:'/static/images/entertainment/phuquoc.jpg',    value:'Фукуок'}
+                ], idx:0, onSelect: function(c){ filterEntertainmentByCity(c.value); }
+            },
+            'visvn': {
+                cities: [
+                    {name:'Нячанг',  img:'/static/images/restaurants/nyachang.jpg',  value:'Нячанг'},
+                    {name:'Дананг',  img:'/static/images/restaurants/danang.jpg',     value:'Дананг'},
+                    {name:'Хошимин', img:'/static/images/restaurants/hochiminh.jpg',  value:'Хошимин'},
+                    {name:'Фукуок',  img:'/static/images/restaurants/phuquoc.jpg',    value:'Фукуок'}
+                ], idx:0, onSelect: function(c){ if(typeof filterVisasByCity==='function') filterVisasByCity(c.value); }
+            }
+        };
+
+        function toggleCityDrop(key) {
+            var data  = cityDropData[key]; if (!data) return;
+            var drop  = document.getElementById(key + '-drop');
+            var arrow = document.getElementById(key + '-sw-arrow');
+            var sw    = document.getElementById(key + '-switcher');
+            if (!drop) return;
+            var isOpen = drop.classList.contains('open');
+            if (isOpen) {
+                drop.classList.remove('open');
+                if (arrow) arrow.classList.remove('open');
+                if (sw)    sw.classList.remove('open');
+            } else {
+                drop.querySelectorAll('.tcs-drop-item').forEach(function(el, i) {
+                    el.classList.toggle('selected', i === data.idx);
+                });
+                drop.classList.add('open');
+                if (arrow) arrow.classList.add('open');
+                if (sw)    sw.classList.add('open');
+                // Загружаем счётчики при открытии дропдауна
+                if (key === 'revn')       loadDropCityCounts('revn',  'real_estate');
+                if (key === 're-oth')     loadDropCityCounts('re-oth', 'real_estate');
+                if (key === 'trvn')       loadDropCityCounts('trvn',  'transport');
+                if (key === 'rvn')        loadDropCityCounts('rvn',   'restaurants');
+                if (key === 'envn')       loadDropCityCounts('envn',  'entertainment');
+                if (key === 'trvn-type')  loadTransportTypeCounts();
+                setTimeout(function() {
+                    document.addEventListener('click', function() {
+                        drop.classList.remove('open');
+                        if (arrow) arrow.classList.remove('open');
+                        if (sw)    sw.classList.remove('open');
+                    }, { once: true });
+                }, 10);
+            }
+        }
+
+        var _cityValueToApiKey = {
+            'nhatrang': 'Нячанг', 'danang': 'Дананг', 'hochiminh': 'Хошимин',
+            'phuquoc': 'Фукуок', 'dalat': 'Далат', 'hanoi': 'Ханой',
+            'muine': 'Муйне', 'hoi an': 'Хойан', 'hoi_an': 'Хойан'
+        };
+
+        async function loadDropCityCounts(dropKey, category) {
+            try {
+                var drop = document.getElementById(dropKey + '-drop');
+                if (!drop) return;
+                var r = await fetch('/api/city-counts/' + category + '?country=' + currentCountry);
+                var counts = await r.json();
+                drop.querySelectorAll('.tcs-drop-item[data-city-value]').forEach(function(el) {
+                    var cityVal = el.dataset.cityValue;
+                    var badge = el.querySelector('.drop-city-count');
+                    if (!badge) return;
+                    var apiKey = _cityValueToApiKey[cityVal] || cityVal;
+                    var num = counts[apiKey];
+                    if (num !== undefined && num !== null && num > 0) {
+                        badge.textContent = 'Предложений: ' + num;
+                    } else {
+                        badge.textContent = '';
+                    }
+                });
+            } catch(e) {}
+        }
+
+        async function loadTransportTypeCounts() {
+            try {
+                var drop = document.getElementById('trvn-type-drop');
+                if (!drop) return;
+                var r = await fetch('/api/transport-type-counts?country=' + currentCountry);
+                var counts = await r.json();
+                drop.querySelectorAll('.tcs-drop-item[data-transport-key]').forEach(function(el) {
+                    var key = el.dataset.transportKey;
+                    var badge = el.querySelector('.drop-city-count');
+                    if (!badge) return;
+                    var num = counts[key];
+                    if (num !== undefined && num !== null && num > 0) {
+                        badge.textContent = 'Предложений: ' + num;
+                    } else {
+                        badge.textContent = '';
+                    }
+                });
+            } catch(e) {}
+        }
+
+        function selectCityFromDrop(key, idx) {
+            var data  = cityDropData[key]; if (!data) return;
+            data.idx  = idx;
+            var c     = data.cities[idx];
+            var drop  = document.getElementById(key + '-drop');
+            var arrow = document.getElementById(key + '-sw-arrow');
+            var sw    = document.getElementById(key + '-switcher');
+            var lbl   = document.getElementById(key + '-sw-label');
+            var img   = document.getElementById(key + '-sw-img');
+            if (drop)  drop.classList.remove('open');
+            if (arrow) arrow.classList.remove('open');
+            if (sw)    sw.classList.remove('open');
+            if (lbl)   lbl.textContent = c.name;
+            if (img) {
+                img.src = c.img;
+                var sectionForKey = {
+                    rvn: 'restaurants', rest: 'restaurants', 'rest-oth': 'restaurants',
+                    revn: 'realestate', re: 'realestate', 're-oth': 'realestate',
+                    exvn: 'exchange', exchange: 'exchange', ex: 'exchange', 'ex-oth': 'exchange',
+                    tours: 'tours', 'to-oth': 'tours',
+                    envn: 'entertainment', entertainment: 'entertainment', 'ent-oth': 'entertainment',
+                    trvn: 'transport', transport: 'transport', 'tr-oth': 'transport',
+                    visvn: 'visas'
+                };
+                var sectionName = sectionForKey[key] || (key.indexOf('trvn-type') === 0 ? 'transport' : '');
+                img.alt = sectionName ? buildSectionImageAlt({city: c.name}, sectionName) : '';
+            }
+            data.onSelect(c);
+        }
+        // ==========================================
+
+        function toggleExtraFilters(key) {
+            var btn  = document.getElementById(key + '-filters-btn');
+            var wrap = document.getElementById(key + '-filters-wrap');
+            if (!btn || !wrap) return;
+            var open = wrap.classList.toggle('open');
+            btn.classList.toggle('open', open);
+            var labelSpan = btn.querySelector('[data-i18n]');
+            var ui = (translations[currentLang] || translations['ru']).ui;
+            if (labelSpan) labelSpan.textContent = open ? (ui.hideFilters || 'Скрыть фильтры') : (ui.additionalFilters || 'Дополнительные фильтры');
+        }
+
+        let currentTransportType = 'bikes';
+        let currentTransportCity = '';
+        
+        function filterTransportCity(city) {
+            currentTransportCity = city;
+            document.querySelectorAll('.transport-city-btn, .th-transport-city-btn').forEach(btn => {
+                if (btn.dataset.city === city) {
+                    btn.style.background = '#d4af37';
+                    btn.style.color = 'white';
+                    btn.style.border = '2px solid #d4af37';
+                    btn.style.fontWeight = '600';
+                } else {
+                    btn.style.background = '#fff';
+                    btn.style.color = '#333';
+                    btn.style.border = '2px solid #ccc';
+                    btn.style.fontWeight = 'normal';
+                }
+            });
+            loadListings('transport', currentTransportType);
+            updateTabCounts();
+        }
+        
+        function filterTransportByType(type) {
+            currentTransportType = type;
+            document.querySelectorAll('.transport-type-btn, .th-transport-type-btn').forEach(btn => {
+                btn.style.border = btn.dataset.type === type ? '3px solid #d4af37' : '3px solid transparent';
+            });
+            loadListings('transport', type);
+        }
+        
+        function updateTransportCounts() {
+            fetch('/api/listings/transport?country=' + currentCountry)
+                .then(r => r.json())
+                .then(data => {
+                    const types = ['bikes', 'cars', 'yachts', 'bicycles'];
+                    types.forEach(type => {
+                        const count = data.filter(item => item.transport_type === type).length;
+                        const el = document.getElementById('transport-' + type + '-count');
+                        if (el) el.textContent = count + ' ' + getListingsWord();
+                    });
+                });
+        }
+
+        let currentRealEstateCity = 'nhatrang';
+        let currentRealEstateSort = '';
+        let currentRealEstateType = '';
+        let currentRealEstatePriceMax = null;
+        let currentRealEstatePriceMin = null;
+        let currentRealEstateGroup = '';
+        
+        function filterRealEstateByCity(city) {
+            currentRealEstateCity = city;
+            document.querySelectorAll('.realestate-city-btn').forEach(btn => {
+                btn.style.border = btn.dataset.city === city ? '3px solid #d4af37' : '3px solid transparent';
+            });
+            loadListings('real_estate');
+            updateTabCounts();
+            // Update TOP strips based on selected city
+            if (currentCountry === 'vietnam') {
+                if (city === 'danang') {
+                    var _rnt = document.getElementById('top-re-nt-wrap');
+                    if (_rnt) _rnt.style.display = 'none';
+                    loadTopBanners('top-re-dn-wrap','top-re-dn-inner',{category:'real_estate',min_price:5000000,sort_by:'price_asc',city:'дананг',days:7});
+                } else {
+                    var _rdn = document.getElementById('top-re-dn-wrap');
+                    if (_rdn) _rdn.style.display = 'none';
+                    loadTopBanners('top-re-nt-wrap','top-re-nt-inner',{category:'real_estate',min_price:5000000,sort_by:'price_asc',city:'нячанг',days:7});
+                }
+            }
+            setTimeout(() => {
+                const grid = document.getElementById('real_estate-grid');
+                if (grid && window.innerWidth <= 768) {
+                    grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 300);
+        }
+        
+        function filterRealEstateType(type) {
+            currentRealEstateType = (currentRealEstateType === type) ? '' : type;
+            document.querySelectorAll('.filter-type-btn').forEach(btn => {
+                const btnType = (btn.getAttribute('onclick') || '').match(/filterRealEstateType\('([^']+)'\)/);
+                btn.classList.toggle('active', btnType && btnType[1] === currentRealEstateType);
+            });
+            loadListings('real_estate');
+        }
+        
+        function sortRealEstate(sortType) {
+            currentRealEstateSort = (currentRealEstateSort === sortType) ? '' : sortType;
+            document.querySelectorAll('.sort-btn').forEach(btn => {
+                const onclick = btn.getAttribute('onclick') || '';
+                const btnSort = onclick.match(/sortRealEstate\('([^']+)'\)/);
+                btn.classList.toggle('active', btnSort && btnSort[1] === currentRealEstateSort);
+            });
+            loadListings('real_estate');
+        }
+        
+        function filterRealEstatePrice(maxPrice) {
+            if (currentRealEstatePriceMax === maxPrice) {
+                currentRealEstatePriceMax = null;
+            } else {
+                currentRealEstatePriceMax = maxPrice;
+                currentRealEstatePriceMin = null;
+            }
+            updatePriceButtonStyles();
+            loadListings('real_estate');
+        }
+        
+        function filterRealEstatePriceMin(minPrice) {
+            if (currentRealEstatePriceMin === minPrice) {
+                currentRealEstatePriceMin = null;
+            } else {
+                currentRealEstatePriceMin = minPrice;
+                currentRealEstatePriceMax = null;
+            }
+            updatePriceButtonStyles();
+            loadListings('real_estate');
+        }
+        
+        function updatePriceButtonStyles() {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                let isActive = false;
+                if (btn.textContent.includes('До 7') && currentRealEstatePriceMax === 7000000) isActive = true;
+                if (btn.textContent.includes('До 15') && currentRealEstatePriceMax === 15000000) isActive = true;
+                if (btn.textContent.includes('От 15') && currentRealEstatePriceMin === 15000000) isActive = true;
+                btn.classList.toggle('active', isActive);
+            });
+        }
+        
+        function resetRealEstateFilters() {
+            currentRealEstateSort = '';
+            currentRealEstatePriceMax = null;
+            currentRealEstatePriceMin = null;
+            currentRealEstateType = '';
+            currentRealEstateGroup = '';
+            document.querySelectorAll('.sort-btn, .filter-btn, .filter-type-btn, .group-filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            loadListings('real_estate');
+        }
+        
+        function filterRealEstateGroup(group) {
+            currentRealEstateGroup = group;
+            // When a specific group is chosen — reset city filter so all cities are shown
+            if (group !== '') {
+                currentRealEstateCity = '';
+                document.querySelectorAll('.realestate-city-btn').forEach(btn => {
+                    btn.style.border = '3px solid transparent';
+                });
+            }
+            // Sync all "Все" buttons
+            document.querySelectorAll('.group-filter-btn[data-group=""]').forEach(btn => {
+                btn.classList.toggle('active', group === '');
+            });
+            // Sync both group selects
+            const selectEls = ['group-select', 'other-group-select'];
+            selectEls.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = group;
+            });
+            loadListings('real_estate');
+        }
+
+        async function loadRealEstateGroups() {
+            const isVietnam = currentCountry === 'vietnam';
+            const selectId = isVietnam ? 'group-select' : 'other-group-select';
+            const selectEl = document.getElementById(selectId);
+            if (!selectEl) return;
+            try {
+                const r = await fetch(`/api/realestate-groups?country=${currentCountry}`);
+                const groups = await r.json();
+                const _selectGroupLabel = (translations[currentLang] && translations[currentLang].filters && translations[currentLang].filters.selectGroup) ? translations[currentLang].filters.selectGroup : '-- Выбрать группу --';
+                selectEl.innerHTML = `<option value="">${_selectGroupLabel}</option>`;
+                groups.forEach(g => {
+                    const opt = document.createElement('option');
+                    opt.value = g;
+                    opt.textContent = g.startsWith('@') ? g : `@${g}`;
+                    selectEl.appendChild(opt);
+                });
+                selectEl.value = currentRealEstateGroup || '';
+            } catch(e) { console.error('Error loading groups:', e); }
+        }
+
+        async function loadOtherRealEstateGroups() {
+            return loadRealEstateGroups();
+        }
+        
+        var _ratesData = [];
+        function formatVND(n) {
+            if (!n && n !== 0) return '0';
+            return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        }
+        function calcRow(cur) {
+            var r = _ratesData.find(function(x) { return x.currency === cur; });
+            if (!r) return;
+            var inp = document.getElementById('calc-inp-' + cur);
+            var out = document.getElementById('calc-out-' + cur);
+            if (!inp || !out) return;
+            var val = parseFloat(inp.value) || 0;
+            var rate = r.vnd_num / r.amount_num;
+            out.textContent = formatVND(val * rate) + ' VNĐ';
+        }
+        function loadExchangeRatesBoard() {
+            fetch('/api/exchange-rates?country=vietnam')
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    var table = document.getElementById('rates-table');
+                    var loading = document.getElementById('rates-loading');
+                    var dateEl = document.getElementById('rates-date');
+                    if (!table) return;
+                    var visibleRates = (data.rates || []).filter(function(rate) {
+                        return rate.currency !== 'CNY' && rate.currency !== 'KRW';
+                    });
+                    if (!visibleRates.length) {
+                        if (loading) loading.textContent = t('ui.ratesNotLoaded');
+                        return;
+                    }
+                    if (loading) loading.style.display = 'none';
+                    if (dateEl && data.date) {
+                        dateEl.dataset.dateValue = data.date;
+                        dateEl.textContent = t('status.updated') + ' ' + data.date;
+                    }
+                    _ratesData = visibleRates;
+                    var currColors = {
+                        'RUB': '#d4af37', 'USD': '#d4af37', 'USDT': '#d4af37', 'EUR': '#d4af37',
+                        'KZT': '#d4af37', 'THB': '#d4af37', 'MYR': '#d4af37'
+                    };
+                    table.innerHTML = visibleRates.map(function(r) {
+                        var clr = currColors[r.currency] || '#d4af37';
+                        var initVnd = formatVND(r.vnd_num);
+                        return '<div class="rate-row" style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:10px;border-left:3px solid '+clr+';gap:6px;flex-wrap:nowrap;overflow:hidden;">' +
+                            '<div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">' +
+                                '<span class="rate-flag" style="font-size:20px;line-height:1;">'+r.flag+'</span>' +
+                                '<input type="number" id="calc-inp-'+r.currency+'" value="'+r.amount_num+'" min="0" class="rate-input" style="width:70px;padding:4px 6px;border-radius:6px;border:1px solid rgba(212,175,55,0.3);font-size:14px;font-weight:600;text-align:right;outline:none;" oninput="calcRow(\''+r.currency+'\')">' +
+                                '<span class="rate-currency" style="font-size:13px;font-weight:600;white-space:nowrap;">'+r.currency+'</span>' +
+                            '</div>' +
+                            '<div style="display:flex;align-items:center;gap:4px;flex-shrink:0;">' +
+                                '<span style="color:#b8941e;font-size:12px;">➤</span>' +
+                                '<span id="calc-out-'+r.currency+'" class="rate-result" style="font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;">'+initVnd+' VNĐ</span>' +
+                            '</div>' +
+                        '</div>';
+                    }).join('');
+                })
+                .catch(function(e) {
+                    var loading = document.getElementById('rates-loading');
+                    if (loading) loading.textContent = t('ui.ratesLoadError');
+                });
+        }
+
+        var _localRatesCache = {};
+        function loadExchangeRatesBoardLocal(country) {
+            var suffixMap = {thailand: 'th', india: 'in', indonesia: 'id'};
+            var suffix = suffixMap[country];
+            if (!suffix) return;
+            var table = document.getElementById('rates-table-' + suffix);
+            var loading = document.getElementById('rates-loading-' + suffix);
+            var dateEl = document.getElementById('rates-date-' + suffix);
+            if (!table) return;
+            if (_localRatesCache[country]) {
+                _renderLocalRates(_localRatesCache[country], table, loading, dateEl, suffix);
+                return;
+            }
+            if (loading) { loading.style.display = 'block'; loading.textContent = t('ui.ratesLoading'); }
+            fetch('/api/exchange-rates-local?country=' + country)
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    _localRatesCache[country] = data;
+                    _renderLocalRates(data, table, loading, dateEl, suffix);
+                })
+                .catch(function() {
+                    if (loading) loading.textContent = t('ui.ratesLoadError');
+                });
+        }
+
+        function _renderLocalRates(data, table, loading, dateEl, suffix) {
+            var visibleRates = (data.rates || []).filter(function(rate) {
+                return rate.currency !== 'CNY' && rate.currency !== 'KRW';
+            });
+            if (!visibleRates.length) {
+                if (loading) loading.textContent = t('ui.ratesUnavailable');
+                return;
+            }
+            if (loading) loading.style.display = 'none';
+            if (dateEl && data.date) {
+                dateEl.dataset.dateValue = data.date;
+                dateEl.textContent = t('status.updated') + ' ' + data.date;
+            }
+            var lc = data.local_currency || '';
+            var currColors = {
+                'RUB': '#d4af37', 'USD': '#d4af37', 'EUR': '#d4af37',
+                'KZT': '#d4af37'
+            };
+            var fmtLocal = function(n, lc) {
+                if (lc === 'IDR') return new Intl.NumberFormat('id-ID').format(n);
+                return new Intl.NumberFormat('ru-RU').format(n);
+            };
+            table.innerHTML = visibleRates.map(function(r) {
+                var clr = currColors[r.currency] || '#d4af37';
+                var initLocal = fmtLocal(r.local_num, lc);
+                return '<div class="rate-row" style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:10px;border-left:3px solid ' + clr + ';gap:6px;flex-wrap:nowrap;overflow:hidden;">' +
+                    '<div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">' +
+                        '<span class="rate-flag" style="font-size:20px;line-height:1;">' + r.flag + '</span>' +
+                        '<input type="number" id="calc-inp-' + suffix + '-' + r.currency + '" value="' + r.amount_num + '" min="0" class="rate-input" style="width:70px;padding:4px 6px;border-radius:6px;border:1px solid rgba(212,175,55,0.3);font-size:14px;font-weight:600;text-align:right;outline:none;" oninput="calcRowLocal(\'' + r.currency + '\',\'' + suffix + '\',' + r.local_num + ',' + r.amount_num + ')">' +
+                        '<span class="rate-currency" style="font-size:13px;font-weight:600;white-space:nowrap;">' + r.currency + '</span>' +
+                    '</div>' +
+                    '<div style="display:flex;align-items:center;gap:4px;flex-shrink:0;">' +
+                        '<span style="color:#b8941e;font-size:12px;">➤</span>' +
+                        '<span id="calc-out-' + suffix + '-' + r.currency + '" class="rate-result" style="font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;">' + initLocal + ' ' + lc + '</span>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+        }
+
+        function calcRowLocal(currency, suffix, ratePerUnit, baseAmount) {
+            var inp = document.getElementById('calc-inp-' + suffix + '-' + currency);
+            var out = document.getElementById('calc-out-' + suffix + '-' + currency);
+            if (!inp || !out) return;
+            var lc = {th: 'THB', 'in': 'INR', id: 'IDR'}[suffix] || '';
+            var val = parseFloat(inp.value) || 0;
+            var result = Math.round(val * ratePerUnit / baseAmount);
+            var fmt = lc === 'IDR' ? new Intl.NumberFormat('id-ID').format(result) : new Intl.NumberFormat('ru-RU').format(result);
+            out.textContent = fmt + ' ' + lc;
+        }
+
+        function loadExchangeCounts() {
+            const cities = [
+                {key: 'nhatrang', filter: 'Нячанг'},
+                {key: 'danang', filter: 'Дананг'},
+                {key: 'hochiminh', filter: 'Хошимин'},
+                {key: 'phuquoc', filter: 'Фукуок'}
+            ];
+            cities.forEach(c => {
+                fetch(`/api/listings/exchange?country=vietnam&city=${encodeURIComponent(c.filter)}`)
+                    .then(r => r.json())
+                    .then(data => {
+                        const el = document.getElementById(`exchange-${c.key}-count`);
+                        if (el) el.textContent = data.length + ' ' + getListingsWord();
+                    });
+            });
+        }
+
+        function loadKidsCounts() {
+        }
+
+        function loadVisasCounts() {
+            fetch(`/api/listings/visas?country=${currentCountry}`)
+                .then(r => r.json())
+                .then(data => {
+                    const cambodiaCount = data.filter(item => {
+                        const dest = (item.destination || '').toLowerCase();
+                        return dest.includes('cambodia') || dest.includes('камбодж');
+                    }).length;
+                    const laosCount = data.filter(item => {
+                        const dest = (item.destination || '').toLowerCase();
+                        return dest.includes('laos') || dest.includes('лаос');
+                    }).length;
+                    const cambodiaEl = document.getElementById('visa-cambodia-count');
+                    const laosEl = document.getElementById('visa-laos-count');
+                    if (cambodiaEl) cambodiaEl.textContent = cambodiaCount + ' ' + getListingsWord();
+                    if (laosEl) laosEl.textContent = laosCount + ' ' + getListingsWord();
+                });
+        }
+
+
+        function loadRealEstateCounts() {
+            fetch(`/api/city-counts/real_estate?country=${currentCountry}`)
+                .then(r => r.json())
+                .then(counts => {
+                    const cityMap = {
+                        'nhatrang': 'Нячанг',
+                        'danang': 'Дананг',
+                        'hochiminh': 'Хошимин',
+                        'hanoi': 'Ханой',
+                        'phuquoc': 'Фукуок',
+                        'dalat': 'Далат',
+                        'phantiet': 'Фантьет',
+                        'camranh': 'Камрань',
+                        'hoian': 'Хойан',
+                        'muine': 'Муйне'
+                    };
+                    
+                    for (const [key, ruName] of Object.entries(cityMap)) {
+                        const count = counts[ruName] || 0;
+                        const el = document.getElementById(`realestate-${key}-count`);
+                        if (el) {
+                            el.textContent = _formatCount(count) + ' ' + getListingsWord();
+                        }
+                    }
+                });
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatPrice(priceStr) {
+            if (!priceStr) return '';
+            let str = String(priceStr).toLowerCase().trim();
+            let multiplier = 1;
+            
+            if (str.includes('млн') || str.includes('мл') || str.includes('mln') || str.includes('миллион') || str.includes('million')) {
+                multiplier = 1000000;
+            } else if (str.includes('тыс') || str.includes('т.') || str.includes('k')) {
+                multiplier = 1000;
+            }
+            
+            // Detect if commas/dots are thousand separators (3 digits follow) or decimal separators
+            // e.g. "26,000,000" → all commas are thousand separators → strip them
+            // e.g. "26.5" → dot is decimal → keep
+            let numStr;
+            if (/[\d][\s,.][\d]{3}/.test(str)) {
+                // Has thousand separators — strip spaces, commas, dots used as separators
+                numStr = str.replace(/[^\d]/g, '');
+            } else {
+                // May have decimal separator — keep last . or ,
+                numStr = str.replace(/[^\d.,]/g, '').replace(/,(?=\d{1,2}$)/, '.').replace(/[,\s]/g, '');
+            }
+            
+            let num = parseFloat(numStr);
+            if (isNaN(num) || num === 0) return priceStr;
+            
+            if (num < 1000 && multiplier === 1) {
+                multiplier = 1000000;
+            }
+            
+            num = num * multiplier;
+            
+            let formatted = Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+            return formatted + ' VND';
+        }
+        
+        function extractPriceFromText(text) {
+            if (!text) return '';
+            const patterns = [
+                /цена[:\s]*(\d+[,.]?\d*)\s*(млн|мл|миллион|million)/i,
+                /(\d+[,.]?\d*)\s*(млн|мл|миллион|million)/i,
+                /цена[:\s]*(\d[\d\s]{2,})\s*(vnd|донг|₫)?/i,
+                /(\d[\d\s]{4,})\s*(vnd|донг|₫)/i,
+                /аренда[:\s]*(\d+[,.]?\d*)\s*(млн|мл|миллион)/i
+            ];
+            for (const pattern of patterns) {
+                const match = text.match(pattern);
+                if (match) {
+                    let raw = match[1];
+                    let numStr = /[\d][\s,.][\d]{3}/.test(raw) ? raw.replace(/[^\d]/g, '') : raw.replace(/\s/g, '').replace(',', '.');
+                    let num = parseFloat(numStr);
+                    if (!isNaN(num) && num > 0) {
+                        let unit = (match[2] || '').toLowerCase();
+                        if (unit.includes('млн') || unit.includes('мл') || unit.includes('миллион') || unit.includes('million')) {
+                            num = num * 1000000;
+                        } else if (num < 1000) {
+                            num = num * 1000000;
+                        }
+                        return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' VND';
+                    }
+                }
+            }
+            return '';
+        }
+
+        function changeListingImage(listingId, direction, event) {
+            if (event) event.stopPropagation();
+            const slider = document.getElementById(`slider-${listingId}`);
+            if (!slider) return;
+            
+            const allImgs = Array.from(slider.querySelectorAll('img'));
+            const imgs = allImgs.filter(img => !img.dataset.broken);
+            const dots = slider.querySelectorAll('.slider-dot');
+            const counter = slider.querySelector('.slider-photo-counter');
+            if (imgs.length <= 1) return;
+            
+            let activeIdx = imgs.findIndex(img => img.classList.contains('active'));
+            if (activeIdx < 0) activeIdx = 0;
+            
+            imgs[activeIdx].classList.remove('active');
+            if (dots[activeIdx]) dots[activeIdx].classList.remove('active');
+            
+            activeIdx = (activeIdx + direction + imgs.length) % imgs.length;
+            
+            imgs[activeIdx].classList.add('active');
+            if (dots[activeIdx]) dots[activeIdx].classList.add('active');
+            if (counter) counter.textContent = (activeIdx + 1) + ' / ' + imgs.length;
+
+            // Принудительная загрузка если src не загружен
+            const target = imgs[activeIdx];
+            if (target) {
+                const wantSrc = target.dataset.src || target.getAttribute('src');
+                if (wantSrc && (!target.src || target.src.includes('data:') || !target.complete || target.naturalWidth === 0)) {
+                    target.src = wantSrc;
+                }
+            }
+        }
+
+        // Subcategory state for Vietnam marketplace/exchange
+        window.currentSubcategory = window.currentSubcategory || null;
+
+        function renderMarketplaceSubcategories(subcategories, apiCategory, displayCategory) {
+            var gridId = displayCategory + '-grid';
+            var grid = document.getElementById(gridId);
+            if (!grid) return;
+            
+            var title = (apiCategory === 'money_exchange') ? 'Выбор города' : 'Выбор категории';
+            var html = '<div style="padding: 20px;"><h2 style="margin-bottom: 20px; font-size: 20px;">' + title + '</h2><div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">';
+            for (var i = 0; i < subcategories.length; i++) {
+                var sub = subcategories[i];
+                var subAlt = escapeHtml(buildSectionImageAlt({ title: sub.name }, displayCategory)).replace(/"/g, '&quot;');
+                html += '<div class="card" style="cursor: pointer; padding: 10px; text-align: center;" onclick="loadSubcategoryListings(\'' + sub.id + '\', \'' + displayCategory + '\')">' +
+                    '<img src="' + sub.image + '" alt="' + subAlt + '" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;" onerror="this.src=\'/static/images/placeholder.png\'">' +
+                    '<h3 style="font-size: 16px;">' + sub.name + '</h3></div>';
+            }
+            html += '</div></div>';
+            grid.innerHTML = html;
+        }
+
+        function loadSubcategoryListings(subId, displayCategory) {
+            window.currentSubcategory = subId;
+            loadListings(displayCategory);
+        }
+
+        // ─── Persistent API cache (localStorage + in-memory fallback) ────────────
+        const _API_CACHE_TTL = 300000; // 5 минут
+        const _LS_PREFIX = 'ga2_cache:';
+        const _apiCache = {
+            _mem: new Map(),
+            get(k) {
+                const m = this._mem.get(k);
+                if (m) return m;
+                try {
+                    const raw = localStorage.getItem(_LS_PREFIX + k);
+                    if (!raw) return null;
+                    const v = JSON.parse(raw);
+                    this._mem.set(k, v);
+                    return v;
+                } catch(e) { return null; }
+            },
+            set(k, v) {
+                this._mem.set(k, v);
+                try { localStorage.setItem(_LS_PREFIX + k, JSON.stringify(v)); } catch(e) {}
+            },
+            has(k) { return !!this.get(k); }
+        };
+        const _listingOffset = {}; // category → current offset
+        const PAGE_SIZE = 20;
+
+        function loadListings(category, city = '', _loadMore = false) {
+            if (!category) {
+                // Determine category from active tab or current context
+                const activeTab = document.querySelector('.tab.active');
+                if (activeTab) {
+                    const onclick = activeTab.getAttribute('onclick');
+                    const match = onclick.match(/'([^']+)'/);
+                    if (match) category = match[1];
+                }
+            }
+            if (!category) category = 'restaurants';
+
+            // Reset pagination offset when not loading more
+            if (!_loadMore) {
+                _listingOffset[category] = 0;
+            }
+
+            // Map category names if needed
+            let displayCategory = category;
+            if (category === 'real_estate') displayCategory = 'realestate';
+            if (category === 'money_exchange') displayCategory = 'exchange';
+            
+            // Show/hide city buttons for tours
+            const vietnamToursBtns = document.getElementById('vietnam-tours-buttons');
+            if (vietnamToursBtns) {
+                vietnamToursBtns.style.display = (category === 'tours' && currentCountry === 'vietnam') ? 'block' : 'none';
+            }
+            const otherToursBtns = document.getElementById('other-tours-buttons');
+            if (otherToursBtns) {
+                otherToursBtns.style.display = (category === 'tours' && currentCountry !== 'vietnam') ? 'block' : 'none';
+            }
+            const vietnamRestBtns = document.getElementById('vietnam-restaurants-buttons');
+            if (vietnamRestBtns) {
+                vietnamRestBtns.style.display = (category === 'restaurants' && currentCountry === 'vietnam') ? 'block' : 'none';
+            }
+            const vietnamEntBtns = document.getElementById('vietnam-entertainment-buttons');
+            if (vietnamEntBtns) {
+                vietnamEntBtns.style.display = (category === 'entertainment' && currentCountry === 'vietnam') ? 'block' : 'none';
+            }
+            // Show visas city buttons by country
+            const visasCountries = ['vietnam', 'thailand', 'india', 'indonesia'];
+            visasCountries.forEach(c => {
+                const btn = document.getElementById(`${c}-visas-buttons`);
+                if (btn) btn.style.display = (category === 'visas' && currentCountry === c) ? 'block' : 'none';
+            });
+            
+            // Show news/photoshoot city buttons by country
+            const newsCountries = ['vietnam', 'thailand', 'india', 'indonesia'];
+            newsCountries.forEach(c => {
+                const btn = document.getElementById(`${c}-news-buttons`);
+                if (btn) btn.style.display = (category === 'news' && currentCountry === c) ? 'block' : 'none';
+            });
+            
+            // Show medicine buttons by country
+            const medicineCountries = ['vietnam', 'thailand', 'india', 'indonesia'];
+            medicineCountries.forEach(c => {
+                const btn = document.getElementById(`${c}-medicine-buttons`);
+                if (btn) btn.style.display = (category === 'medicine' && currentCountry === c) ? 'block' : 'none';
+            });
+            
+            // Show exchange city buttons by country
+            const exchangeCountries = ['vietnam', 'thailand', 'india', 'indonesia'];
+            exchangeCountries.forEach(c => {
+                const btn = document.getElementById(`${c}-exchange-buttons`);
+                if (btn) btn.style.display = ((category === 'exchange' || category === 'money_exchange') && currentCountry === c) ? 'block' : 'none';
+            });
+            
+            // Show marketplace category buttons by country
+            const marketplaceCountries = ['vietnam', 'thailand', 'india', 'indonesia'];
+            marketplaceCountries.forEach(c => {
+                const btn = document.getElementById(`${c}-marketplace-buttons`);
+                if (btn) btn.style.display = (category === 'marketplace' && currentCountry === c) ? 'block' : 'none';
+            });
+
+            let params = new URLSearchParams();
+            params.append('country', currentCountry);
+            // For transport, city param is actually transport_type
+            if (city && category !== 'transport') params.append('city', city);
+            
+            // Add exchange city filter
+            if ((category === 'exchange' || category === 'money_exchange') && currentExchangeCity) {
+                params.append('city', currentExchangeCity);
+            }
+            
+            // Add marketplace category filter
+            if (category === 'marketplace' && currentMarketplaceCategory) {
+                params.append('subcategory', currentMarketplaceCategory);
+            }
+            
+            // Add marketplace city filter
+            if (category === 'marketplace' && currentMarketplaceCity) {
+                params.append('city', currentMarketplaceCity);
+            }
+            
+            if (category === 'transport') {
+                if (currentTransportType) params.append('transport_type', currentTransportType);
+                if (currentTransportCity) params.append('city', currentTransportCity);
+                if (document.getElementById('bike-model')) params.append('model', document.getElementById('bike-model').value);
+                if (document.getElementById('bike-year')) params.append('year', document.getElementById('bike-year').value);
+                if (document.getElementById('bike-price-min')) params.append('price_min', document.getElementById('bike-price-min').value);
+                if (document.getElementById('bike-price-max')) params.append('price_max', document.getElementById('bike-price-max').value);
+            }
+            
+            if (category === 'real_estate') {
+                params.append('realestate_city', currentRealEstateCity);
+                if (currentRealEstateSort) params.append('sort', currentRealEstateSort);
+                if (currentRealEstateType) params.append('listing_type', currentRealEstateType);
+                if (currentRealEstatePriceMax) params.append('price_max', currentRealEstatePriceMax);
+                if (currentRealEstatePriceMin) params.append('price_min', currentRealEstatePriceMin);
+                if (currentRealEstateGroup) params.append('source_group', currentRealEstateGroup);
+            }
+            
+            // В режиме админа показываем скрытые объявления
+            if (adminAuthenticated) {
+                params.append('show_hidden', '1');
+            }
+            
+            // Пагинация
+            const _offset = _listingOffset[category] || 0;
+            params.append('limit', PAGE_SIZE);
+            params.append('offset', _offset);
+
+            // pin_id: навигация из ТОП-20 — объявление выводится первым
+            const _pinId = _pinTopCardId || null;
+            if (_pinId) {
+                params.append('pin_id', _pinId);
+                _pinTopCardId = null; // использован — сбрасываем
+            }
+
+            const cacheKey = `/api/listings/${category}?` + params.toString();
+            const url = cacheKey + '&_t=' + Date.now();
+            const now = Date.now();
+            // Не используем кэш при pin_id (нужен свежий порядок)
+            const cached = !adminAuthenticated && !_pinId && _apiCache.get(cacheKey);
+            const useCache = cached && (now - cached.ts) < _API_CACHE_TTL;
+            console.log('Fetching:', useCache ? cacheKey + ' [CACHE]' : url);
+            
+            const dataPromise = useCache
+                ? Promise.resolve(cached.data)
+                : fetch(url).then(r => r.json()).then(data => {
+                    if (!adminAuthenticated && !_pinId) _apiCache.set(cacheKey, {data, ts: Date.now()});
+                    return data;
+                });
+
+            dataPromise
+                .then(data => {
+                    console.log(`DEBUG: API returned ${data.length} items for ${category}`);
+                    let gridId = category === 'transport' ? 'transport-grid' : category === 'real_estate' ? 'real_estate-grid' : category === 'money_exchange' ? 'exchange-grid' : category + '-grid';
+                    
+                    let filteredData = data.filter(item => {
+                        // Для Вьетнама во всех категориях отключаем фильтры языка, чтобы не терять объявления
+                        if (currentCountry === 'vietnam' && ['restaurants', 'tours', 'entertainment', 'real_estate', 'transport', 'visas', 'medicine', 'marketplace', 'kids', 'photosession', 'money_exchange', 'exchange', 'news'].includes(category)) {
+                            // Фильтр по типу ресторана
+                            if (category === 'restaurants' && currentRestaurantType !== 'all') {
+                                if (currentRestaurantType === 'high_rating') {
+                                    // Фильтр по высокому рейтингу (4.0+)
+                                    const rating = parseFloat(item.google_rating) || 0;
+                                    if (rating < 4.0) {
+                                        return false;
+                                    }
+                                } else if (currentRestaurantType === 'морепродукт') {
+                                    // Фильтр морепродуктов - расширенный поиск
+                                    const desc = (item.description || item.title || '').toLowerCase();
+                                    const restType = (item.restaurant_type || '').toLowerCase();
+                                    const seafoodKeywords = ['морепродукт', 'seafood', 'рыб', 'краб', 'креветк', 'устриц', 'омар', 'лобстер', 'кальмар', 'осьминог', 'мидии', 'fish', 'crab', 'shrimp', 'oyster', 'hải sản'];
+                                    const hasSeafood = seafoodKeywords.some(kw => desc.includes(kw) || restType.includes(kw));
+                                    if (!hasSeafood) {
+                                        return false;
+                                    }
+                                } else {
+                                    const desc = (item.description || item.title || '').toLowerCase();
+                                    if (!desc.includes(currentRestaurantType)) {
+                                        return false;
+                                    }
+                                }
+                            }
+                            // Фильтр по дате для развлечений
+                            if (category === 'entertainment' && currentEntertainmentDate) {
+                                let _dateMatch = false;
+                                // Пробуем разобрать item.date вида "2026-04-13 19:00:00" или "2026-04-13T19:00:00"
+                                if (item.date) {
+                                    const _m = String(item.date).match(/(\d{4})-(\d{2})-(\d{2})/);
+                                    if (_m) {
+                                        const _itemDay = _m[3] + '.' + _m[2]; // → "13.04"
+                                        _dateMatch = (_itemDay === currentEntertainmentDate);
+                                    }
+                                }
+                                // Fallback: ищем в event_date и тексте (для Вьетнама)
+                                if (!_dateMatch) {
+                                    const _hay = ((item.event_date || '') + ' ' + (item.text || '') + ' ' + (item.description || '')).toLowerCase();
+                                    _dateMatch = _hay.includes(currentEntertainmentDate);
+                                }
+                                if (!_dateMatch) return false;
+                            }
+                            return true;
+                        }
+                        const text = (item.description || item.text || '') + ' ' + (item.title || item.name || '');
+                        return !isEnglishOnly(text);
+                    });
+                    
+                    // Сортировка по рейтингу для фильтра "Высокий рейтинг"
+                    if (category === 'restaurants' && currentRestaurantType === 'high_rating') {
+                        filteredData.sort((a, b) => {
+                            const ratingA = parseFloat(a.google_rating) || 0;
+                            const ratingB = parseFloat(b.google_rating) || 0;
+                            return ratingB - ratingA; // По убыванию
+                        });
+                    }
+                    
+                    console.log(`DEBUG: Rendering ${filteredData.length} items to ${gridId}`);
+                    
+                    let html = filteredData.length ? filteredData.map(item => {
+                        let channelName = _resolveChannelName(item);
+                        let tgLink = item.telegram_link || (item.message_id && channelName ? `https://t.me/${channelName}/${item.message_id}` : null);
+                        
+                        let _p2 = Array.isArray(item.photos) ? item.photos : [];
+                        let _a2 = Array.isArray(item.all_images) ? item.all_images : [];
+                        let images = [...new Set([..._p2, ..._a2])].filter(u => u && !u.includes('/img/emoji') && !u.includes('telegram.org/img/emoji'));
+                        if (category === 'real_estate' || category === 'realestate') {
+                            images = images.filter(url => url && typeof url === 'string' &&
+                                (/^https:\/\/t\.me\/(vietnamparsing|dom_vn|thailandparsing|doma_th)\/\d+$/.test(url) || url.includes('telesco.pe') || url.startsWith('/tg_img/') || url.startsWith('/static/') || url.startsWith('/g/') || url.startsWith('/gg/') || url.includes('/g/') || url.includes('/gg/') || url.startsWith('/api/tgphoto/') || url.startsWith('https://')));
+                            images = images.map(url => {
+                                const tmeMatch = url.match(/^https:\/\/t\.me\/([^\/]+)\/(\d+)$/);
+                                if (tmeMatch) return `/tg_img/${tmeMatch[1]}/${tmeMatch[2]}`;
+                                return url;
+                            }).filter(Boolean);
+                            // India/Indonesia listings use image_url pointing to /static/channel_photos/
+                            if (images.length === 0 && item.image_url && item.image_url.startsWith('/static/')) {
+                                images.push(item.image_url);
+                                if (item.image_url_2 && item.image_url_2.startsWith('/static/')) images.push(item.image_url_2);
+                                if (item.image_url_3 && item.image_url_3.startsWith('/static/')) images.push(item.image_url_3);
+                                if (item.image_url_4 && item.image_url_4.startsWith('/static/')) images.push(item.image_url_4);
+                            }
+                            // Also support all_photos array (local static paths)
+                            if (images.length === 0 && Array.isArray(item.all_photos)) {
+                                const localPhotos = item.all_photos.filter(u => u && u.startsWith('/static/'));
+                                images.push(...localPhotos);
+                            }
+                        } else {
+                            // Restaurants: prefer photo_album_urls (group proxy), fallback to tg_file_ids / photo_msg_ids
+                            if (category === 'restaurants' && Array.isArray(item.photo_album_urls) && item.photo_album_urls.length > 0) {
+                                images = item.photo_album_urls;
+                            } else if (category === 'restaurants' && Array.isArray(item.all_images) && item.all_images.length > 0 && item.all_images[0].startsWith('/')) {
+                                images = item.all_images;
+                            } else if (category === 'restaurants' && Array.isArray(item.tg_file_ids) && item.tg_file_ids.length > 0) {
+                                images = item.tg_file_ids.map(fid => `/tg_file/${encodeURIComponent(fid)}`);
+                            } else if (category === 'restaurants' && Array.isArray(item.photo_msg_ids) && item.photo_msg_ids.length > 0) {
+                                images = item.photo_msg_ids.map(mid => `/tg_img/restoranvietnam/${mid}`);
+                            } else {
+                                if (images.length === 0) {
+                                    if (item.image_url) images.push(item.image_url);
+                                    if (item.image_url_2) images.push(item.image_url_2);
+                                    if (item.image_url_3) images.push(item.image_url_3);
+                                    if (item.image_url_4) images.push(item.image_url_4);
+                                    if (images.length === 0 && item.photo_url) images.push(item.photo_url);
+                                }
+                                images = images.filter(url => url && typeof url === 'string' && (url.startsWith('http') || url.startsWith('/')));
+                                images = images.map(url => {
+                                    const tmeMatch = url.match(/^https:\/\/t\.me\/([^\/]+)\/(\d+)$/);
+                                    if (tmeMatch) return `/tg_img/${tmeMatch[1]}/${tmeMatch[2]}`;
+                                    return url;
+                                });
+                            }
+                        }
+                        let sliderHtml = '';
+                        let badgesHtml = '';
+                        let typeLabel = '';
+                        if (item.listing_type) {
+                            const _tr = translations[currentLang] || translations['ru'];
+                            const _sale = (_tr.filters && _tr.filters.sale) ? _tr.filters.sale : '🏠 Продажа';
+                            const _rent = (_tr.filters && _tr.filters.rent) ? _tr.filters.rent : '🔑 Аренда';
+                            if (item.listing_type.includes('sale') && item.listing_type.includes('rent')) {
+                                typeLabel = `<span style="background:#d4af37;color:#fff;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600;">${_sale}/${_rent}</span>`;
+                            } else if (item.listing_type.includes('sale')) {
+                                typeLabel = `<span style="background:#4CAF50;color:#fff;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600;">${_sale}</span>`;
+                            } else if (item.listing_type.includes('rent')) {
+                                typeLabel = `<span style="background:#2196F3;color:#fff;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600;">${_rent}</span>`;
+                            }
+                        }
+                        if (item.rooms || item.area || typeLabel) {
+                            badgesHtml = `<div style="position:absolute;top:8px;left:8px;display:flex;gap:6px;z-index:10;flex-wrap:wrap;">
+                                ${typeLabel}
+                                ${item.rooms ? `<span style="background:rgba(0,0,0,0.75);color:#fff;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600;">🛏 ${item.rooms}</span>` : ''}
+                                ${item.area ? `<span style="background:rgba(0,0,0,0.75);color:#fff;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600;">📐 ${item.area}m²</span>` : ''}
+                            </div>`;
+                        }
+                        // Перевод города на русский
+                        function getCityRu(city) {
+                            const cityMap = {
+                                'Nha Trang': 'Нячанг',
+                                'Ho Chi Minh': 'Хошимин',
+                                'Da Nang': 'Дананг',
+                                'Hanoi': 'Ханой',
+                                'Phu Quoc': 'Фукуок',
+                                'Phan Thiet': 'Фантьет',
+                                'Cam Ranh': 'Камрань',
+                                'Da Lat': 'Далат',
+                                'Hoi An': 'Хойан',
+                                'Mui Ne': 'Муйне'
+                            };
+                            return cityMap[city] || city;
+                        }
+                        
+                        function getPhotoTypeRu(type) {
+                            const typeMap = {
+                                'portrait': 'Портретная',
+                                'wedding': 'Свадебная',
+                                'family': 'Семейная',
+                                'content': 'Контент',
+                                'commercial': 'Коммерческая'
+                            };
+                            return typeMap[type] || type;
+                        }
+                        
+                        // Определяем тип кухни для ресторанов
+                        let cuisineType = '';
+                        let restTypeBadge = '';
+                        let priceCatBadge = '';
+                        if (category === 'restaurants') {
+                            // Используем сохраненный тип заведения или определяем по описанию
+                            const restType = item.restaurant_type || '';
+                            if (restType === 'кафе') restTypeBadge = '☕ Кафе';
+                            else if (restType === 'бар') restTypeBadge = '🍸 Бар';
+                            else if (restType === 'морепродукты') restTypeBadge = '🦐 Морепродукты';
+                            else if (restType === 'ресторан') restTypeBadge = '🍽️ Ресторан';
+                            
+                            // Кухня из поля или описания
+                            if (item.kitchen) {
+                                cuisineType = '🍳 ' + item.kitchen;
+                            } else {
+                                const desc = (item.description || '').toLowerCase();
+                                if (desc.includes('вьетнам') || desc.includes('việt')) cuisineType = '🍜 Вьетнамская';
+                                else if (desc.includes('русск') || desc.includes('борщ') || desc.includes('пельмен')) cuisineType = '🥘 Русская';
+                                else if (desc.includes('итальян') || desc.includes('пицц') || desc.includes('паст')) cuisineType = '🍕 Итальянская';
+                                else if (desc.includes('япон') || desc.includes('суши') || desc.includes('ролл')) cuisineType = '🍣 Японская';
+                                else if (desc.includes('китай') || desc.includes('китайск')) cuisineType = '🥡 Китайская';
+                                else if (desc.includes('морепродукт') || desc.includes('seafood') || desc.includes('рыб')) cuisineType = '🦐 Морепродукты';
+                                else if (desc.includes('бар') || desc.includes('коктейл')) cuisineType = '🍸 Бар';
+                                else if (desc.includes('кофе') || desc.includes('cafe') || desc.includes('кафе')) cuisineType = '☕ Кафе';
+                            }
+                            
+                            // Если нет сохраненного типа, определяем по описанию
+                            if (!restTypeBadge) {
+                                const desc = (item.description || '').toLowerCase();
+                                if (desc.includes('морепродукт') || desc.includes('seafood')) restTypeBadge = '🦐 Морепродукты';
+                                else if (desc.includes('бар') || desc.includes('коктейл')) restTypeBadge = '🍸 Бар';
+                                else if (desc.includes('кафе') || desc.includes('cafe') || desc.includes('кофе')) restTypeBadge = '☕ Кафе';
+                                else restTypeBadge = '🍽️ Ресторан';
+                            }
+                            
+                            // Ценовая категория
+                            const priceCat = item.price_category || '';
+                            if (priceCat === 'cheap') priceCatBadge = '💵';
+                            else if (priceCat === 'normal') priceCatBadge = '💵💵';
+                            else if (priceCat === 'expensive') priceCatBadge = '💵💵💵';
+                            
+                            // Извлекаем рейтинг из описания если не задан
+                            if (!item.google_rating) {
+                                const desc = item.description || '';
+                                // Ищем паттерны: "рейтинг 4.5", "4,5/5", "4.8 из 5", "оценка: 4.5", "⭐4.5"
+                                const ratingPatterns = [
+                                    /рейтинг[:\s]*([345][,\.][0-9])/i,
+                                    /оценка[:\s]*([345][,\.][0-9])/i,
+                                    /([345][,\.][0-9])\s*(?:из\s*5|\/5|звезд)/i,
+                                    /⭐\s*([345][,\.][0-9])/,
+                                    /rating[:\s]*([345][,\.][0-9])/i,
+                                    /([345][,\.][0-9])\s*stars?/i
+                                ];
+                                for (const pattern of ratingPatterns) {
+                                    const match = desc.match(pattern);
+                                    if (match) {
+                                        item.google_rating = match[1].replace(',', '.');
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        
+                        if (images.length > 0) {
+                            sliderHtml = `
+                            <div class="card-slider" id="slider-${item.id}" style="position:relative; height: 250px;">
+                                <div style="position:absolute;top:8px;left:8px;display:none;flex-direction:column;gap:4px;z-index:10;">
+                                    ${category === 'restaurants' 
+                                            ? `<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+                                                <span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7);">${restTypeBadge}</span>
+                                                ${item.city ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7);">📍 ${getCityRu(item.city)}</span>` : ''}
+                                                ${priceCatBadge ? `<span style="font-size:18px;text-shadow:0 1px 3px rgba(0,0,0,0.5);">${priceCatBadge}</span>` : ''}
+                                            </div>
+                                            ${item.google_rating ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7);">⭐⭐⭐⭐⭐ ${item.google_rating}</span>` : ''}`
+                                            : (category === 'tours' 
+                                                ? `<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+                                                    ${item.days ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7);">📅 ${item.days} ${item.days == 1 ? 'день' : (item.days < 5 ? 'дня' : 'дней')}</span>` : ''}
+                                                    ${item.city ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7);">🏙️ ${getCityRu(item.city)}</span>` : ''}
+                                                </div>`
+                                                : (category === 'transport' || category === 'bike_rentals'
+                                                    ? `<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+                                                        ${item.city ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7);">📍 ${getCityRu(item.city)}</span>` : ''}
+                                                        ${item.engine ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7);">🔧 ${item.engine}cc</span>` : ''}
+                                                        ${item.year ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7);">📅 ${item.year}</span>` : ''}
+                                                        ${item.transport_type ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7);">🏷️ ${item.transport_type === 'bikes' ? 'Мото' : item.transport_type === 'cars' ? 'Авто' : item.transport_type === 'yachts' ? 'Яхты' : item.transport_type}</span>` : ''}
+                                                    </div>`
+                                                    : (category === 'entertainment' 
+                                                        ? `<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+                                                            ${item.price ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7);">💰 ${item.price_display || item.price}</span>` : ''}
+                                                            ${item.feature ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7);">⭐ ${item.feature}</span>` : ''}
+                                                            ${item.capacity ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7);">👥 ${item.capacity}</span>` : ''}
+                                                            ${item.city ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7);">📍 ${item.city}</span>` : ''}
+                                                        </div>`
+                                                        : (category === 'real_estate' || category === 'realestate' 
+                                                            ? `<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+                                                                <span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7);">${(() => { const _t = translations[currentLang] || translations['ru']; return item.listing_type === 'rent' ? (_t.filters && _t.filters.rent ? _t.filters.rent : '🔑 Аренда') : (_t.filters && _t.filters.sale ? _t.filters.sale : '🏠 Продажа'); })()}</span>
+                                                                ${item.area ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7);">📐 ${item.area}m²</span>` : ''}
+                                                                ${item.rooms ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7);">🛏 ${item.rooms} комн.</span>` : ''}
+                                                                ${item.price ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7);background:rgba(0,0,0,0.6);padding:4px 10px;border-radius:6px;font-weight:bold;">💰 ${item.price_display || item.price}</span>` : ''}
+                                                            </div>`
+                                                            : (category === 'money_exchange' || category === 'exchange'
+                                                                ? `<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+                                                                    ${item.city ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7); background: rgba(0,0,0,0.5); padding: 2px 8px; border-radius: 4px;">🏙️ ${getCityRu(item.city)}</span>` : ''}
+                                                                    ${item.currency_pairs ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7); background: rgba(0,0,0,0.5); padding: 2px 8px; border-radius: 4px;">💵 ${item.currency_pairs}</span>` : ''}
+                                                                </div>`
+                                                                : (category === 'kids'
+                                                                    ? `<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+                                                                        ${item.city ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7); background: rgba(0,0,0,0.5); padding: 2px 8px; border-radius: 4px;">📍 ${getCityRu(item.city)}</span>` : ''}
+                                                                        ${item.kids_age ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7); background: rgba(0,0,0,0.5); padding: 2px 8px; border-radius: 4px;">👶 ${item.kids_age}</span>` : ''}
+                                                                    </div>`
+                                                                    : (category === 'marketplace'
+                                                                        ? `<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+                                                                            ${item.marketplace_category ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7); background: rgba(0,0,0,0.5); padding: 2px 8px; border-radius: 4px;">🏷️ ${
+                                                                                item.marketplace_category === 'electronics' ? 'Электроника' : 
+                                                                                item.marketplace_category === 'clothing' ? 'Одежда' : 
+                                                                                item.marketplace_category === 'furniture' ? 'Мебель' : 
+                                                                                item.marketplace_category === 'free' ? 'Даром' : item.marketplace_category
+                                                                            }</span>` : ''}
+                                                                            ${item.city ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7); background: rgba(0,0,0,0.5); padding: 2px 8px; border-radius: 4px;">📍 ${getCityRu(item.city)}</span>` : ''}
+                                                                        </div>`
+                                                                        : (category === 'visas'
+                                                                            ? `<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+                                                                                ${item.city ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7); background: rgba(0,0,0,0.5); padding: 2px 8px; border-radius: 4px;">📍 ${getCityRu(item.city)}</span>` : ''}
+                                                                                ${item.destination ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7); background: rgba(0,0,0,0.5); padding: 2px 8px; border-radius: 4px;">✈️ ${item.destination}</span>` : ''}
+                                                                                ${item.citizenship ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7); background: rgba(0,0,0,0.5); padding: 2px 8px; border-radius: 4px;">🪪 ${item.citizenship}</span>` : ''}
+                                                                                ${item.price ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7); background: rgba(0,0,0,0.5); padding: 2px 8px; border-radius: 4px;">💰 $${item.price}</span>` : ''}
+                                                                            </div>`
+                                                                            : (category === 'news'
+                                                                                ? `<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+                                                                                    ${item.photo_type ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7); background: rgba(0,0,0,0.5); padding: 2px 8px; border-radius: 4px;">📷 ${getPhotoTypeRu(item.photo_type)}</span>` : ''}
+                                                                                    ${item.city ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7); background: rgba(0,0,0,0.5); padding: 2px 8px; border-radius: 4px;">📍 ${getCityRu(item.city)}</span>` : ''}
+                                                                                    ${item.price ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7); background: rgba(0,0,0,0.5); padding: 2px 8px; border-radius: 4px;">💰 ${item.price}$</span>` : ''}
+                                                                                </div>`
+                                                                                : (category === 'medicine'
+                                                                                    ? `<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+                                                                                        ${item.city ? `<span style="font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.7); background: rgba(0,0,0,0.5); padding: 2px 8px; border-radius: 4px;">📍 ${getCityRu(item.city)}</span>` : ''}
+                                                                                    </div>`
+                                                                                    : ''))))))))))
+                                    }
+                                </div>
+                                ${images.map((img, idx) => {
+                                    // Форсируем правильный путь для GitHub Raw
+                                    let finalImg = img;
+                                    if (img.includes('github.com') && !img.includes('raw.githubusercontent.com')) {
+                                        finalImg = img.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
+                                    }
+                                    const altText = escapeHtml(buildSectionImageAlt(item, category, idx)).replace(/"/g, '&quot;');
+                                    return `<img src="${finalImg}" data-src="${finalImg}" alt="${altText}" class="${idx === 0 ? 'active' : ''}" data-idx="${idx}" onerror="this.onerror=null;this.style.display='none';this.classList.remove('active');this.dataset.broken='1';(function(el){var p=el.closest('.card-slider');if(!p)return;if(el.classList.contains('was-first')||el.dataset.idx==='0'){var nxt=Array.from(p.querySelectorAll('img')).find(function(i){return !i.dataset.broken&&i!==el});if(nxt){nxt.classList.add('active');var ctr=p.querySelector('.slider-photo-counter');if(ctr)ctr.textContent=(Array.from(p.querySelectorAll('img')).indexOf(nxt)+1)+'/'+p.querySelectorAll('img').length;}}})(this);" loading="eager">`;
+                                }).join('')}
+                                ${images.length > 1 ? `
+                                    <span class="slider-photo-counter">1 / ${images.length}</span>
+                                    <button class="slider-nav prev" onclick="changeListingImage('${item.id}', -1, event)">‹</button>
+                                    <button class="slider-nav next" onclick="changeListingImage('${item.id}', 1, event)">›</button>
+                                    <div class="slider-dots">
+                                        ${images.map((_, idx) => `<div class="slider-dot ${idx === 0 ? 'active' : ''}" data-idx="${idx}"></div>`).join('')}
+                                    </div>
+                                ` : ''}
+                                ${adminAuthenticated && category === 'kids' ? `
+                                    <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:15;">
+                                        <button onclick="openKidsPhotoEdit('${item.id}', event)" style="background:rgba(76,175,80,0.9);color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:bold;box-shadow:0 2px 6px rgba(0,0,0,0.3);">✏️ Редактировать</button>
+                                        <button onclick="openDeleteModal('${item.id}', '${category}')" style="background:rgba(255,107,107,0.9);color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:bold;box-shadow:0 2px 6px rgba(0,0,0,0.3);">🗑️</button>
+                                    </div>
+                                ` : ''}
+                                ${adminAuthenticated && (category === 'money_exchange' || category === 'exchange') ? `
+                                    <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:15;">
+                                        <button onclick="openExchangePhotoEdit('${item.id}', event)" style="background:rgba(76,175,80,0.9);color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:bold;box-shadow:0 2px 6px rgba(0,0,0,0.3);">✏️ Редактировать</button>
+                                        <button onclick="openDeleteModal('${item.id}', '${category}')" style="background:rgba(255,107,107,0.9);color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:bold;box-shadow:0 2px 6px rgba(0,0,0,0.3);">🗑️</button>
+                                    </div>
+                                ` : ''}
+                                ${adminAuthenticated && category === 'marketplace' ? `
+                                    <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:15;">
+                                        <button onclick="openDeleteModal('${item.id}', '${category}')" style="background:rgba(255,107,107,0.9);color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:bold;box-shadow:0 2px 6px rgba(0,0,0,0.3);">🗑️</button>
+                                    </div>
+                                ` : ''}
+                                ${adminAuthenticated && category === 'visas' ? `
+                                    <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:15;">
+                                        <button onclick="openVisasPhotoEdit('${item.id}', event)" style="background:rgba(76,175,80,0.9);color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:bold;box-shadow:0 2px 6px rgba(0,0,0,0.3);">✏️ Редактировать</button>
+                                        <button onclick="openDeleteModal('${item.id}', '${category}')" style="background:rgba(255,107,107,0.9);color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:bold;box-shadow:0 2px 6px rgba(0,0,0,0.3);">🗑️</button>
+                                    </div>
+                                ` : ''}
+                                ${adminAuthenticated && category === 'news' ? `
+                                    <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:15;">
+                                        <button onclick="openDeleteModal('${item.id}', '${category}')" style="background:rgba(255,107,107,0.9);color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:bold;box-shadow:0 2px 6px rgba(0,0,0,0.3);">🗑️</button>
+                                    </div>
+                                ` : ''}
+                                ${adminAuthenticated && category === 'medicine' ? `
+                                    <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:15;">
+                                        <button onclick="openMedicinePhotoEdit('${item.id}', event)" style="background:rgba(76,175,80,0.9);color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:bold;box-shadow:0 2px 6px rgba(0,0,0,0.3);">✏️ Редактировать</button>
+                                        <button onclick="openDeleteModal('${item.id}', '${category}')" style="background:rgba(255,107,107,0.9);color:white;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:bold;box-shadow:0 2px 6px rgba(0,0,0,0.3);">🗑️</button>
+                                    </div>
+                                ` : ''}
+                            </div>`;
+                        }
+
+                        // Format description: move Источник/Ссылка lines to the end
+                        const _rawDesc = (item.description || item.text || '');
+                        const _metaRe = /^(источник|ссылка|link|source)\s*:/i;
+                        const _descLines = _rawDesc.split('\n').filter(line =>
+                            category !== 'tours' || !/^\s*.*Бронирование\s*:/i.test(line)
+                        );
+                        const _mainLines = _descLines.filter(l => !_metaRe.test(l.trim()));
+                        const _metaLines = _descLines.filter(l => _metaRe.test(l.trim()));
+                        const _mainContent = _mainLines.join('\n').trim();
+                        const _displayCardTitle = buildListingDisplayTitle(item, category) || 'Объявление';
+                        let descText;
+                        if (!_mainContent || _mainContent.length < 15) {
+                            // No real content — show link to source
+                            const _srcLink = tgLink || (item.contact ? `https://t.me/${item.contact.replace('@','')}` : '');
+                            descText = _srcLink
+                                ? `<span style="color:#999;font-style:italic;">Описание недоступно. </span><a href="${_srcLink}" target="_blank" style="color:#d4af37;font-weight:600;">📎 Открыть в Telegram →</a>`
+                                : `<span style="color:#999;font-style:italic;">Описание недоступно.</span>`;
+                        } else {
+                            const _reordered = [..._mainLines, ..._metaLines].join('\n').trim();
+                            const _maxLen = 2000;
+                            descText = escapeHtml(_reordered.substring(0, _maxLen));
+                        }
+                        descText = descText
+                            .replace(/(ОБЪЕКТ:|Объект:)/g, tgLink ? `<a href="${tgLink}" target="_blank" style="color:inherit; font-weight:bold; text-decoration:underline;">$1</a>` : '<b>$1</b>')
+                            .replace(/(Цена:|ЦЕНА:)/g, '<b>$1</b>')
+                            .replace(/(Район:|РАЙОН:)/g, '<b>$1</b>')
+                            .replace(/(Расположение:|РАСПОЛОЖЕНИЕ:)/g, '<b>$1</b>')
+                            .replace(/(Площадь:|ПЛОЩАДЬ:)/g, '<b>$1</b>')
+                            .replace(/(Мебель:|МЕБЕЛЬ:)/g, '<b>$1</b>')
+                            .replace(/(Направление:|НАПРАВЛЕНИЕ:)/g, '<b>$1</b>')
+                            .replace(/(Рядом:|РЯДОМ:)/g, '<b>$1</b>')
+                            .replace(/(Структура:|СТРУКТУРА:)/g, '<b>$1</b>')
+                            .replace(/(Цена:|ЦЕНА:)([^<\n]+)/gi, '<b>$1</b>$2 <span style="color:#2196F3; font-weight:bold;">[+84-0797 018 179]</span>');
+
+                        // Всегда извлекаем цену из описания (поле price может быть испорчено)
+                        let displayPrice = '';
+                        const desc = item.description || item.text || '';
+                        // Ищем паттерны: "40 000 000 VND", "4,600,000₫", "$500", "500$", "ЦЕНА 6 МИЛЛИОНОВ"
+                        const pricePatterns = [
+                            /(\d[\d\s,.]*\d*)\s*(?:VND|vnd|₫|vnđ)/i,
+                            /(?:ЦЕНА|Цена|Price|PRICE)[:\s-]*(\d[\d\s,.]*)\s*(?:МИЛЛИОН|млн|M|VND|₫|\$|USD)?/i,
+                            /(\$\s*[\d,.\s]+|\d[\d,.\s]+\s*\$)/,
+                            /(\d[\d\s,.]+)\s*(?:USD|USDT|THB|IDR|руб|грн)/i
+                        ];
+                        for (const pattern of pricePatterns) {
+                            const match = desc.match(pattern);
+                            if (match) {
+                                displayPrice = match[1].trim();
+                                if (desc.includes('$') || desc.toLowerCase().includes('usd')) {
+                                    displayPrice = '$' + displayPrice.replace(/\$/g, '');
+                                } else {
+                                    displayPrice = formatPrice(displayPrice);
+                                }
+                                break;
+                            }
+                        }
+
+                        return `
+                        <div class="card" id="lc-${item.id || ''}" style="display: flex; flex-direction: column; height: 100%;">
+                            ${sliderHtml}
+                            <div style="padding: 15px; display: flex; flex-direction: column; flex-grow: 1;">
+                                <h3 style="color:#d4af37; margin-bottom:10px;">
+                                    ${tgLink ? `<a href="${tgLink}" target="_blank" style="color:#d4af37; text-decoration:none;">${escapeHtml(_displayCardTitle)}</a>` : escapeHtml(_displayCardTitle)}
+                                </h3>
+                                <div style="font-size:13px; color:#444; line-height:1.6; overflow-y:auto; max-height:${(category === 'tours' || category === 'entertainment') ? '26em' : '14em'}; margin-bottom:15px; white-space:pre-wrap; scrollbar-width:thin;">${descText}</div>
+                                <div style="margin-top:auto; padding-top:12px; border-top:1px solid #eee;">
+                                    <!-- Контактное лицо и дата (скрыто для туров, развлечений и ресторанов) -->
+                                    ${(category === 'tours' || category === 'entertainment' || category === 'restaurants') ? '' : `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
+                                        <div style="background: #f5f5f5; padding: 8px; border-radius: 6px; text-align: center;">
+                                            <div style="font-size: 11px; color: #888;">📅 ${(translations[currentLang]||translations['ru']).common.date}</div>
+                                            <div style="font-size: 13px; font-weight: 600; color: #333;">${(item.date ? item.date.substring(0, 10) : '-')}</div>
+                                        </div>
+                                        <div style="background: #fff3e0; padding: 8px; border-radius: 6px; text-align: center;">
+                                            <div style="font-size: 11px; color: #888;">👤 ${(translations[currentLang]||translations['ru']).common.contact}</div>
+                                            <div style="font-size: 12px; font-weight: 600; color: #e65100;">${item.contact_name || item.contact || '-'}</div>
+                                        </div>
+                                    </div>`}
+                                    <!-- Цена -->
+                                    ${category === 'entertainment'
+                                        ? ''
+                                    : (category === 'transport' || category === 'bike_rentals') 
+                                        ? (item.price ? `<div style="background: transparent; border: 2px solid #d4af37; color: #d4af37; padding: 10px 12px; border-radius: 8px; margin-bottom: 10px; text-align: center;">
+                                            <span style="font-size: 18px; font-weight: bold;">💰 ${Math.round(Number(item.price)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} VND</span>
+                                        </div>` : '')
+                                        : (category === 'tours' 
+                                            ? ''
+                                            : (category === 'real_estate' || category === 'realestate'
+                                                ? (() => {
+                                                    let realEstatePrice = item.price || extractPriceFromText(item.description || item.text);
+                                                    if (realEstatePrice && realEstatePrice !== '0' && realEstatePrice !== 0) {
+                                                        let displayStr = '';
+                                                        if (currentCountry === 'thailand') {
+                                                            if (item.price_str) {
+                                                                displayStr = item.price_str;
+                                                            } else {
+                                                                // Strip non-digits (handles "3 500 000 VND", spaces, etc.)
+                                                                const _rawNum = parseInt(String(realEstatePrice).replace(/[^\d]/g, ''), 10);
+                                                                displayStr = (!isNaN(_rawNum) && _rawNum > 1000)
+                                                                    ? _rawNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' THB'
+                                                                    : '';
+                                                            }
+                                                        } else if (currentCountry === 'india') {
+                                                            if (item.price_display && !/vnd/i.test(item.price_display)) {
+                                                                displayStr = item.price_display;
+                                                            } else {
+                                                                const _rawNum = parseInt(String(realEstatePrice).replace(/[^\d]/g, ''), 10);
+                                                                displayStr = (!isNaN(_rawNum) && _rawNum > 0) ? _rawNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' INR' : '';
+                                                            }
+                                                        } else if (currentCountry === 'indonesia') {
+                                                            if (item.price_display && !/vnd/i.test(item.price_display)) {
+                                                                displayStr = item.price_display;
+                                                            } else {
+                                                                const _rawNum = parseInt(String(realEstatePrice).replace(/[^\d]/g, ''), 10);
+                                                                displayStr = (!isNaN(_rawNum) && _rawNum > 0) ? _rawNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' IDR' : '';
+                                                            }
+                                                        } else {
+                                                            const priceClean = String(realEstatePrice).replace(/\s*VND\s*/gi, '').replace(/₫/g, '').trim();
+                                                            displayStr = formatPrice(priceClean);
+                                                        }
+                                                        if (displayStr) {
+                                                            return `<div style="background: transparent; border: 2px solid #d4af37; color: #d4af37; padding: 10px 12px; border-radius: 8px; margin-bottom: 10px; text-align: center;">
+                                                                <span style="font-size: 18px; font-weight: bold;">💰 ${displayStr}</span>
+                                                            </div>`;
+                                                        }
+                                                    }
+                                                    return '';
+                                                })()
+                                                : ((category === 'money_exchange' || category === 'exchange') ? ''
+                                                    : (displayPrice ? `<div style="background: transparent; border: 2px solid #d4af37; color: #d4af37; padding: 10px 12px; border-radius: 8px; margin-bottom: 10px; text-align: center;">
+                                                        <span style="font-size: 18px; font-weight: bold;">💰 ${displayPrice}</span>
+                                                    </div>` : '')
+                                                )
+                                            )
+                                        )
+                                    }
+                                    <!-- Telegram кнопка / Кнопка бронирования для туров -->
+                                    ${category === 'tours'
+                                        ? `<button class="tour-chat-book-btn" onclick="openTourSupportChat(this.dataset.tour, this.dataset.city)" data-tour="${escapeHtml(item.title || item.name || '')}" data-city="${escapeHtml(item.city || '')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-8.4 8.4H5l-2 2v-7.6a8.4 8.4 0 1 1 18-2.8Z"></path><path d="M8 11h.01M12 11h.01M16 11h.01"></path></svg><span>${((translations[currentLang]||translations['ru']).ui||{}).bookTourChat||'Открыть чат и забронировать'}</span></button>`
+                                        : (category === 'entertainment' || category === 'restaurants') ? (function() {
+                                            // Автопоиск: location из объявления или автопоиск по названию + город + страна
+                                            const _loc = (item.location || item.geolocation || '').trim();
+                                            let mapsHref = '';
+                                            if (_loc && (_loc.startsWith('http') || _loc.includes('maps.google') || _loc.includes('goo.gl'))) {
+                                                mapsHref = _loc; // прямая ссылка — открываем как есть
+                                            } else {
+                                                const _cityMap = {'Нячанг':'Nha Trang','Дананг':'Da Nang','Хошимин':'Ho Chi Minh City','Фукуок':'Phu Quoc','Бангкок':'Bangkok','Паттайя':'Pattaya','Пхукет':'Phuket','Гоа':'Goa','Мумбай':'Mumbai','Бали':'Bali','Джакарта':'Jakarta'};
+                                                const _countryMap = {'vietnam':'Vietnam','thailand':'Thailand','india':'India','indonesia':'Indonesia'};
+                                                const _rawCity = item.city || currentEntertainmentCity || '';
+                                                const _cityEn = _cityMap[_rawCity] || _rawCity;
+                                                const _countryEn = _countryMap[currentCountry] || 'Vietnam';
+                                                // Извлекаем место из текста:
+                                                // 1. "Место📍: ...", "📍 Место: ..." — с ключевым словом
+                                                // 2. "📍 Название места" — 📍 прямо перед названием
+                                                const _rawText = item.description || item.text || '';
+                                                const _locMatch = _rawText.match(/(?:Место\s*📍\s*[:\-]?\s*|📍\s*(?:Место\s*)?[:\-]?\s*)([^\n📍]+)/i);
+                                                const _extractedLoc = _locMatch ? _locMatch[1].trim() : '';
+                                                const _searchText = _extractedLoc || _loc || item.title || item.name || '';
+                                                const _query = encodeURIComponent(_searchText + (_cityEn ? ' ' + _cityEn : '') + ' ' + _countryEn);
+                                                mapsHref = 'https://www.google.com/maps/search/?api=1&query=' + _query;
+                                            }
+                                            const _ui2 = (translations[currentLang] || translations['ru']).ui;
+                                            const _btnLabel = category === 'restaurants' ? (_ui2.locationMap || '📍Локация Google Maps') : '🗺 Google Maps';
+                                            const _tgEntHref = item.telegram_link || (item.telegram ? 'https://t.me/' + item.telegram.replace('@','') : '') || tgLink || '';
+                                            if (category === 'entertainment' && currentCountry === 'india' && item.telegram_link) {
+                                                return '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">'
+                                                    + '<a href="' + mapsHref + '" target="_blank" onclick="event.stopPropagation()" style="display:block;background:transparent;border:2px solid #d4af37;color:#d4af37;padding:11px;border-radius:8px;text-align:center;text-decoration:none;font-weight:700;font-size:14px;box-sizing:border-box;">🗺 Google Maps</a>'
+                                                    + '<a href="' + item.telegram_link + '" target="_blank" onclick="event.stopPropagation()" style="display:block;background:transparent;border:2px solid #d4af37;color:#d4af37;padding:11px;border-radius:8px;text-align:center;text-decoration:none;font-weight:700;font-size:14px;box-sizing:border-box;">🎟 Билеты</a>'
+                                                    + '</div>';
+                                            }
+                                            if (_tgEntHref) {
+                                                return '<a href="' + mapsHref + '" target="_blank" onclick="event.stopPropagation()" style="display:block;width:100%;background:transparent;border:2px solid #d4af37;color:#d4af37;padding:11px;border-radius:8px;text-align:center;text-decoration:none;font-weight:700;font-size:14px;box-sizing:border-box;">' + _btnLabel + '</a>';
+                                            }
+                                            return '<a href="' + mapsHref + '" target="_blank" onclick="event.stopPropagation()" style="display:block;width:100%;background:transparent;border:2px solid #d4af37;color:#d4af37;padding:11px;border-radius:8px;text-align:center;text-decoration:none;font-weight:700;font-size:14px;box-sizing:border-box;">' + _btnLabel + '</a>';
+                                        })()
+                                        : `<div style="margin-bottom: 10px;">
+                                        ${(function() {
+                                            if (category === 'entertainment' && currentCountry === 'india' && item.telegram_link) {
+                                                return '<a href="' + item.telegram_link + '" target="_blank" style="display: block; width: 100%; background: transparent; border: 2px solid #0088cc; color: #0088cc; padding: 13px; border-radius: 8px; text-align: center; text-decoration: none; font-weight: 700; font-size: 16px; box-sizing: border-box;">\uD83C\uDFAB Buy Tickets</a>';
+                                            }
+                                            const _tg = item.telegram ? item.telegram.replace('@','') : '';
+                                            const tgHref = item.telegram_link || (_tg ? 'https://t.me/' + _tg : '') || tgLink || '';
+                                            return tgHref
+                                                ? '<a href="' + tgHref + '" target="_blank" style="display: block; width: 100%; background: transparent; border: 2px solid #0088cc; color: #0088cc; padding: 13px; border-radius: 8px; text-align: center; text-decoration: none; font-weight: 700; font-size: 16px; box-sizing: border-box;">\u2708\uFE0F Telegram</a>'
+                                                : '<div style="display: block; background: transparent; border: 2px solid #ccc; color: #999; padding: 13px; border-radius: 8px; text-align: center; font-weight: 700; font-size: 16px;">\u2708\uFE0F Telegram</div>';
+                                        })()}
+                                    </div>`
+                                    }
+                                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                        ${item.external_link ? `<a href="${item.external_link}" target="_blank" style="flex: 1; min-width: 100px; display: inline-block; background: #d4af37; text-decoration: none; text-align: center; padding: 8px; border-radius: 6px; color: white; font-size: 12px; font-weight: 600;">🔗 Оригинал</a>` : ''}
+                                    </div>
+                                    <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;" data-listing-id="${item.id}">
+                                        ${adminAuthenticated ? (category === 'kids' 
+                                            ? `<button onclick="toggleInlineEdit('${item.id}', '${category}')" style="flex: 1; min-width: 60px; padding: 6px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: 600;">✏️</button>`
+                                            : `<button onclick="openEditModal('${item.id}', '${category}')" style="flex: 1; min-width: 60px; padding: 6px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: 600;">✏️</button>`) : ''}
+                                        ${adminAuthenticated ? `<button onclick="openMoveModal('${item.id}', '${category}', '')"" style="flex: 1; min-width: 60px; padding: 6px; background: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: 600;">↔️</button>` : ''}
+                                        ${adminAuthenticated ? `<button onclick="toggleVisibility('${item.id}', '${category}')" id="vis-btn-${item.id}" style="flex: 1; min-width: 60px; padding: 6px; background: ${item.hidden ? '#ff9800' : '#9e9e9e'}; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: 600;">${item.hidden ? '👁️' : '🙈'}</button>` : ''}
+                                        ${adminAuthenticated ? `<button onclick="openDeleteModal('${item.id}', '${category}')" style="flex: 1; min-width: 60px; padding: 6px; background: #ff6b6b; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: 600;">🗑️</button>` : ''}
+                                    </div>
+                                    ${adminAuthenticated && category === 'kids' ? `
+                                    <div id="inline-edit-${item.id}" style="display: none; margin-top: 10px; padding: 12px; background: #f0f8ff; border-radius: 8px; border: 2px solid #2196F3;">
+                                        <div style="font-weight: bold; color: #2196F3; margin-bottom: 10px;">✏️ Редактирование</div>
+                                        <div style="margin-bottom: 8px;">
+                                            <label style="font-size: 11px; color: #666;">Заголовок:</label>
+                                            <input type="text" id="inline-title-${item.id}" value="${escapeHtml(item.title || '')}" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px; box-sizing: border-box;">
+                                        </div>
+                                        <div style="margin-bottom: 8px;">
+                                            <label style="font-size: 11px; color: #666;">Город:</label>
+                                            <select id="inline-city-${item.id}" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
+                                                <option value="Nha Trang" ${item.city === 'Nha Trang' ? 'selected' : ''}>Нячанг</option>
+                                                <option value="Ho Chi Minh" ${item.city === 'Ho Chi Minh' ? 'selected' : ''}>Хошимин</option>
+                                                <option value="Da Nang" ${item.city === 'Da Nang' ? 'selected' : ''}>Дананг</option>
+                                                <option value="Hanoi" ${item.city === 'Hanoi' ? 'selected' : ''}>Ханой</option>
+                                                <option value="Phu Quoc" ${item.city === 'Phu Quoc' ? 'selected' : ''}>Фукуок</option>
+                                            </select>
+                                        </div>
+                                        <div style="margin-bottom: 8px;">
+                                            <label style="font-size: 11px; color: #666;">Возраст:</label>
+                                            <input type="text" id="inline-age-${item.id}" value="${escapeHtml(item.kids_age || item.age || '')}" placeholder="0-3, 3-6, 6-12..." style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px; box-sizing: border-box;">
+                                        </div>
+                                        <div style="margin-bottom: 8px;">
+                                            <label style="font-size: 11px; color: #666;">Категория:</label>
+                                        </div>
+                                        <div style="margin-bottom: 8px;">
+                                            <label style="font-size: 11px; color: #666;">Описание:</label>
+                                            <textarea id="inline-desc-${item.id}" rows="3" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px; box-sizing: border-box; resize: vertical;">${escapeHtml(item.description || '')}</textarea>
+                                        </div>
+                                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+                                            <div>
+                                                <label style="font-size: 11px; color: #666;">👤 Контакт:</label>
+                                                <input type="text" id="inline-contact-${item.id}" value="${escapeHtml(item.contact_name || '')}" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px; box-sizing: border-box;">
+                                            </div>
+                                            <div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-bottom: 10px;">
+                                            <label style="font-size: 11px; color: #666;">✈️ Telegram:</label>
+                                            <input type="text" id="inline-telegram-${item.id}" value="${escapeHtml(item.telegram || '')}" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px; box-sizing: border-box;">
+                                        </div>
+                                        <div id="inline-status-${item.id}" style="display: none; margin-bottom: 8px; font-size: 12px; padding: 6px; border-radius: 4px;"></div>
+                                        <div style="display: flex; gap: 8px;">
+                                            <button onclick="saveInlineEdit('${item.id}', 'kids')" style="flex: 1; padding: 8px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">💾 Сохранить</button>
+                                            <button onclick="toggleInlineEdit('${item.id}', 'kids')" style="flex: 1; padding: 8px; background: #9e9e9e; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">✖️ Отмена</button>
+                                        </div>
+                                    </div>
+                                    ` : ''}
+                                    ${adminAuthenticated && item.hidden ? `<div style="background: #ff9800; color: white; padding: 4px 8px; border-radius: 4px; text-align: center; margin-top: 6px; font-size: 11px; font-weight: 600;">🙈 СКРЫТО</div>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `}).join('') : '<div class="empty">Нет данных</div>';
+                    
+                    let element = document.getElementById(gridId);
+                    if (element) {
+                        if (_loadMore) {
+                            // Убираем старый sentinel
+                            const oldSentinel = element.querySelector('.scroll-sentinel');
+                            if (oldSentinel) oldSentinel.remove();
+                            // Добавляем новые карточки только если они есть
+                            if (filteredData.length > 0) {
+                                const tmp = document.createElement('div');
+                                tmp.innerHTML = html;
+                                while (tmp.firstChild) element.appendChild(tmp.firstChild);
+                            }
+                        } else {
+                            element.innerHTML = html;
+                        }
+                        const cardCount = element.querySelectorAll('.card').length;
+                        console.log(`DEBUG: DOM now has ${cardCount} cards in ${gridId}`);
+                        
+                        // Обновим заголовок с суммарным числом всех загруженных карточек
+                        const tabTitle = document.querySelector(`.tab-content[data-tab="${category}"] h2`);
+                        if (tabTitle) {
+                            const baseTitle = tabTitle.textContent.split(' (')[0];
+                            tabTitle.textContent = `${baseTitle} (${cardCount})`;
+                        }
+                        
+                        // Если вернулось PAGE_SIZE элементов — есть ещё страницы
+                        const hasMore = data.length >= PAGE_SIZE;
+                        if (hasMore) {
+                            // Добавляем sentinel для бесконечной прокрутки
+                            const sentinel = document.createElement('div');
+                            sentinel.className = 'scroll-sentinel';
+                            sentinel.style.cssText = 'height:40px;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:13px;grid-column:1/-1;';
+                            sentinel.innerHTML = '<span>⏳ Загрузка...</span>';
+                            element.appendChild(sentinel);
+                            
+                            // IntersectionObserver следит за sentinel
+                            if (window._scrollObserver) window._scrollObserver.disconnect();
+                            window._scrollObserver = new IntersectionObserver(entries => {
+                                if (entries[0].isIntersecting) {
+                                    window._scrollObserver.disconnect();
+                                    _listingOffset[category] = (_listingOffset[category] || 0) + PAGE_SIZE;
+                                    loadListings(category, city, true);
+                                }
+                            }, { rootMargin: '200px' });
+                            window._scrollObserver.observe(sentinel);
+
+                            // Prefetch следующей страницы заранее в фоне
+                            setTimeout(() => {
+                                const _nextOffset = (_listingOffset[category] || 0) + PAGE_SIZE;
+                                const _prefetchParams = new URLSearchParams(params);
+                                _prefetchParams.set('offset', _nextOffset);
+                                _prefetchParams.set('limit', PAGE_SIZE);
+                                const _pfKey = `/api/listings/${category}?` + _prefetchParams.toString();
+                                if (!_apiCache.has(_pfKey)) {
+                                    fetch(_pfKey + '&_t=' + Date.now())
+                                        .then(r => r.json())
+                                        .then(d => { if (!adminAuthenticated) _apiCache.set(_pfKey, {data: d, ts: Date.now()}); })
+                                        .catch(() => {});
+                                }
+                            }, 800);
+                        }
+                        
+                        // Переводим карточки (включая авто-перевод английских на русский)
+                        if (typeof translateVisibleCards === 'function') {
+                            setTimeout(() => translateVisibleCards(), 600);
+                        }
+                    }
+                })
+                .catch(err => console.error('Error loading listings:', err));
+        }
+
+        function saveConfig() {
+            const config = {
+                channels: document.getElementById('channels').value.split('\n').filter(c => c.trim()),
+                auto_parse_interval: parseInt(document.getElementById('parse-interval').value) || 300
+            };
+            
+            fetch(`/api/parser-config?country=${currentCountry}`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(config)
+            })
+            .then(r => r.json())
+            .then(data => alert(data.success ? 'Сохранено!' : 'Ошибка'));
+        }
+
+        // ─── Одиночный init-запрос вместо 3 параллельных ─────────────────────────
+        async function _loadInitData(country) {
+            const ck = `init:${country}`;
+            const now = Date.now();
+            const cached = _apiCache.get(ck);
+            if (cached && (now - cached.ts) < _API_CACHE_TTL) {
+                _applyInitData(cached.data);
+                return;
+            }
+            try {
+                const r = await fetch(`/api/init?country=${country}`);
+                const d = await r.json();
+                _apiCache.set(ck, {data: d, ts: now});
+                _applyInitData(d);
+            } catch(e) { loadBanners(); updateTabCounts(); }
+        }
+        function _applyInitData(d) {
+            // banners
+            if (d.banners) {
+                bannerConfig = d.banners;
+                for (const c in bannerConfig) {
+                    if (bannerConfig[c] && Array.isArray(bannerConfig[c]))
+                        bannerConfig[c] = {web: bannerConfig[c], mobile: []};
+                }
+                updateBanner();
+                _preloadNextBanner && _preloadNextBanner();
+                if (adminAuthenticated) { renderAdminBanners && renderAdminBanners(); switchBannerTab && switchBannerTab(currentBannerTab); }
+            }
+            // counts
+            if (d.counts) {
+                const counts = d.counts;
+                _setTabBadge('realestate',    counts.real_estate);
+                _setTabBadge('transport',     counts.transport);
+                _setTabBadge('restaurants',   counts.restaurants);
+                _setTabBadge('tours',         counts.tours);
+                _setTabBadge('entertainment', counts.entertainment);
+                _setTabBadge('exchange',      counts.money_exchange);
+                _setTabBadge('visas',         counts.visas);
+                // /api/init кешируется вместе с баннерами. Сразу перепроверяем
+                // быстрый JSON со счётчиками, чтобы бейджи не отставали.
+                updateTabCounts();
+            }
+            // status
+            if (d.status) {
+                const s = d.status;
+                const totalEl = document.getElementById('total-items');
+                const statusEl = document.getElementById('parser-status-badge');
+                const updateEl = document.getElementById('last-update');
+                if (totalEl) totalEl.innerText = s.total_listings;
+                if (statusEl) statusEl.innerText = s.parser_status === 'connected' ? 'Подключен' : 'Отключен';
+                if (updateEl) updateEl.innerText = new Date(s.last_update).toLocaleTimeString('ru-RU');
+            }
+        }
+        // Объявляем adminAuthenticated ДО вызова _loadInitData (иначе TDZ)
+        let adminAuthenticated = false;
+        let adminPassword_val = '';
+        let adminCountry = null;
+
+        // Инициализируем баннер, статистику и курсы при открытии
+        _loadInitData(currentCountry);
+        // Фоновые парсеры добавляют объявления без перезагрузки сайта.
+        // Обновляем бейджи отдельно, чтобы показывать свежий точный итог.
+        setInterval(updateTabCounts, 60000);
+        updateAllCityCounts();
+        // updateTabCounts and loadBanners now handled by _loadInitData
+        renderKidsCityFilter();
+        updateKidsCitySelect();
+        updateFormCurrency();
+        
+        // Показываем кнопки городов для Вьетнама при первой загрузке
+        if (document.getElementById('vietnam-restaurants-buttons'))
+            document.getElementById('vietnam-restaurants-buttons').style.display = 'block';
+        if (document.getElementById('vietnam-tours-buttons'))
+            document.getElementById('vietnam-tours-buttons').style.display = 'block';
+        if (document.getElementById('vietnam-entertainment-buttons'))
+            document.getElementById('vietnam-entertainment-buttons').style.display = 'block';
+        if (document.getElementById('vietnam-transport-buttons'))
+            document.getElementById('vietnam-transport-buttons').style.display = 'block';
+        if (document.getElementById('vietnam-realestate-buttons'))
+            document.getElementById('vietnam-realestate-buttons').style.display = 'block';
+        if (document.getElementById('vietnam-visas-buttons'))
+            document.getElementById('vietnam-visas-buttons').style.display = 'block';
+        if (document.getElementById('vietnam-news-buttons'))
+            document.getElementById('vietnam-news-buttons').style.display = 'block';
+        if (document.getElementById('vietnam-medicine-buttons'))
+            document.getElementById('vietnam-medicine-buttons').style.display = 'block';
+        
+        updateRates();
+        loadRealEstateCounts();
+        loadExchangeRatesBoard();
+        loadExchangeCounts();
+        loadKidsCounts();
+        loadVisasCounts();
+        setInterval(updateRates, 60000);
+        
+        // Определяем идентификатор посетителя:
+        // 1. Telegram user_id (самый точный — не зависит от браузера/устройства)
+        // 2. Сохранённый ga_uid в localStorage (fallback для не-TG пользователей)
+        // 3. Новый случайный ID (первый визит без TG)
+        let visitorId = null;
+        let tgUserId = null;
+        let telegramInitData = '';
+        try {
+            if (window.Telegram && window.Telegram.WebApp) {
+                telegramInitData = window.Telegram.WebApp.initData || '';
+                const tgUser = window.Telegram.WebApp.initDataUnsafe?.user;
+                if (tgUser && tgUser.id) {
+                    tgUserId = String(tgUser.id);
+                    visitorId = 'tg_' + tgUserId;
+                    localStorage.setItem('ga_uid', visitorId);
+                }
+            }
+        } catch(e) {}
+        if (!visitorId) {
+            visitorId = localStorage.getItem('ga_uid') || ('user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now());
+            localStorage.setItem('ga_uid', visitorId);
+        }
+        function pingOnline() {
+            const params = new URLSearchParams({uid: visitorId});
+            if (typeof currentCountry !== 'undefined' && currentCountry) params.set('country', currentCountry);
+            if (typeof currentCategory !== 'undefined' && currentCategory) params.set('category', currentCategory);
+            const headers = telegramInitData ? {'X-Telegram-Init-Data': telegramInitData} : {};
+            fetch(`/api/ping?${params}`, {headers})
+                .then(r => r.json())
+                .then(data => {
+                    const counter = document.getElementById('online-count');
+                    if (counter) {
+                        counter.textContent = data.daily_unique_ips ?? 0;
+                        counter.title = 'Уникальные IP посетителей за сегодня';
+                        counter.setAttribute('aria-label', 'Уникальные IP посетителей за сегодня: ' + (data.daily_unique_ips ?? 0));
+                    }
+                })
+                .catch(() => {});
+        }
+        pingOnline();
+        setInterval(pingOnline, 30000);
+
+        const adminPassword = document.getElementById('admin-password');
+        const adminStatus = document.getElementById('admin-status');
+        const adminTools = document.getElementById('admin-tools');
+        
+        // Дефолтная вкладка загружается через switchTab в DOMContentLoaded
+
+        async function toggleVisibility(listingId, category) {
+            console.log('Toggling visibility for:', listingId, 'from:', category);
+            try {
+                const response = await fetch('/api/admin/toggle-visibility', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        password: adminPassword_val,
+                        country: currentCountry,
+                        category: category,
+                        listing_id: listingId
+                    })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    const btn = document.getElementById('vis-btn-' + listingId);
+                    if (btn) {
+                        btn.style.background = data.hidden ? '#ff9800' : '#9e9e9e';
+                        btn.textContent = data.hidden ? '👁️' : '🙈';
+                    }
+                    const card = btn ? btn.closest('.card') : null;
+                    if (card) {
+                        let hiddenBadge = card.querySelector('.hidden-badge');
+                        if (data.hidden && !hiddenBadge) {
+                            const badge = document.createElement('div');
+                            badge.className = 'hidden-badge';
+                            badge.style.cssText = 'background: #ff9800; color: white; padding: 4px 8px; border-radius: 4px; text-align: center; margin-top: 6px; font-size: 11px; font-weight: 600;';
+                            badge.textContent = '🙈 СКРЫТО';
+                            card.querySelector('.card-body').appendChild(badge);
+                        } else if (!data.hidden && hiddenBadge) {
+                            hiddenBadge.remove();
+                        }
+                    }
+                    console.log(data.message);
+                } else {
+                    alert('Ошибка: ' + data.error);
+                }
+            } catch (err) {
+                console.error('Error toggling visibility:', err);
+                alert('Ошибка при изменении видимости');
+            }
+        }
+        
+        function toggleInlineEdit(listingId, category) {
+            const editDiv = document.getElementById('inline-edit-' + listingId);
+            if (editDiv) {
+                editDiv.style.display = editDiv.style.display === 'none' ? 'block' : 'none';
+            }
+        }
+        
+        let currentKidsEditId = null;
+        async function openKidsPhotoEdit(listingId, event) {
+            if (event) event.stopPropagation();
+            currentKidsEditId = listingId;
+            
+            try {
+                const response = await fetch('/api/admin/get-listing', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        password: adminPassword_val,
+                        country: currentCountry,
+                        category: 'kids',
+                        listing_id: listingId
+                    })
+                });
+                const data = await response.json();
+                
+                if (data.error) {
+                    alert('Ошибка: ' + data.error);
+                    return;
+                }
+                
+                document.getElementById('kids-edit-id').textContent = 'ID: ' + listingId;
+                document.getElementById('kids-edit-title').value = data.title || '';
+                document.getElementById('kids-edit-desc').value = data.description || '';
+                document.getElementById('kids-edit-city').value = data.city || '';
+                document.getElementById('kids-edit-age').value = data.kids_age || data.age || '';
+                document.getElementById('kids-edit-contact').value = data.contact_name || '';
+                document.getElementById('kids-edit-telegram').value = data.telegram || '';
+                document.getElementById('kids-edit-status').style.display = 'none';
+                document.getElementById('kids-edit-price').value = data.price || '';
+                document.getElementById('kids-edit-status').style.display = 'none';
+                displayEditPhotosPreview('kids-edit-photos-preview', data);
+                for (let i = 0; i < 4; i++) { const el = document.getElementById('kids-edit-photo-' + i); if (el) el.value = ''; }
+                document.getElementById('kids-edit-modal').style.display = 'flex';
+            } catch (err) {
+                console.error('Error loading kids listing:', err);
+                alert('Ошибка при загрузке объявления');
+            }
+        }
+        
+        async function saveKidsPhotoEdit() {
+            const status = document.getElementById('kids-edit-status');
+            status.style.display = 'block';
+            status.textContent = '⏳ Сохранение...';
+            status.style.background = '#fff3e0';
+            status.style.color = '#e65100';
+            
+            try {
+                const formData = new FormData();
+                formData.append('password', adminPassword_val);
+                formData.append('country', currentCountry);
+                formData.append('category', 'kids');
+                formData.append('listing_id', currentKidsEditId);
+                formData.append('title', document.getElementById('kids-edit-title').value);
+                formData.append('description', document.getElementById('kids-edit-desc').value);
+                formData.append('city', document.getElementById('kids-edit-city').value);
+                formData.append('kids_age', document.getElementById('kids-edit-age').value);
+                formData.append('price', document.getElementById('kids-edit-price').value);
+                formData.append('contact_name', document.getElementById('kids-edit-contact').value);
+                formData.append('telegram', document.getElementById('kids-edit-telegram').value);
+                for (let i = 0; i < 4; i++) { const file = document.getElementById('kids-edit-photo-' + i)?.files[0]; if (file) formData.append('photo_' + i, file); }
+                
+                const response = await fetch('/api/admin/update-listing-with-photo', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    status.textContent = '✅ Сохранено!';
+                    status.style.background = '#e8f5e9';
+                    status.style.color = '#2e7d32';
+                    setTimeout(() => {
+                        document.getElementById('kids-edit-modal').style.display = 'none';
+                        loadKidsFeed();
+                    }, 1000);
+                } else {
+                    status.textContent = '❌ ' + (data.error || 'Ошибка');
+                    status.style.background = '#ffebee';
+                    status.style.color = '#c62828';
+                }
+            } catch (err) {
+                console.error('Error saving kids edit:', err);
+                status.textContent = '❌ Ошибка сети';
+                status.style.background = '#ffebee';
+                status.style.color = '#c62828';
+            }
+        }
+        
+        function closeKidsEditModal() {
+            document.getElementById('kids-edit-modal').style.display = 'none';
+        }
+        
+        // === Функции для редактирования Финансы ===
+        let currentExchangeEditId = null;
+        
+        async function openExchangePhotoEdit(listingId, event) {
+            if (event) event.stopPropagation();
+            currentExchangeEditId = listingId;
+            
+            try {
+                const response = await fetch('/api/admin/get-listing', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        password: adminPassword_val,
+                        country: currentCountry,
+                        category: 'money_exchange',
+                        listing_id: listingId
+                    })
+                });
+                const data = await response.json();
+                
+                if (data.error) {
+                    alert('Ошибка: ' + data.error);
+                    return;
+                }
+                
+                document.getElementById('exchange-edit-id').textContent = 'ID: ' + listingId;
+                document.getElementById('exchange-edit-title').value = data.title || '';
+                document.getElementById('exchange-edit-desc').value = data.description || '';
+                document.getElementById('exchange-edit-city').value = data.city || '';
+                document.getElementById('exchange-edit-pairs').value = data.currency_pairs || '';
+                document.getElementById('exchange-edit-status').style.display = 'none';
+                document.getElementById('exchange-edit-address').value = data.address || '';
+                document.getElementById('exchange-edit-contact').value = data.contact_name || '';
+                document.getElementById('exchange-edit-telegram').value = data.telegram || '';
+                document.getElementById('exchange-edit-status').style.display = 'none';
+                displayEditPhotosPreview('exchange-edit-photos-preview', data);
+                for (let i = 0; i < 4; i++) { const el = document.getElementById('exchange-edit-photo-' + i); if (el) el.value = ''; }
+                document.getElementById('exchange-edit-modal').style.display = 'flex';
+            } catch (err) {
+                console.error('Error loading exchange listing:', err);
+                alert('Ошибка при загрузке объявления');
+            }
+        }
+        
+        function closeExchangeEditModal() {
+            document.getElementById('exchange-edit-modal').style.display = 'none';
+        }
+        
+        function previewExchangeEditPhoto(index) { previewEditPhotoGeneric('exchange-edit-photo-', 'exchange-edit-photos-preview', index); }
+        
+        async function saveExchangePhotoEdit() {
+            const status = document.getElementById('exchange-edit-status');
+            status.style.display = 'block';
+            status.textContent = '⏳ Сохранение...';
+            status.style.background = '#fff3e0';
+            status.style.color = '#e65100';
+            
+            try {
+                const formData = new FormData();
+                formData.append('password', adminPassword_val);
+                formData.append('country', currentCountry);
+                formData.append('category', 'money_exchange');
+                formData.append('listing_id', currentExchangeEditId);
+                formData.append('title', document.getElementById('exchange-edit-title').value);
+                formData.append('description', document.getElementById('exchange-edit-desc').value);
+                formData.append('city', document.getElementById('exchange-edit-city').value);
+                formData.append('currency_pairs', document.getElementById('exchange-edit-pairs').value);
+                formData.append('address', document.getElementById('exchange-edit-address').value);
+                formData.append('contact_name', document.getElementById('exchange-edit-contact').value);
+                formData.append('telegram', document.getElementById('exchange-edit-telegram').value);
+                for (let i = 0; i < 4; i++) { const file = document.getElementById('exchange-edit-photo-' + i)?.files[0]; if (file) formData.append('photo_' + i, file); }
+                
+                const response = await fetch('/api/admin/update-listing-with-photo', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    status.textContent = '✅ Сохранено! Обновляем...';
+                    status.style.background = '#e8f5e9';
+                    status.style.color = '#2e7d32';
+                    setTimeout(() => {
+                        closeExchangeEditModal();
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    status.textContent = '❌ ' + (data.error || 'Ошибка');
+                    status.style.background = '#ffebee';
+                    status.style.color = '#c62828';
+                }
+            } catch (err) {
+                console.error('Error saving exchange edit:', err);
+                status.textContent = '❌ Ошибка сети';
+                status.style.background = '#ffebee';
+                status.style.color = '#c62828';
+            }
+        }
+
+        // === Функции для редактирования Барахолка ===
+
+        // === Функции для редактирования Визаран ===
+        let currentVisasEditId = null;
+        async function openVisasPhotoEdit(listingId, event) {
+            if (event) event.stopPropagation();
+            currentVisasEditId = listingId;
+            try {
+                const response = await fetch('/api/admin/get-listing', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: adminPassword_val, country: currentCountry, category: 'visas', listing_id: listingId }) });
+                const data = await response.json();
+                if (data.error) { alert('Ошибка: ' + data.error); return; }
+                document.getElementById('visas-edit-id').textContent = 'ID: ' + listingId;
+                document.getElementById('visas-edit-title').value = data.title || '';
+                document.getElementById('visas-edit-desc').value = data.description || '';
+                document.getElementById('visas-edit-city').value = data.city || 'Nha Trang';
+                document.getElementById('visas-edit-destination').value = data.destination || '';
+                document.getElementById('visas-edit-citizenship').value = data.citizenship || 'Российское';
+                document.getElementById('visas-edit-price').value = data.price || '';
+                document.getElementById('visas-edit-contact').value = data.contact_name || '';
+                document.getElementById('visas-edit-telegram').value = data.telegram || '';
+                document.getElementById('visas-edit-status').style.display = 'none';
+                displayEditPhotosPreview('visas-edit-photos-preview', data);
+                for (let i = 0; i < 4; i++) { const el = document.getElementById('visas-edit-photo-' + i); if (el) el.value = ''; }
+                document.getElementById('visas-edit-modal').style.display = 'flex';
+            } catch (err) { console.error('Error loading visas:', err); alert('Ошибка при загрузке'); }
+        }
+        function closeVisasEditModal() { document.getElementById('visas-edit-modal').style.display = 'none'; }
+        async function saveVisasPhotoEdit() {
+            const status = document.getElementById('visas-edit-status');
+            status.style.display = 'block'; status.textContent = '⏳ Сохранение...'; status.style.background = '#fff3e0'; status.style.color = '#e65100';
+            try {
+                const formData = new FormData();
+                formData.append('password', adminPassword_val); formData.append('country', currentCountry);
+                formData.append('category', 'visas'); formData.append('listing_id', currentVisasEditId);
+                formData.append('title', document.getElementById('visas-edit-title').value);
+                formData.append('description', document.getElementById('visas-edit-desc').value);
+                formData.append('city', document.getElementById('visas-edit-city').value);
+                formData.append('destination', document.getElementById('visas-edit-destination').value);
+                formData.append('citizenship', document.getElementById('visas-edit-citizenship').value);
+                formData.append('price', document.getElementById('visas-edit-price').value);
+                formData.append('contact_name', document.getElementById('visas-edit-contact').value);
+                formData.append('telegram', document.getElementById('visas-edit-telegram').value);
+                for (let i = 0; i < 4; i++) { const file = document.getElementById('visas-edit-photo-' + i)?.files[0]; if (file) formData.append('photo_' + i, file); }
+                const response = await fetch('/api/admin/update-listing-with-photo', { method: 'POST', body: formData });
+                const data = await response.json();
+                if (data.success) { status.textContent = '✅ Сохранено!'; status.style.background = '#e8f5e9'; status.style.color = '#2e7d32'; setTimeout(() => { closeVisasEditModal(); loadListings('visas'); }, 1000); }
+                else { status.textContent = '❌ ' + (data.error || 'Ошибка'); status.style.background = '#ffebee'; status.style.color = '#c62828'; }
+            } catch (err) { console.error('Error saving:', err); status.textContent = '❌ Ошибка сети'; status.style.background = '#ffebee'; status.style.color = '#c62828'; }
+        }
+
+        // === Функции для редактирования Фотосессия ===
+        function previewPhotosessionPhoto(input) {
+            const file = input.files[0];
+            if (file) { const reader = new FileReader(); reader.onload = function(e) { document.getElementById('photosession-edit-photo-preview').src = e.target.result; document.getElementById('photosession-edit-photo-preview').style.display = 'block'; document.getElementById('photosession-edit-no-photo').style.display = 'none'; }; reader.readAsDataURL(file); }
+        }
+
+        // === Функции для редактирования Медицина ===
+        let currentMedicineEditId = null;
+        async function openMedicinePhotoEdit(listingId, event) {
+            if (event) event.stopPropagation();
+            currentMedicineEditId = listingId;
+            try {
+                const response = await fetch('/api/admin/get-listing', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: adminPassword_val, country: currentCountry, category: 'medicine', listing_id: listingId }) });
+                const data = await response.json();
+                if (data.error) { alert('Ошибка: ' + data.error); return; }
+                document.getElementById('medicine-edit-id').textContent = 'ID: ' + listingId;
+                document.getElementById('medicine-edit-title').value = data.title || '';
+                document.getElementById('medicine-edit-city').value = data.city || 'Nha Trang';
+                document.getElementById('medicine-edit-desc').value = data.description || '';
+                document.getElementById('medicine-edit-price').value = data.price || '';
+                document.getElementById('medicine-edit-contact').value = data.contact_name || '';
+                document.getElementById('medicine-edit-telegram').value = data.telegram || '';
+                document.getElementById('medicine-edit-status').style.display = 'none';
+                displayEditPhotosPreview('medicine-edit-photos-preview', data);
+                for (let i = 0; i < 4; i++) { const el = document.getElementById('medicine-edit-photo-' + i); if (el) el.value = ''; }
+                document.getElementById('medicine-edit-modal').style.display = 'flex';
+            } catch (err) { console.error('Error loadingОшибка при загрузке'); }
+        }
+        function closeMedicineEditModal() { document.getElementById('medicine-edit-modal').style.display = 'none'; }
+        async function saveMedicinePhotoEdit() {
+            const status = document.getElementById('medicine-edit-status');
+            status.style.display = 'block'; status.textContent = '⏳ Сохранение...'; status.style.background = '#fff3e0'; status.style.color = '#e65100';
+            try {
+                const formData = new FormData();
+                formData.append('password', adminPassword_val); formData.append('country', currentCountry);
+                formData.append('category', 'medicine'); formData.append('listing_id', currentMedicineEditId);
+                formData.append('title', document.getElementById('medicine-edit-title').value);
+                formData.append('city', document.getElementById('medicine-edit-city').value);
+                formData.append('description', document.getElementById('medicine-edit-desc').value);
+                formData.append('price', document.getElementById('medicine-edit-price').value);
+                formData.append('contact_name', document.getElementById('medicine-edit-contact').value);
+                formData.append('telegram', document.getElementById('medicine-edit-telegram').value);
+                for (let i = 0; i < 4; i++) { const file = document.getElementById('medicine-edit-photo-' + i)?.files[0]; if (file) formData.append('photo_' + i, file); }
+                const response = await fetch('/api/admin/update-listing-with-photo', { method: 'POST', body: formData });
+                const data = await response.json();
+                if (data.success) { status.textContent = '✅ Сохранено!'; status.style.background = '#e8f5e9'; status.style.color = '#2e7d32'; setTimeout(() => { closeMedicineEditModal(); loadListings('medicine'); }, 1000); }
+                else { status.textContent = '❌ ' + (data.error || 'Ошибка'); status.style.background = '#ffebee'; status.style.color = '#c62828'; }
+            } catch (err) { console.error('Error saving:', err); status.textContent = '❌ Ошибка сети'; status.style.background = '#ffebee'; status.style.color = '#c62828'; }
+        }
+        
+        // === Функции для редактирования Туры ===
+        let currentTourEditId = null;
+        async function openTourPhotoEdit(listingId, event) {
+            if (event) event.stopPropagation();
+            currentTourEditId = listingId;
+            try {
+                const response = await fetch('/api/admin/get-listing', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: adminPassword_val, country: currentCountry, category: 'tours', listing_id: listingId }) });
+                const data = await response.json();
+                if (data.error) { alert('Ошибка: ' + data.error); return; }
+                document.getElementById('tour-edit-id').textContent = 'ID: ' + listingId;
+                document.getElementById('tour-edit-title').value = data.title || '';
+                document.getElementById('tour-edit-desc').value = data.description || '';
+                document.getElementById('tour-edit-days').value = data.days || '1';
+                document.getElementById('tour-edit-price').value = data.price || '';
+                document.getElementById('tour-edit-location').value = data.location || '';
+                document.getElementById('tour-edit-city').value = data.city || 'Nha Trang';
+                document.getElementById('tour-edit-contact').value = data.contact_name || '';
+                document.getElementById('tour-edit-telegram').value = data.telegram || '';
+                document.getElementById('tour-edit-status').style.display = 'none';
+                displayEditPhotosPreview('tour-edit-photos-preview', data);
+                for (let i = 0; i < 4; i++) { const el = document.getElementById('tour-edit-photo-' + i); if (el) el.value = ''; }
+                document.getElementById('tour-edit-modal').style.display = 'flex';
+            } catch (err) { console.error('Error loading tour:', err); alert('Ошибка при загрузке объявления'); }
+        }
+        function closeTourEditModal() { document.getElementById('tour-edit-modal').style.display = 'none'; }
+        function previewTourEditPhoto(index) { previewEditPhotoGeneric('tour-edit-photo-', 'tour-edit-photos-preview', index); }
+        async function saveTourPhotoEdit() {
+            const status = document.getElementById('tour-edit-status');
+            status.style.display = 'block'; status.textContent = '⏳ Сохранение...'; status.style.background = '#fff3e0'; status.style.color = '#e65100';
+            try {
+                const formData = new FormData();
+                formData.append('password', adminPassword_val); formData.append('country', currentCountry);
+                formData.append('category', 'tours'); formData.append('listing_id', currentTourEditId);
+                formData.append('title', document.getElementById('tour-edit-title').value);
+                formData.append('description', document.getElementById('tour-edit-desc').value);
+                formData.append('days', document.getElementById('tour-edit-days').value);
+                formData.append('price', document.getElementById('tour-edit-price').value);
+                formData.append('location', document.getElementById('tour-edit-location').value);
+                formData.append('city', document.getElementById('tour-edit-city').value);
+                formData.append('contact_name', document.getElementById('tour-edit-contact').value);
+                formData.append('telegram', document.getElementById('tour-edit-telegram').value);
+                for (let i = 0; i < 4; i++) { const file = document.getElementById('tour-edit-photo-' + i)?.files[0]; if (file) formData.append('photo_' + i, file); }
+                const response = await fetch('/api/admin/update-listing-with-photo', { method: 'POST', body: formData });
+                const data = await response.json();
+                if (data.success) { status.textContent = '✅ Сохранено!'; status.style.background = '#e8f5e9'; status.style.color = '#2e7d32'; setTimeout(() => { closeTourEditModal(); loadListings('tours'); }, 1000); }
+                else { status.textContent = '❌ ' + (data.error || 'Ошибка'); status.style.background = '#ffebee'; status.style.color = '#c62828'; }
+            } catch (err) { console.error('Error saving:', err); status.textContent = '❌ Ошибка сети'; status.style.background = '#ffebee'; status.style.color = '#c62828'; }
+        }
+
+        // === Функции для редактирования Транспорт ===
+        let currentTransportEditId = null;
+        async function openTransportPhotoEdit(listingId, event) {
+            if (event) event.stopPropagation();
+            currentTransportEditId = listingId;
+            try {
+                const response = await fetch('/api/admin/get-listing', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: adminPassword_val, country: currentCountry, category: 'transport', listing_id: listingId }) });
+                const data = await response.json();
+                if (data.error) { alert('Ошибка: ' + data.error); return; }
+                document.getElementById('transport-edit-id').textContent = 'ID: ' + listingId;
+                document.getElementById('transport-edit-title').value = data.title || '';
+                document.getElementById('transport-edit-desc').value = data.description || '';
+                document.getElementById('transport-edit-engine').value = data.engine || '';
+                document.getElementById('transport-edit-year').value = data.year || '';
+                document.getElementById('transport-edit-price').value = data.price || '';
+                document.getElementById('transport-edit-type').value = data.transport_type || 'bikes';
+                document.getElementById('transport-edit-location').value = data.location || '';
+                document.getElementById('transport-edit-city').value = data.city || 'Nha Trang';
+                document.getElementById('transport-edit-contact').value = data.contact_name || '';
+                document.getElementById('transport-edit-telegram').value = data.telegram || '';
+                document.getElementById('transport-edit-status').style.display = 'none';
+                displayEditPhotosPreview('transport-edit-photos-preview', data);
+                for (let i = 0; i < 4; i++) { const el = document.getElementById('transport-edit-photo-' + i); if (el) el.value = ''; }
+                document.getElementById('transport-edit-modal').style.display = 'flex';
+            } catch (err) { console.error('Error loading transport:', err); alert('Ошибка при загрузке объявления'); }
+        }
+        function closeTransportEditModal() { document.getElementById('transport-edit-modal').style.display = 'none'; }
+        function previewTransportEditPhoto(index) { previewEditPhotoGeneric('transport-edit-photo-', 'transport-edit-photos-preview', index); }
+        async function saveTransportPhotoEdit() {
+            const status = document.getElementById('transport-edit-status');
+            status.style.display = 'block'; status.textContent = '⏳ Сохранение...'; status.style.background = '#fff3e0'; status.style.color = '#e65100';
+            try {
+                const formData = new FormData();
+                formData.append('password', adminPassword_val); formData.append('country', currentCountry);
+                formData.append('category', 'transport'); formData.append('listing_id', currentTransportEditId);
+                formData.append('title', document.getElementById('transport-edit-title').value);
+                formData.append('description', document.getElementById('transport-edit-desc').value);
+                formData.append('engine', document.getElementById('transport-edit-engine').value);
+                formData.append('year', document.getElementById('transport-edit-year').value);
+                formData.append('price', document.getElementById('transport-edit-price').value);
+                formData.append('transport_type', document.getElementById('transport-edit-type').value);
+                formData.append('location', document.getElementById('transport-edit-location').value);
+                formData.append('city', document.getElementById('transport-edit-city').value);
+                formData.append('contact_name', document.getElementById('transport-edit-contact').value);
+                formData.append('telegram', document.getElementById('transport-edit-telegram').value);
+                for (let i = 0; i < 4; i++) { const file = document.getElementById('transport-edit-photo-' + i)?.files[0]; if (file) formData.append('photo_' + i, file); }
+                const response = await fetch('/api/admin/update-listing-with-photo', { method: 'POST', body: formData });
+                const data = await response.json();
+                if (data.success) { status.textContent = '✅ Сохранено!'; status.style.background = '#e8f5e9'; status.style.color = '#2e7d32'; setTimeout(() => { closeTransportEditModal(); loadListings('transport'); }, 1000); }
+                else { status.textContent = '❌ ' + (data.error || 'Ошибка'); status.style.background = '#ffebee'; status.style.color = '#c62828'; }
+            } catch (err) { console.error('Error saving:', err); status.textContent = '❌ Ошибка сети'; status.style.background = '#ffebee'; status.style.color = '#c62828'; }
+        }
+
+        // === Функции для редактирования Развлечения ===
+        let currentEntertainmentEditId = null;
+        async function openEntertainmentPhotoEdit(listingId, event) {
+            if (event) event.stopPropagation();
+            currentEntertainmentEditId = listingId;
+            try {
+                const response = await fetch('/api/admin/get-listing', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: adminPassword_val, country: currentCountry, category: 'entertainment', listing_id: listingId }) });
+                const data = await response.json();
+                if (data.error) { alert('Ошибка: ' + data.error); return; }
+                document.getElementById('entertainment-edit-id').textContent = 'ID: ' + listingId;
+                document.getElementById('entertainment-edit-title').value = data.title || '';
+                document.getElementById('entertainment-edit-feature').value = data.feature || '';
+                document.getElementById('entertainment-edit-capacity').value = data.capacity || '';
+                document.getElementById('entertainment-edit-desc').value = data.description || '';
+                document.getElementById('entertainment-edit-location').value = data.location || '';
+                document.getElementById('entertainment-edit-city').value = data.city || 'Nha Trang';
+                document.getElementById('entertainment-edit-google-maps').value = data.google_maps || '';
+                document.getElementById('entertainment-edit-contact').value = data.contact_name || '';
+                document.getElementById('entertainment-edit-telegram').value = data.telegram || '';
+                document.getElementById('entertainment-edit-status').style.display = 'none';
+                displayEditPhotosPreview('entertainment-edit-photos-preview', data);
+                for (let i = 0; i < 4; i++) { const el = document.getElementById('entertainment-edit-photo-' + i); if (el) el.value = ''; }
+                document.getElementById('entertainment-edit-modal').style.display = 'flex';
+            } catch (err) { console.error('Error loading entertainment:', err); alert('Ошибка при загрузке объявления'); }
+        }
+        function closeEntertainmentEditModal() { document.getElementById('entertainment-edit-modal').style.display = 'none'; }
+        function previewEntertainmentEditPhoto(index) { previewEditPhotoGeneric('entertainment-edit-photo-', 'entertainment-edit-photos-preview', index); }
+        async function saveEntertainmentPhotoEdit() {
+            const status = document.getElementById('entertainment-edit-status');
+            status.style.display = 'block'; status.textContent = '⏳ Сохранение...'; status.style.background = '#fff3e0'; status.style.color = '#e65100';
+            try {
+                const formData = new FormData();
+                formData.append('password', adminPassword_val); formData.append('country', currentCountry);
+                formData.append('category', 'entertainment'); formData.append('listing_id', currentEntertainmentEditId);
+                formData.append('title', document.getElementById('entertainment-edit-title').value);
+                formData.append('feature', document.getElementById('entertainment-edit-feature').value);
+                formData.append('capacity', document.getElementById('entertainment-edit-capacity').value);
+                formData.append('description', document.getElementById('entertainment-edit-desc').value);
+                formData.append('location', document.getElementById('entertainment-edit-location').value);
+                formData.append('city', document.getElementById('entertainment-edit-city').value);
+                formData.append('google_maps', document.getElementById('entertainment-edit-google-maps').value);
+                formData.append('contact_name', document.getElementById('entertainment-edit-contact').value);
+                formData.append('telegram', document.getElementById('entertainment-edit-telegram').value);
+                for (let i = 0; i < 4; i++) { const file = document.getElementById('entertainment-edit-photo-' + i)?.files[0]; if (file) formData.append('photo_' + i, file); }
+                const response = await fetch('/api/admin/update-listing-with-photo', { method: 'POST', body: formData });
+                const data = await response.json();
+                if (data.success) { status.textContent = '✅ Сохранено!'; status.style.background = '#e8f5e9'; status.style.color = '#2e7d32'; setTimeout(() => { closeEntertainmentEditModal(); loadListings('entertainment'); }, 1000); }
+                else { status.textContent = '❌ ' + (data.error || 'Ошибка'); status.style.background = '#ffebee'; status.style.color = '#c62828'; }
+            } catch (err) { console.error('Error saving:', err); status.textContent = '❌ Ошибка сети'; status.style.background = '#ffebee'; status.style.color = '#c62828'; }
+        }
+
+        // === Функции для редактирования Рестораны ===
+        let currentRestaurantEditId = null;
+        async function openRestaurantPhotoEdit(listingId, event) {
+            if (event) event.stopPropagation();
+            currentRestaurantEditId = listingId;
+            try {
+                const response = await fetch('/api/admin/get-listing', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: adminPassword_val, country: currentCountry, category: 'restaurants', listing_id: listingId }) });
+                const data = await response.json();
+                if (data.error) { alert('Ошибка: ' + data.error); return; }
+                document.getElementById('restaurant-edit-id').textContent = 'ID: ' + listingId;
+                document.getElementById('restaurant-edit-title').value = data.title || '';
+                document.getElementById('restaurant-edit-type').value = data.restaurant_type || data.type || 'ресторан';
+                document.getElementById('restaurant-edit-desc').value = data.description || '';
+                document.getElementById('restaurant-edit-kitchen').value = data.kitchen || '';
+                document.getElementById('restaurant-edit-location').value = data.location || '';
+                document.getElementById('restaurant-edit-city').value = data.city || 'Nha Trang';
+                document.getElementById('restaurant-edit-google-maps').value = data.google_maps || '';
+                document.getElementById('restaurant-edit-google-rating').value = data.google_rating || '';
+                document.getElementById('restaurant-edit-contact').value = data.contact_name || '';
+                document.getElementById('restaurant-edit-telegram').value = data.telegram || '';
+                document.getElementById('restaurant-edit-status').style.display = 'none';
+                displayEditPhotosPreview('restaurant-edit-photos-preview', data);
+                for (let i = 0; i < 4; i++) { const el = document.getElementById('restaurant-edit-photo-' + i); if (el) el.value = ''; }
+                document.getElementById('restaurant-edit-modal').style.display = 'flex';
+            } catch (err) { console.error('Error loading restaurant:', err); alert('Ошибка при загрузке объявления'); }
+        }
+        function closeRestaurantEditModal() { document.getElementById('restaurant-edit-modal').style.display = 'none'; }
+        function previewRestaurantEditPhoto(index) { previewEditPhotoGeneric('restaurant-edit-photo-', 'restaurant-edit-photos-preview', index); }
+        async function saveRestaurantPhotoEdit() {
+            const status = document.getElementById('restaurant-edit-status');
+            status.style.display = 'block'; status.textContent = '⏳ Сохранение...'; status.style.background = '#fff3e0'; status.style.color = '#e65100';
+            try {
+                const formData = new FormData();
+                formData.append('password', adminPassword_val); formData.append('country', currentCountry);
+                formData.append('category', 'restaurants'); formData.append('listing_id', currentRestaurantEditId);
+                formData.append('title', document.getElementById('restaurant-edit-title').value);
+                formData.append('restaurant_type', document.getElementById('restaurant-edit-type').value);
+                formData.append('description', document.getElementById('restaurant-edit-desc').value);
+                formData.append('kitchen', document.getElementById('restaurant-edit-kitchen').value);
+                formData.append('location', document.getElementById('restaurant-edit-location').value);
+                formData.append('city', document.getElementById('restaurant-edit-city').value);
+                formData.append('google_maps', document.getElementById('restaurant-edit-google-maps').value);
+                formData.append('google_rating', document.getElementById('restaurant-edit-google-rating').value);
+                formData.append('contact_name', document.getElementById('restaurant-edit-contact').value);
+                formData.append('telegram', document.getElementById('restaurant-edit-telegram').value);
+                for (let i = 0; i < 4; i++) { const file = document.getElementById('restaurant-edit-photo-' + i)?.files[0]; if (file) formData.append('photo_' + i, file); }
+                const response = await fetch('/api/admin/update-listing-with-photo', { method: 'POST', body: formData });
+                const data = await response.json();
+                if (data.success) { status.textContent = '✅ Сохранено!'; status.style.background = '#e8f5e9'; status.style.color = '#2e7d32'; setTimeout(() => { closeRestaurantEditModal(); loadListings('restaurants'); }, 1000); }
+                else { status.textContent = '❌ ' + (data.error || 'Ошибка'); status.style.background = '#ffebee'; status.style.color = '#c62828'; }
+            } catch (err) { console.error('Error saving:', err); status.textContent = '❌ Ошибка сети'; status.style.background = '#ffebee'; status.style.color = '#c62828'; }
+        }
+
+        // === Функции для редактирования Недвижимость ===
+        let currentRealestateEditId = null;
+        async function openRealestatePhotoEdit(listingId, event) {
+            if (event) event.stopPropagation();
+            currentRealestateEditId = listingId;
+            try {
+                const response = await fetch('/api/admin/get-listing', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: adminPassword_val, country: currentCountry, category: 'real_estate', listing_id: listingId }) });
+                const data = await response.json();
+                if (data.error) { alert('Ошибка: ' + data.error); return; }
+                document.getElementById('realestate-edit-id').textContent = 'ID: ' + listingId;
+                document.getElementById('realestate-edit-title').value = data.title || '';
+                document.getElementById('realestate-edit-property-type').value = data.property_type || 'apartment';
+                document.getElementById('realestate-edit-desc').value = data.description || '';
+                document.getElementById('realestate-edit-rooms').value = data.rooms || 'studio';
+                document.getElementById('realestate-edit-area').value = data.area || '';
+                document.getElementById('realestate-edit-price').value = data.price || '';
+                document.getElementById('realestate-edit-listing-type').value = data.listing_type || 'sale';
+                document.getElementById('realestate-edit-location').value = data.location || '';
+                document.getElementById('realestate-edit-city').value = data.city || 'Nha Trang';
+                document.getElementById('realestate-edit-contact').value = data.contact_name || '';
+                document.getElementById('realestate-edit-telegram').value = data.telegram || '';
+                document.getElementById('realestate-edit-status').style.display = 'none';
+                displayEditPhotosPreview('realestate-edit-photos-preview', data);
+                for (let i = 0; i < 4; i++) { const el = document.getElementById('realestate-edit-photo-' + i); if (el) el.value = ''; }
+                document.getElementById('realestate-edit-modal').style.display = 'flex';
+            } catch (err) { console.error('Error loading realestate:', err); alert('Ошибка при загрузке объявления'); }
+        }
+        function closeRealestateEditModal() { document.getElementById('realestate-edit-modal').style.display = 'none'; }
+        function previewRealestateEditPhoto(index) { previewEditPhotoGeneric('realestate-edit-photo-', 'realestate-edit-photos-preview', index); }
+        async function saveRealestatePhotoEdit() {
+            const status = document.getElementById('realestate-edit-status');
+            status.style.display = 'block'; status.textContent = '⏳ Сохранение...'; status.style.background = '#fff3e0'; status.style.color = '#e65100';
+            try {
+                const formData = new FormData();
+                formData.append('password', adminPassword_val); formData.append('country', currentCountry);
+                formData.append('category', 'real_estate'); formData.append('listing_id', currentRealestateEditId);
+                formData.append('title', document.getElementById('realestate-edit-title').value);
+                formData.append('property_type', document.getElementById('realestate-edit-property-type').value);
+                formData.append('description', document.getElementById('realestate-edit-desc').value);
+                formData.append('rooms', document.getElementById('realestate-edit-rooms').value);
+                formData.append('area', document.getElementById('realestate-edit-area').value);
+                formData.append('price', document.getElementById('realestate-edit-price').value);
+                formData.append('listing_type', document.getElementById('realestate-edit-listing-type').value);
+                formData.append('location', document.getElementById('realestate-edit-location').value);
+                formData.append('city', document.getElementById('realestate-edit-city').value);
+                formData.append('contact_name', document.getElementById('realestate-edit-contact').value);
+                formData.append('telegram', document.getElementById('realestate-edit-telegram').value);
+                for (let i = 0; i < 4; i++) { const file = document.getElementById('realestate-edit-photo-' + i)?.files[0]; if (file) formData.append('photo_' + i, file); }
+                const response = await fetch('/api/admin/update-listing-with-photo', { method: 'POST', body: formData });
+                const data = await response.json();
+                if (data.success) { status.textContent = '✅ Сохранено!'; status.style.background = '#e8f5e9'; status.style.color = '#2e7d32'; setTimeout(() => { closeRealestateEditModal(); loadListings('real_estate'); }, 1000); }
+                else { status.textContent = '❌ ' + (data.error || 'Ошибка'); status.style.background = '#ffebee'; status.style.color = '#c62828'; }
+            } catch (err) { console.error('Error saving:', err); status.textContent = '❌ Ошибка сети'; status.style.background = '#ffebee'; status.style.color = '#c62828'; }
+        }
+
+        // === Вспомогательные функции для превью фото и отображения существующих фото ===
+        function displayEditPhotosPreview(containerId, data) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = '';
+            const cacheBuster = Date.now();
+            const photos = [
+                data.image_url || null,
+                data.image_url_2 || null,
+                data.image_url_3 || null,
+                data.image_url_4 || null
+            ];
+            for (let i = 0; i < 4; i++) {
+                const img = document.createElement('img');
+                img.setAttribute('data-index', i);
+                if (photos[i]) {
+                    img.src = photos[i] + (photos[i].includes('?') ? '&' : '?') + '_t=' + cacheBuster;
+                    img.style.cssText = 'width: 100%; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd;';
+                } else {
+                    img.src = '/static/images/placeholder.jpg';
+                    img.style.cssText = 'width: 100%; height: 60px; object-fit: cover; border-radius: 6px; border: 1px dashed #ccc; opacity: 0.5;';
+                }
+                container.appendChild(img);
+            }
+        }
+        function previewEditPhotoGeneric(inputPrefix, containerId, index) {
+            const input = document.getElementById(inputPrefix + index);
+            const file = input?.files[0];
+            if (!file) return;
+            const isVideo = file.type.startsWith('video/');
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            const indexStr = String(index);
+            const commonStyle = 'width: 100%; height: 60px; object-fit: cover; border-radius: 6px; border: 2px solid #4CAF50;';
+
+            if (isVideo) {
+                // Удаляем старый элемент по data-index (img или video)
+                let old = container.querySelector('[data-index="' + indexStr + '"]');
+                if (!old) {
+                    const allEls = container.querySelectorAll('img, video');
+                    old = allEls[index] || null;
+                }
+                const vid = document.createElement('video');
+                vid.setAttribute('data-index', indexStr);
+                vid.src = URL.createObjectURL(file);
+                vid.style.cssText = commonStyle;
+                vid.muted = true;
+                vid.preload = 'metadata';
+                if (old) { container.replaceChild(vid, old); } else { container.appendChild(vid); }
+            } else {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    let img = container.querySelector('img[data-index="' + indexStr + '"]');
+                    if (!img) {
+                        // Заменяем video на img если было видео
+                        let old = container.querySelector('[data-index="' + indexStr + '"]');
+                        if (!old) {
+                            const allEls = container.querySelectorAll('img, video');
+                            old = allEls[index] || null;
+                        }
+                        img = document.createElement('img');
+                        img.setAttribute('data-index', indexStr);
+                        if (old) { container.replaceChild(img, old); } else { container.appendChild(img); }
+                    }
+                    img.src = e.target.result;
+                    img.style.cssText = commonStyle;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        // Update existing preview functions to use 4 photos
+        function previewKidsEditPhoto(index) { previewEditPhotoGeneric('kids-edit-photo-', 'kids-edit-photos-preview', index); }
+        function previewExchangeEditPhoto(index) { previewEditPhotoGeneric('exchange-edit-photo-', 'exchange-edit-photos-preview', index); }
+        function previewMarketplaceEditPhoto(index) { previewEditPhotoGeneric('marketplace-edit-photo-', 'marketplace-edit-photos-preview', index); }
+        function previewVisasEditPhoto(index) { previewEditPhotoGeneric('visas-edit-photo-', 'visas-edit-photos-preview', index); }
+        function previewMedicineEditPhoto(index) { previewEditPhotoGeneric('medicine-edit-photo-', 'medicine-edit-photos-preview', index); }
+        
+        async function saveInlineEdit(listingId, category) {
+            const status = document.getElementById('inline-status-' + listingId);
+            status.style.display = 'block';
+            status.textContent = '⏳ Сохранение...';
+            status.style.background = '#fff3e0';
+            status.style.color = '#e65100';
+            
+            const updates = {
+                title: document.getElementById('inline-title-' + listingId)?.value || '',
+                description: document.getElementById('inline-desc-' + listingId)?.value || '',
+                city: document.getElementById('inline-city-' + listingId)?.value || '',
+                kids_age: document.getElementById('inline-age-' + listingId)?.value || '',
+                contact_name: document.getElementById('inline-contact-' + listingId)?.value || '',
+                telegram: document.getElementById('inline-telegram-' + listingId)?.value || ''
+            };
+            
+            try {
+                const response = await fetch('/api/admin/edit-listing', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        password: adminPassword_val,
+                        country: currentCountry,
+                        category: category,
+                        listing_id: listingId,
+                        updates: updates
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    status.textContent = '✅ Сохранено!';
+                    status.style.background = '#e8f5e9';
+                    status.style.color = '#2e7d32';
+                    setTimeout(() => {
+                        toggleInlineEdit(listingId, category);
+                        loadListings(category);
+                    }, 1000);
+                } else {
+                    status.textContent = '❌ ' + (data.error || 'Ошибка');
+                    status.style.background = '#ffebee';
+                    status.style.color = '#c62828';
+                }
+            } catch (err) {
+                console.error('Error saving inline edit:', err);
+                status.textContent = '❌ Ошибка сети';
+                status.style.background = '#ffebee';
+                status.style.color = '#c62828';
+            }
+        }
+
+        async function openContactModal(listingId, category) {
+            console.log('Opening contact modal for:', listingId, 'from:', category);
+            try {
+                const response = await fetch(`/api/listings/${category}?country=${currentCountry}`);
+                const data = await response.json();
+                const item = data.find(i => i.id === listingId);
+                if (!item) {
+                    alert('Объявление не найдено');
+                    return;
+                }
+                
+                let channelName = _resolveChannelName(item);
+                let tgLink = item.message_id && channelName ? `https://t.me/${channelName}/${item.message_id}` : null;
+                // Prefer telegram_link (direct post URL from "Ссылка:" in text)
+                let postLink = item.telegram_link || tgLink || '';
+                // Contact channel: from "Источник:" field
+                let contactSource = item.contact || item.contact_name || channelName || '';
+                // Contact channel URL (for writing/opening the channel)
+                let contactChannelUrl = contactSource && contactSource.startsWith('@')
+                    ? `https://t.me/${contactSource.replace('@', '')}`
+                    : (contactSource ? `https://t.me/${contactSource.replace('https://t.me/', '')}` : '');
+                
+                let contactHtml = `
+                    <div style="text-align:center;">
+                        <h3 style="margin:0 0 20px 0;color:#333;">📞 Контактная информация</h3>
+                        <div style="background:#f5f5f5;padding:15px;border-radius:8px;margin-bottom:15px;">
+                            <p style="margin:0 0 10px 0;font-size:14px;color:#555;">
+                                ${item.title || item.name || 'Предложение'}
+                            </p>
+                            ${contactSource ? `<p style="margin:0;font-size:13px;color:#666;">👤 Источник: <b>${contactSource}</b></p>` : ''}
+                        </div>
+                        <div style="display:flex;flex-direction:column;gap:10px;">
+                            ${contactChannelUrl ? `<a href="${contactChannelUrl}" target="_blank" style="display:block;background:#0088cc;text-decoration:none;text-align:center;padding:12px;border-radius:8px;color:white;font-size:14px;font-weight:600;">✈️ Написать в Telegram: ${contactSource}</a>` : ''}
+                            ${postLink ? `<a href="${postLink}" target="_blank" style="display:block;background:#d4af37;text-decoration:none;text-align:center;padding:12px;border-radius:8px;color:white;font-size:14px;font-weight:600;">🔗 Оригинал объявления</a>` : ''}
+                        </div>
+                        <button onclick="document.getElementById('contact-modal').style.display='none'" style="margin-top:20px;background:#eee;border:none;padding:10px 30px;border-radius:6px;cursor:pointer;font-size:14px;">Закрыть</button>
+                    </div>
+                `;
+                
+                let modal = document.getElementById('contact-modal');
+                if (!modal) {
+                    modal = document.createElement('div');
+                    modal.id = 'contact-modal';
+                    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:10000;';
+                    document.body.appendChild(modal);
+                }
+                modal.innerHTML = `<div style="background:white;padding:25px;border-radius:12px;max-width:400px;width:90%;max-height:80vh;overflow-y:auto;">${contactHtml}</div>`;
+                modal.style.display = 'flex';
+                modal.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
+            } catch (err) {
+                console.error('Error opening contact modal:', err);
+                alert('Ошибка загрузки контактов');
+            }
+        }
+
+        function openDeleteModal(listingId, category) {
+            console.log('Opening delete modal for:', listingId, 'from:', category);
+            document.getElementById('delete-modal-id').textContent = 'ID: ' + listingId;
+            document.getElementById('delete-modal').setAttribute('data-id', listingId);
+            document.getElementById('delete-modal').setAttribute('data-category', category);
+            document.getElementById('delete-modal').style.display = 'flex';
+        }
+
+        async function openEditModal(listingId, category) {
+            console.log('Opening specialized edit modal for:', listingId, 'from:', category);
+            
+            // Route to specialized edit modals with 4 photo support
+            switch (category) {
+                case 'kids':
+                    openKidsPhotoEdit(listingId);
+                    return;
+                case 'entertainment':
+                    openEntertainmentPhotoEdit(listingId);
+                    return;
+                case 'money_exchange':
+                case 'exchange':
+                    openExchangePhotoEdit(listingId);
+                    return;
+                case 'marketplace':
+                    return;
+                case 'visas':
+                    openVisasPhotoEdit(listingId);
+                    return;
+                case 'photosession':
+                case 'news':
+                    return;
+                case 'medicine':
+                    openMedicinePhotoEdit(listingId);
+                    return;
+                case 'tours':
+                    openTourPhotoEdit(listingId);
+                    return;
+                case 'transport':
+                    openTransportPhotoEdit(listingId);
+                    return;
+                case 'restaurants':
+                    openRestaurantPhotoEdit(listingId);
+                    return;
+                case 'real_estate':
+                    openRealestatePhotoEdit(listingId);
+                    return;
+            }
+            
+            // Fallback for any other category - use generic modal
+            document.getElementById('edit-modal-id').textContent = 'ID: ' + listingId;
+            document.getElementById('edit-modal').setAttribute('data-id', listingId);
+            document.getElementById('edit-modal').setAttribute('data-category', category);
+            document.getElementById('edit-status').style.display = 'none';
+            
+            const restaurantFields = document.getElementById('edit-restaurant-fields');
+            const realestateFields = document.getElementById('edit-realestate-fields');
+            const exchangeFields = document.getElementById('edit-exchange-fields');
+            const marketplaceFields = document.getElementById('edit-marketplace-fields');
+            const visasFields = document.getElementById('edit-visas-fields');
+            const photosessionFields = document.getElementById('edit-photosession-fields');
+            
+            restaurantFields.style.display = 'none';
+            realestateFields.style.display = 'none';
+            exchangeFields.style.display = 'none';
+            marketplaceFields.style.display = 'none';
+            visasFields.style.display = 'none';
+            photosessionFields.style.display = 'none';
+            medicineFields.style.display = 'none';
+            if (document.getElementById('edit-entertainment-fields')) {
+                document.getElementById('edit-entertainment-fields').style.display = 'none';
+            }
+            realestateFields.style.display = 'block';
+            
+            if (category === 'entertainment') {
+                realestateFields.style.display = 'none';
+                if (document.getElementById('edit-entertainment-fields')) {
+                    document.getElementById('edit-entertainment-fields').style.display = 'block';
+                }
+            }
+            
+            try {
+                const response = await fetch('/api/admin/get-listing', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        password: adminPassword_val,
+                        country: currentCountry,
+                        category: category,
+                        listing_id: listingId
+                    })
+                });
+                const data = await response.json();
+                
+                if (data.error) {
+                    alert('Ошибка: ' + data.error);
+                    return;
+                }
+                
+                document.getElementById('edit-title').value = data.title || '';
+                document.getElementById('edit-description').value = data.description || '';
+                document.getElementById('edit-price').value = data.price || '';
+                document.getElementById('edit-rooms').value = data.rooms || '';
+                document.getElementById('edit-area').value = data.area || '';
+                document.getElementById('edit-date').value = data.date ? data.date.split('T')[0] : '';
+                document.getElementById('edit-contact-name').value = data.contact_name || '';
+                document.getElementById('edit-telegram').value = data.telegram || '';
+                const listingType = data.listing_type || '';
+                document.getElementById('edit-type-sale').checked = listingType.includes('sale');
+                document.getElementById('edit-type-rent').checked = listingType.includes('rent');
+                
+                if (category === 'restaurants') {
+                    document.getElementById('edit-city').value = data.city || '';
+                    document.getElementById('edit-kitchen').value = data.kitchen || '';
+                    document.getElementById('edit-google-maps').value = data.google_maps || '';
+                    document.getElementById('edit-google-rating').value = data.google_rating || '';
+                    const restType = data.restaurant_type || 'ресторан';
+                    document.querySelectorAll('input[name="edit-restaurant-type"]').forEach(r => {
+                        r.checked = r.value === restType;
+                    });
+                    const priceCategory = data.price_category || 'normal';
+                    document.querySelectorAll('input[name="edit-price-category"]').forEach(r => {
+                        r.checked = r.value === priceCategory;
+                    });
+                } else if (category === 'money_exchange' || category === 'exchange') {
+                    document.getElementById('edit-exchange-city').value = data.city || '';
+                    document.getElementById('edit-currency-pairs').value = data.currency_pairs || '';
+                } else if (category === 'marketplace') {
+                    const mktCat = data.marketplace_category || 'other';
+                    const mktSelect = document.getElementById('edit-marketplace-category');
+                    if ([...mktSelect.options].some(o => o.value === mktCat)) {
+                        mktSelect.value = mktCat;
+                    } else {
+                        mktSelect.value = 'other';
+                    }
+                    document.getElementById('edit-marketplace-city').value = data.city || '';
+                    document.getElementById('edit-marketplace-price').value = data.price || '';
+                } else if (category === 'visas') {
+                    document.getElementById('edit-visas-service').value = data.service_type || 'visarun';
+                    document.getElementById('edit-visas-city').value = data.city || '';
+                    document.getElementById('edit-visas-price').value = data.price || '';
+                } else if (category === 'entertainment') {
+                    document.getElementById('edit-entertainment-feature').value = data.feature || '';
+                    document.getElementById('edit-entertainment-capacity').value = data.capacity || '';
+                    document.getElementById('edit-entertainment-city').value = data.city || 'Nha Trang';
+                    document.getElementById('edit-entertainment-location').value = data.location || '';
+                    document.getElementById('edit-entertainment-geolocation').value = data.geolocation || '';
+                } else if (category === 'news' || category === 'photosession') {
+                    document.getElementById('edit-photosession-type').value = data.photo_type || 'portrait';
+                    document.getElementById('edit-photosession-city').value = data.city || '';
+                    document.getElementById('edit-photosession-price').value = data.price || '';
+                } else if (category === 'medicine') {
+                    document.getElementById('edit-medicine-service').value = data.service_type || 'clinic';
+                    document.getElementById('edit-medicine-city').value = data.city || '';
+                    document.getElementById('edit-medicine-price').value = data.price || '';
+                }
+                
+                document.getElementById('edit-modal').style.display = 'flex';
+            } catch (err) {
+                console.error('Error loading listing:', err);
+                alert('Не удалось загрузить объявление');
+            }
+        }
+
+        async function saveEditFromCard() {
+            const modal = document.getElementById('edit-modal');
+            const listingId = modal.getAttribute('data-id');
+            const category = modal.getAttribute('data-category');
+            const status = document.getElementById('edit-status');
+            
+            const updates = {
+                title: document.getElementById('edit-title').value,
+                description: document.getElementById('edit-description').value,
+                price: document.getElementById('edit-price').value,
+                rooms: document.getElementById('edit-rooms').value,
+                area: document.getElementById('edit-area').value,
+                date: document.getElementById('edit-date').value,
+                contact_name: document.getElementById('edit-contact-name').value,
+                telegram: document.getElementById('edit-telegram').value,
+                listing_type: [
+                    document.getElementById('edit-type-sale').checked ? 'sale' : '',
+                    document.getElementById('edit-type-rent').checked ? 'rent' : ''
+                ].filter(t => t).join(',') || null
+            };
+            
+            const isEntertainment = category === 'entertainment';
+            if (document.getElementById('edit-entertainment-fields')) document.getElementById('edit-entertainment-fields').style.display = isEntertainment ? 'block' : 'none';
+            
+            if (isEntertainment) {
+                updates.feature = document.getElementById('edit-entertainment-feature').value;
+                updates.capacity = document.getElementById('edit-entertainment-capacity').value;
+                updates.city = document.getElementById('edit-entertainment-city').value;
+                updates.location = document.getElementById('edit-entertainment-location').value;
+                updates.geolocation = document.getElementById('edit-entertainment-geolocation').value;
+            }
+
+            if (category === 'restaurants') {
+                updates.city = document.getElementById('edit-city').value;
+                updates.kitchen = document.getElementById('edit-kitchen').value;
+                updates.google_maps = document.getElementById('edit-google-maps').value;
+                updates.google_rating = document.getElementById('edit-google-rating').value;
+                updates.restaurant_type = document.querySelector('input[name="edit-restaurant-type"]:checked')?.value || 'ресторан';
+                updates.price_category = document.querySelector('input[name="edit-price-category"]:checked')?.value || 'normal';
+            } else if (category === 'money_exchange' || category === 'exchange') {
+                updates.city = document.getElementById('edit-exchange-city').value;
+                updates.currency_pairs = document.getElementById('edit-currency-pairs').value;
+            } else if (category === 'marketplace') {
+                updates.marketplace_category = document.getElementById('edit-marketplace-category').value;
+                updates.city = document.getElementById('edit-marketplace-city').value;
+                updates.price = document.getElementById('edit-marketplace-price').value;
+            } else if (category === 'visas') {
+                updates.service_type = document.getElementById('edit-visas-service').value;
+                updates.city = document.getElementById('edit-visas-city').value;
+                updates.price = document.getElementById('edit-visas-price').value;
+            } else if (category === 'news' || category === 'photosession') {
+                updates.photo_type = document.getElementById('edit-photosession-type').value;
+                updates.city = document.getElementById('edit-photosession-city').value;
+                updates.price = document.getElementById('edit-photosession-price').value;
+            } else if (category === 'medicine') {
+                updates.service_type = document.getElementById('edit-medicine-service').value;
+                updates.city = document.getElementById('edit-medicine-city').value;
+                updates.price = document.getElementById('edit-medicine-price').value;
+            }
+            
+            status.textContent = '⏳ Сохранение...';
+            status.style.color = '#666';
+            status.style.display = 'block';
+            
+            try {
+                const response = await fetch('/api/admin/edit-listing', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        password: adminPassword_val,
+                        country: currentCountry,
+                        category: category,
+                        listing_id: listingId,
+                        updates: updates
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    status.textContent = '✅ ' + data.message;
+                    status.style.color = '#4CAF50';
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                        loadListings(category);
+                    }, 1000);
+                } else {
+                    status.textContent = '❌ ' + (data.error || 'Ошибка');
+                    status.style.color = '#ff6b6b';
+                }
+            } catch (err) {
+                console.error('Error saving:', err);
+                status.textContent = '❌ Ошибка сохранения';
+                status.style.color = '#ff6b6b';
+            }
+        }
+
+        function switchBannerTab(type) {
+            currentBannerTab = type;
+            document.getElementById('banner-section-web').style.display = type === 'web' ? 'block' : 'none';
+            document.getElementById('banner-section-mobile').style.display = type === 'mobile' ? 'block' : 'none';
+            document.getElementById('banner-tab-web').style.background = type === 'web' ? '#d4af37' : '#ddd';
+            document.getElementById('banner-tab-web').style.color = type === 'web' ? 'white' : '#333';
+            document.getElementById('banner-tab-mobile').style.background = type === 'mobile' ? '#d4af37' : '#ddd';
+            document.getElementById('banner-tab-mobile').style.color = type === 'mobile' ? 'white' : '#333';
+        }
+        
+        function renderAdminBanners() {
+            renderAdminBannersForType('web');
+            renderAdminBannersForType('mobile');
+        }
+        
+        function renderAdminBannersForType(bannerType) {
+            const countryData = bannerConfig[currentCountry] || {};
+            const banners = countryData[bannerType] || [];
+            const list = document.getElementById('admin-banners-list-' + bannerType);
+            if (!list) return;
+            
+            if (banners.length === 0) {
+                list.innerHTML = '<p style="color: #999; font-size: 12px; text-align: center; grid-column: 1/-1;">Нет баннеров</p>';
+                return;
+            }
+            
+            list.innerHTML = banners.map((url, idx) => `
+                <div style="position: relative; border-radius: 6px; overflow: hidden; border: 1px solid #ddd; aspect-ratio: 16/9;" data-banner-idx="${idx}">
+                    <img src="${url}" alt="${escapeHtml(buildSectionImageAlt({ title: 'Баннер ' + (idx + 1) }, bannerType, idx)).replace(/"/g, '&quot;')}" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div style="position: absolute; top: 5px; left: 5px; display: flex; flex-direction: column; gap: 2px;">
+                        <button onclick="moveBannerAdmin(${idx}, -1, '${bannerType}')" ${idx === 0 ? 'disabled' : ''} style="background: rgba(0,0,0,0.7); color: white; border: none; border-radius: 3px; padding: 2px 6px; cursor: pointer; font-size: 12px; ${idx === 0 ? 'opacity: 0.3;' : ''}">▲</button>
+                        <button onclick="moveBannerAdmin(${idx}, 1, '${bannerType}')" ${idx === banners.length - 1 ? 'disabled' : ''} style="background: rgba(0,0,0,0.7); color: white; border: none; border-radius: 3px; padding: 2px 6px; cursor: pointer; font-size: 12px; ${idx === banners.length - 1 ? 'opacity: 0.3;' : ''}">▼</button>
+                    </div>
+                    <div style="position: absolute; top: 5px; right: 5px;">
+                        <button onclick="deleteBannerAdmin('${url}', '${bannerType}')" style="background: rgba(255,0,0,0.8); color: white; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 10px;">🗑️</button>
+                    </div>
+                    <div style="position: absolute; bottom: 5px; left: 5px; background: rgba(0,0,0,0.6); color: white; padding: 2px 6px; border-radius: 3px; font-size: 10px;">#${idx + 1}</div>
+                </div>
+            `).join('');
+        }
+        
+        async function moveBannerAdmin(idx, direction, bannerType = 'web') {
+            const countryData = bannerConfig[currentCountry] || {};
+            const banners = countryData[bannerType] || [];
+            const newIdx = idx + direction;
+            if (newIdx < 0 || newIdx >= banners.length) return;
+            
+            const newOrder = [...banners];
+            [newOrder[idx], newOrder[newIdx]] = [newOrder[newIdx], newOrder[idx]];
+            
+            try {
+                const r = await fetch('/api/admin/reorder-banners', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        password: adminPassword_val,
+                        country: currentCountry,
+                        urls: newOrder,
+                        banner_type: bannerType
+                    })
+                });
+                const data = await r.json();
+                if (data.success) {
+                    if (!bannerConfig[currentCountry]) bannerConfig[currentCountry] = {};
+                    bannerConfig[currentCountry][bannerType] = newOrder;
+                    renderAdminBanners();
+                    updateBanner();
+                } else {
+                    alert('Ошибка: ' + (data.error || 'Не удалось переместить'));
+                }
+            } catch (e) {
+                alert('Ошибка сети');
+            }
+        }
+
+        async function uploadBannerAdmin(bannerType = 'web') {
+            const input = document.getElementById('banner-upload-input-' + bannerType);
+            const status = document.getElementById('banner-upload-status-' + bannerType);
+            if (!input.files || !input.files[0]) return;
+            
+            const formData = new FormData();
+            formData.append('file', input.files[0]);
+            formData.append('country', currentCountry);
+            formData.append('password', adminPassword_val);
+            formData.append('banner_type', bannerType);
+            
+            status.textContent = '⏳ Загрузка...';
+            status.style.color = '#666';
+            
+            try {
+                const r = await fetch('/api/admin/upload-banner', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await r.json();
+                if (data.success) {
+                    status.textContent = '✅ Загружено!';
+                    status.style.color = '#31a24c';
+                    input.value = '';
+                    await loadBanners();
+                } else {
+                    status.textContent = '❌ Ошибка: ' + data.error;
+                    status.style.color = '#ff6b6b';
+                }
+            } catch (e) {
+                status.textContent = '❌ Ошибка сети';
+                status.style.color = '#ff6b6b';
+            }
+        }
+
+        async function deleteBannerAdmin(url, bannerType = 'web') {
+            if (!confirm('Удалить этот баннер?')) return;
+            
+            try {
+                const r = await fetch('/api/admin/delete-banner', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        password: adminPassword_val,
+                        country: currentCountry,
+                        url: url,
+                        banner_type: bannerType
+                    })
+                });
+                const data = await r.json();
+                if (data.success) {
+                    await loadBanners();
+                } else {
+                    alert('Ошибка при удалении');
+                }
+            } catch (e) {
+                alert('Ошибка сети');
+            }
+        }
+
+        // ============ УПРАВЛЕНИЕ КАНАЛАМИ ============
+        const categoryNames = {
+            'chat': 'Все чаты', 'restaurants': 'Рестораны', 'tours': 'Экскурсии',
+            'transport': 'Транспорт', 'real_estate': 'Недвижимость',
+            'money_exchange': 'Финансы', 'entertainment': 'Развлечения',
+            'marketplace': 'Барахолка', 'visas': 'Визаран', 'news': 'Фотосессия',
+            'medicine': 'Медицина', 'kids': 'Дети'
+        };
+
+        // Управление городами
+        async function loadCitiesAdmin() {
+            const category = document.getElementById('city-category').value;
+            const container = document.getElementById('cities-list');
+            
+            try {
+                const r = await fetch(`/api/admin/cities?country=${currentCountry}&category=${category}&password=${encodeURIComponent(adminPassword_val)}`);
+                const data = await r.json();
+                
+                if (data.cities && data.cities.length > 0) {
+                    container.innerHTML = data.cities.map(city => `
+                        <div style="background: #f9f9f9; border-radius: 8px; overflow: hidden; border: 1px solid #ddd;">
+                            <img src="${city.image}" alt="${escapeHtml(buildSectionImageAlt({ city: city.name, title: 'Фото города' }, category)).replace(/"/g, '&quot;')}" style="width: 100%; height: 120px; object-fit: cover;" onerror="this.src='/static/icons/placeholder.png'">
+                            <div style="padding: 10px;">
+                                <input type="text" value="${city.name}" id="city-name-${city.id}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 8px; font-weight: 600;">
+                                <div style="display: flex; gap: 5px;">
+                                    <button onclick="updateCityAdmin('${city.id}')" style="flex: 1; padding: 6px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">💾</button>
+                                    <label style="flex: 1; padding: 6px; background: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px; text-align: center;">
+                                        📷
+                                        <input type="file" accept="image/*" onchange="updateCityPhotoAdmin('${city.id}', this)" style="display: none;">
+                                    </label>
+                                    <button onclick="deleteCityAdmin('${city.id}')" style="flex: 1; padding: 6px; background: #ff6b6b; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">🗑️</button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = '<p style="color: #666; text-align: center; padding: 20px;">Нет городов для этой категории</p>';
+                }
+            } catch (e) {
+                container.innerHTML = '<p style="color: #ff6b6b; text-align: center;">Ошибка загрузки</p>';
+            }
+        }
+
+        async function addCityAdmin() {
+            const category = document.getElementById('city-category').value;
+            const name = document.getElementById('new-city-name').value.trim();
+            const photoInput = document.getElementById('new-city-photo');
+            const result = document.getElementById('city-result');
+            
+            if (!name) {
+                result.innerHTML = '<span style="color: #ff6b6b;">❌ Введите название города</span>';
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('password', adminPassword_val);
+            formData.append('country', currentCountry);
+            formData.append('category', category);
+            formData.append('name', name);
+            if (photoInput.files[0]) {
+                formData.append('photo', photoInput.files[0]);
+            }
+            
+            try {
+                const r = await fetch('/api/admin/add-city', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await r.json();
+                
+                if (data.success) {
+                    result.innerHTML = '<span style="color: #4CAF50;">✅ ' + data.message + '</span>';
+                    document.getElementById('new-city-name').value = '';
+                    photoInput.value = '';
+                    loadCitiesAdmin();
+                } else {
+                    result.innerHTML = '<span style="color: #ff6b6b;">❌ ' + (data.error || 'Ошибка') + '</span>';
+                }
+            } catch (e) {
+                result.innerHTML = '<span style="color: #ff6b6b;">❌ Ошибка сети</span>';
+            }
+        }
+
+        async function updateCityAdmin(cityId) {
+            const category = document.getElementById('city-category').value;
+            const name = document.getElementById(`city-name-${cityId}`).value.trim();
+            
+            try {
+                const r = await fetch('/api/admin/update-city', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        password: adminPassword_val,
+                        country: currentCountry,
+                        category: category,
+                        city_id: cityId,
+                        name: name
+                    })
+                });
+                const data = await r.json();
+                
+                if (data.success) {
+                    alert('✅ Город обновлён');
+                } else {
+                    alert('Ошибка: ' + (data.error || 'Unknown'));
+                }
+            } catch (e) {
+                alert('Ошибка сети');
+            }
+        }
+
+        async function updateCityPhotoAdmin(cityId, input) {
+            if (!input.files[0]) return;
+            
+            const category = document.getElementById('city-category').value;
+            const formData = new FormData();
+            formData.append('password', adminPassword_val);
+            formData.append('country', currentCountry);
+            formData.append('category', category);
+            formData.append('city_id', cityId);
+            formData.append('photo', input.files[0]);
+            
+            try {
+                const r = await fetch('/api/admin/update-city-photo', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await r.json();
+                
+                if (data.success) {
+                    loadCitiesAdmin();
+                } else {
+                    alert('Ошибка: ' + (data.error || 'Unknown'));
+                }
+            } catch (e) {
+                alert('Ошибка сети');
+            }
+        }
+
+        async function deleteCityAdmin(cityId) {
+            if (!confirm('Удалить этот город?')) return;
+            
+            const category = document.getElementById('city-category').value;
+            
+            try {
+                const r = await fetch('/api/admin/delete-city', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        password: adminPassword_val,
+                        country: currentCountry,
+                        category: category,
+                        city_id: cityId
+                    })
+                });
+                const data = await r.json();
+                
+                if (data.success) {
+                    loadCitiesAdmin();
+                } else {
+                    alert('Ошибка: ' + (data.error || 'Unknown'));
+                }
+            } catch (e) {
+                alert('Ошибка сети');
+            }
+        }
+
+        // Редактирование городов из основного меню
+        function openCityEditModal(section, index, cityName, imageUrl) {
+            document.getElementById('city-edit-section').value = section;
+            document.getElementById('city-edit-index').value = index;
+            document.getElementById('city-edit-old-name').value = cityName;
+            document.getElementById('city-edit-name').value = cityName;
+            document.getElementById('city-edit-photo').value = '';
+            document.getElementById('city-edit-status').innerHTML = '';
+            
+            const preview = document.getElementById('city-edit-preview');
+            preview.alt = buildSectionImageAlt({ city: cityName }, section) || 'Предпросмотр фотографии города';
+            if (imageUrl) {
+                preview.src = imageUrl;
+                preview.style.display = 'block';
+            } else {
+                preview.style.display = 'none';
+            }
+            
+            document.getElementById('city-edit-modal').style.display = 'flex';
+        }
+        
+        function closeCityEditModal() {
+            document.getElementById('city-edit-modal').style.display = 'none';
+        }
+        
+        async function saveCityChanges() {
+            const section = document.getElementById('city-edit-section').value;
+            const oldName = document.getElementById('city-edit-old-name').value;
+            const newName = document.getElementById('city-edit-name').value.trim();
+            const photoInput = document.getElementById('city-edit-photo');
+            const status = document.getElementById('city-edit-status');
+            
+            if (!newName) {
+                status.innerHTML = '<span style="color: #ff6b6b;">Введите название города</span>';
+                return;
+            }
+            
+            status.innerHTML = '<span style="color: #1565c0;">💾 Сохранение...</span>';
+            
+            const formData = new FormData();
+            formData.append('password', adminPassword_val);
+            formData.append('country', currentCountry);
+            formData.append('section', section);
+            formData.append('old_name', oldName);
+            formData.append('new_name', newName);
+            if (photoInput.files[0]) {
+                formData.append('photo', photoInput.files[0]);
+            }
+            
+            try {
+                const r = await fetch('/api/admin/edit-city-inline', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await r.json();
+                
+                if (data.success) {
+                    status.innerHTML = '<span style="color: #4CAF50;">✅ Сохранено!</span>';
+                    setTimeout(() => {
+                        closeCityEditModal();
+                        renderDynamicCityButtons();
+                    }, 500);
+                } else {
+                    status.innerHTML = '<span style="color: #ff6b6b;">❌ ' + (data.error || 'Ошибка') + '</span>';
+                }
+            } catch (e) {
+                status.innerHTML = '<span style="color: #ff6b6b;">❌ Ошибка сети</span>';
+            }
+        }
+        
+        async function moveCityPosition(direction) {
+            const section = document.getElementById('city-edit-section').value;
+            const index = parseInt(document.getElementById('city-edit-index').value);
+            const cityName = document.getElementById('city-edit-old-name').value;
+            const status = document.getElementById('city-edit-status');
+            
+            status.innerHTML = '<span style="color: #1565c0;">🔄 Перемещение...</span>';
+            
+            try {
+                const r = await fetch('/api/admin/move-city-position', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        password: adminPassword_val,
+                        country: currentCountry,
+                        section: section,
+                        city_name: cityName,
+                        direction: direction
+                    })
+                });
+                const data = await r.json();
+                
+                if (data.success) {
+                    status.innerHTML = '<span style="color: #4CAF50;">✅ Перемещено!</span>';
+                    document.getElementById('city-edit-index').value = index + direction;
+                    setTimeout(() => {
+                        closeCityEditModal();
+                        renderDynamicCityButtons();
+                    }, 500);
+                } else {
+                    status.innerHTML = '<span style="color: #ff6b6b;">❌ ' + (data.error || 'Ошибка') + '</span>';
+                }
+            } catch (e) {
+                status.innerHTML = '<span style="color: #ff6b6b;">❌ Ошибка сети</span>';
+            }
+        }
+        
+        async function deleteCityFromModal() {
+            const section = document.getElementById('city-edit-section').value;
+            const cityName = document.getElementById('city-edit-old-name').value;
+            const status = document.getElementById('city-edit-status');
+            
+            if (!confirm(`Удалить город "${cityName}"?`)) return;
+            
+            status.innerHTML = '<span style="color: #1565c0;">🗑️ Удаление...</span>';
+            
+            try {
+                const r = await fetch('/api/admin/delete-city-inline', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        password: adminPassword_val,
+                        country: currentCountry,
+                        section: section,
+                        city_name: cityName
+                    })
+                });
+                const data = await r.json();
+                
+                if (data.success) {
+                    closeCityEditModal();
+                    renderDynamicCityButtons();
+                } else {
+                    status.innerHTML = '<span style="color: #ff6b6b;">❌ ' + (data.error || 'Ошибка') + '</span>';
+                }
+            } catch (e) {
+                status.innerHTML = '<span style="color: #ff6b6b;">❌ Ошибка сети</span>';
+            }
+        }
+
+
+        // Капча
+        function loadCaptcha() {
+            fetch('/api/captcha')
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('captcha-question').textContent = data.question;
+                    document.getElementById('captcha-answer').value = data.token;
+                });
+        }
+
+        // Форма подачи объявления
+        document.getElementById('submit-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const status = document.getElementById('submit-status');
+            status.style.display = 'block';
+            status.textContent = '⏳ Отправка...';
+            status.style.color = '#666';
+
+            const formData = new FormData();
+            formData.append('country', currentCountry);
+            formData.append('title', document.getElementById('submit-title').value);
+            formData.append('description', document.getElementById('submit-description').value);
+            formData.append('price', document.getElementById('submit-price').value || '0');
+            formData.append('rooms', document.getElementById('submit-rooms').value);
+            formData.append('area', document.getElementById('submit-area').value);
+            formData.append('location', document.getElementById('submit-location').value);
+            formData.append('city', document.getElementById('submit-city').value);
+            formData.append('contact_name', document.getElementById('submit-contact-name').value);
+            formData.append('telegram', document.getElementById('submit-telegram').value);
+            
+            const listingType = [
+                document.getElementById('submit-type-sale').checked ? 'sale' : '',
+                document.getElementById('submit-type-rent').checked ? 'rent' : ''
+            ].filter(t => t).join(',');
+            formData.append('listing_type', listingType);
+            
+            formData.append('captcha_answer', document.getElementById('submit-captcha').value);
+            formData.append('captcha_token', document.getElementById('captcha-answer').value);
+
+            for (let i = 0; i < 4; i++) {
+                const file = document.getElementById(`submit-photo-${i}`).files[0];
+                if (file) {
+                    if (file.size > 20 * 1024 * 1024) {
+                        status.textContent = `❌ Фото ${i+1} превышает 20 МБ`;
+                        status.style.color = '#ff6b6b';
+                        return;
+                    }
+                    formData.append(`photo_${i}`, file);
+                }
+            }
+
+            try {
+                const response = await fetch('/api/submit-listing', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    status.textContent = '✅ ' + data.message;
+                    status.style.color = '#4CAF50';
+                    document.getElementById('submit-form').reset();
+                    loadCaptcha();
+                } else {
+                    status.textContent = '❌ ' + (data.error || 'Ошибка');
+                    status.style.color = '#ff6b6b';
+                    loadCaptcha();
+                }
+            } catch (err) {
+                status.textContent = '❌ Ошибка отправки';
+                status.style.color = '#ff6b6b';
+            }
+        });
+
+        function loadRestaurantCaptcha() {
+            fetch('/api/captcha')
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('restaurant-captcha-question').textContent = data.question;
+                    document.getElementById('restaurant-captcha-answer').value = data.token;
+                });
+        }
+
+        function loadEntertainmentCaptcha() {
+            fetch('/api/captcha')
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('entertainment-captcha-question').textContent = data.question;
+                    document.getElementById('entertainment-captcha-answer').value = data.token;
+                });
+        }
+
+        function loadTourCaptcha() {
+            fetch('/api/captcha')
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('tour-captcha-question').textContent = data.question;
+                    document.getElementById('tour-captcha-answer').value = data.token;
+                });
+        }
+
+        function loadTransportCaptcha() {
+            fetch('/api/captcha')
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('transport-captcha-question').textContent = data.question;
+                    document.getElementById('transport-captcha-answer').value = data.token;
+                });
+        }
+
+        function loadRealEstateCaptcha() {
+            fetch('/api/captcha')
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('realestate-captcha-question').textContent = data.question;
+                    document.getElementById('realestate-captcha-answer').value = data.token;
+                });
+        }
+
+        function loadVisasCaptcha() {
+            fetch('/api/captcha')
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('visas-captcha-question').textContent = data.question;
+                    document.getElementById('visas-captcha-token').value = data.token;
+                    // Синхронизация для тех форм, которые используют visas-captcha-token как основной
+                    const hiddenInput = document.getElementById('visas-captcha-answer');
+                    if (hiddenInput) hiddenInput.value = data.token;
+                });
+        }
+
+        function loadExchangeCaptcha() {
+            fetch('/api/captcha')
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('exchange-captcha-question').textContent = data.question;
+                    document.getElementById('exchange-captcha-token').value = data.token;
+                    const hiddenInput = document.getElementById('exchange-captcha-answer');
+                    if (hiddenInput) hiddenInput.value = data.token;
+                });
+        }
+
+
+
+
+
+        async function submitVisas(e) {
+            e.preventDefault();
+            const status = document.getElementById('visas-submit-status');
+            status.style.display = 'block';
+            status.textContent = '⏳ Отправка...';
+            status.style.color = '#666';
+
+            const formData = new FormData();
+            formData.append('country', currentCountry);
+            formData.append('category', 'visas');
+            formData.append('destination', document.getElementById('visas-destination').value);
+            formData.append('citizenship', document.getElementById('visas-citizenship').value);
+            formData.append('city', document.getElementById('visas-city').value);
+            formData.append('title', document.getElementById('visas-title').value);
+            formData.append('description', document.getElementById('visas-description').value);
+            formData.append('price', document.getElementById('visas-price').value || '');
+            formData.append('contact_name', document.getElementById('visas-contact').value);
+            formData.append('telegram', document.getElementById('visas-telegram').value);
+            formData.append('captcha_answer', document.getElementById('visas-captcha').value);
+            formData.append('captcha_token', document.getElementById('visas-captcha-token').value);
+
+            for (let i = 0; i < 4; i++) {
+                const file = document.getElementById(`visas-photo-${i}`).files[0];
+                if (file) {
+                    if (file.size > 20 * 1024 * 1024) {
+                        status.textContent = '❌ Фото слишком большое (макс 20 МБ)';
+                        status.style.color = '#ff6b6b';
+                        return;
+                    }
+                    formData.append('photos', file);
+                }
+            }
+
+            try {
+                const response = await fetch('/api/submit-listing', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    status.textContent = '✅ ' + data.message;
+                    status.style.color = '#4CAF50';
+                    e.target.reset();
+                    loadVisasCaptcha();
+                } else {
+                    status.textContent = '❌ ' + (data.error || 'Ошибка');
+                    status.style.color = '#ff6b6b';
+                    loadVisasCaptcha();
+                }
+            } catch (err) {
+                status.textContent = '❌ Ошибка отправки';
+                status.style.color = '#ff6b6b';
+            }
+        }
+
+        function openDeliveryModal() {
+            const m = document.getElementById('delivery-modal');
+            m.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeDeliveryModal() {
+            document.getElementById('delivery-modal').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+        async function submitDelivery(e) {
+            e.preventDefault();
+            const btn = document.getElementById('delivery-submit-btn');
+            const st = document.getElementById('delivery-status');
+            btn.disabled = true; btn.textContent = 'Отправляю...';
+            st.style.display = 'none';
+            try {
+                const body = {
+                    telegram: document.getElementById('del-tg').value.trim(),
+                    amount: document.getElementById('del-amount').value.trim(),
+                    city: document.getElementById('del-city').value,
+                    address: document.getElementById('del-address').value.trim(),
+                    info: (document.getElementById('del-info').value || '').trim()
+                };
+                const r = await fetch('/api/delivery-order', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(body)
+                });
+                const d = await r.json();
+                if (d.ok) {
+                    st.style.background = '#e8f5e9'; st.style.color = '#2e7d32';
+                    st.textContent = '✅ Ваша заявка принята. Менеджер свяжется с вами в течении 15 минут.';
+                    st.style.display = 'block';
+                    document.getElementById('delivery-form').reset();
+                    setTimeout(closeDeliveryModal, 3500);
+                } else {
+                    st.style.background = '#fce4ec'; st.style.color = '#c62828';
+                    st.textContent = '❌ ' + (d.error || 'Ошибка отправки');
+                    st.style.display = 'block';
+                }
+            } catch(ex) {
+                st.style.background = '#fce4ec'; st.style.color = '#c62828';
+                st.textContent = '❌ Ошибка сети';
+                st.style.display = 'block';
+            }
+            btn.disabled = false; btn.textContent = 'Отправить заявку';
+        }
+
+        async function submitExchange(e) {
+            e.preventDefault();
+            const status = document.getElementById('exchange-submit-status');
+            status.style.display = 'block';
+            status.textContent = '⏳ Отправка...';
+            status.style.color = '#666';
+
+            const formData = new FormData();
+            formData.append('country', currentCountry);
+            formData.append('category', 'money_exchange');
+            formData.append('title', document.getElementById('exchange-title').value);
+            formData.append('city', document.getElementById('exchange-city').value);
+            formData.append('pairs', document.getElementById('exchange-pairs').value || '');
+            formData.append('description', document.getElementById('exchange-description').value);
+            formData.append('address', document.getElementById('exchange-address').value || '');
+            formData.append('contact_name', document.getElementById('exchange-contact').value);
+            formData.append('telegram', document.getElementById('exchange-telegram').value);
+            formData.append('captcha_answer', document.getElementById('exchange-captcha').value);
+            formData.append('captcha_token', document.getElementById('exchange-captcha-token').value);
+
+            for (let i = 0; i < 4; i++) {
+                const file = document.getElementById(`exchange-photo-${i}`).files[0];
+                if (file) {
+                    if (file.size > 20 * 1024 * 1024) {
+                        status.textContent = '❌ Фото слишком большое (макс 20 МБ)';
+                        status.style.color = '#ff6b6b';
+                        return;
+                    }
+                    formData.append('photos', file);
+                }
+            }
+
+            try {
+                const response = await fetch('/api/submit-listing', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    status.textContent = '✅ ' + data.message;
+                    status.style.color = '#4CAF50';
+                    e.target.reset();
+                    loadExchangeCaptcha();
+                } else {
+                    status.textContent = '❌ ' + (data.error || 'Ошибка');
+                    status.style.color = '#ff6b6b';
+                    loadExchangeCaptcha();
+                }
+            } catch (err) {
+                status.textContent = '❌ Ошибка отправки';
+                status.style.color = '#ff6b6b';
+            }
+        }
+
+        document.getElementById('submit-restaurant-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const status = document.getElementById('restaurant-submit-status');
+            status.style.display = 'block';
+            status.textContent = '⏳ Отправка...';
+            status.style.color = '#666';
+
+            const formData = new FormData();
+            formData.append('country', currentCountry);
+            formData.append('category', 'restaurants');
+            formData.append('title', document.getElementById('restaurant-title').value);
+            
+            const restaurantType = document.querySelector('input[name="restaurant-type"]:checked')?.value || 'ресторан';
+            formData.append('restaurant_type', restaurantType);
+            
+            formData.append('description', document.getElementById('restaurant-description').value);
+            formData.append('kitchen', document.getElementById('restaurant-kitchen').value);
+            formData.append('location', document.getElementById('restaurant-location').value);
+            formData.append('city', document.getElementById('restaurant-city').value);
+            formData.append('google_maps', document.getElementById('restaurant-google-maps').value);
+            formData.append('contact_name', document.getElementById('restaurant-contact-name').value);
+            formData.append('telegram', document.getElementById('restaurant-telegram').value);
+            
+            const priceCategory = document.querySelector('input[name="restaurant-price-category"]:checked')?.value || 'normal';
+            formData.append('price_category', priceCategory);
+            
+            formData.append('captcha_answer', document.getElementById('restaurant-captcha').value);
+            formData.append('captcha_token', document.getElementById('restaurant-captcha-answer').value);
+
+            for (let i = 0; i < 4; i++) {
+                const file = document.getElementById(`restaurant-photo-${i}`).files[0];
+                if (file) {
+                    if (file.size > 20 * 1024 * 1024) {
+                        status.textContent = `❌ Фото ${i+1} превышает 20 МБ`;
+                        status.style.color = '#ff6b6b';
+                        return;
+                    }
+                    formData.append(`photo_${i}`, file);
+                }
+            }
+
+            try {
+                const response = await fetch('/api/submit-restaurant', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    status.textContent = '✅ ' + data.message;
+                    status.style.color = '#4CAF50';
+                    document.getElementById('submit-restaurant-form').reset();
+                    loadRestaurantCaptcha();
+                } else {
+                    status.textContent = '❌ ' + (data.error || 'Ошибка');
+                    status.style.color = '#ff6b6b';
+                    loadRestaurantCaptcha();
+                }
+            } catch (err) {
+                status.textContent = '❌ Ошибка отправки';
+                status.style.color = '#ff6b6b';
+            }
+        });
+
+        document.getElementById('submit-entertainment-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const status = document.getElementById('entertainment-submit-status');
+            status.style.display = 'block';
+            status.textContent = '⏳ Отправка...';
+            status.style.color = '#666';
+
+            const formData = new FormData();
+            formData.append('country', currentCountry);
+            formData.append('category', 'entertainment');
+            formData.append('title', document.getElementById('entertainment-title').value);
+            formData.append('description', document.getElementById('entertainment-description').value);
+            formData.append('feature', document.getElementById('entertainment-feature').value);
+            formData.append('location', document.getElementById('entertainment-location').value);
+            formData.append('city', document.getElementById('entertainment-city').value);
+            formData.append('contact_name', document.getElementById('entertainment-contact-name').value);
+            formData.append('telegram', document.getElementById('entertainment-telegram').value);
+            
+            const capacity = document.querySelector('input[name="entertainment-capacity"]:checked')?.value || '50';
+            formData.append('capacity', capacity);
+            
+            formData.append('captcha_answer', document.getElementById('entertainment-captcha').value);
+            formData.append('captcha_token', document.getElementById('entertainment-captcha-answer').value);
+
+            for (let i = 0; i < 4; i++) {
+                const file = document.getElementById(`entertainment-photo-${i}`).files[0];
+                if (file) {
+                    const maxSize = file.type.startsWith('video/') ? 50 * 1024 * 1024 : 20 * 1024 * 1024;
+                    const label = file.type.startsWith('video/') ? 'Видео' : 'Фото';
+                    if (file.size > maxSize) {
+                        status.textContent = `❌ ${label} ${i+1} превышает ${file.type.startsWith('video/') ? '50' : '20'} МБ`;
+                        status.style.color = '#ff6b6b';
+                        return;
+                    }
+                    formData.append(`photo_${i}`, file);
+                }
+            }
+
+            try {
+                const response = await fetch('/api/submit-entertainment', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    status.textContent = '✅ ' + data.message;
+                    status.style.color = '#4CAF50';
+                    document.getElementById('submit-entertainment-form').reset();
+                    loadEntertainmentCaptcha();
+                } else {
+                    status.textContent = '❌ ' + (data.error || 'Ошибка');
+                    status.style.color = '#ff6b6b';
+                    loadEntertainmentCaptcha();
+                }
+            } catch (err) {
+                status.textContent = '❌ Ошибка отправки';
+                status.style.color = '#ff6b6b';
+            }
+        });
+
+        document.getElementById('submit-tour-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const status = document.getElementById('tour-submit-status');
+            status.style.display = 'block';
+            status.textContent = '⏳ Отправка...';
+            status.style.color = '#666';
+
+            const formData = new FormData();
+            formData.append('country', currentCountry);
+            formData.append('category', 'tours');
+            formData.append('title', document.getElementById('tour-title').value);
+            formData.append('description', document.getElementById('tour-description').value);
+            formData.append('days', document.getElementById('tour-days').value);
+            formData.append('price', document.getElementById('tour-price').value);
+            formData.append('location', document.getElementById('tour-location').value);
+            formData.append('city', document.getElementById('tour-city').value);
+            formData.append('contact_name', document.getElementById('tour-contact-name').value);
+            formData.append('telegram', document.getElementById('tour-telegram').value);
+            
+            const groupSize = document.querySelector('input[name="tour-group-size"]:checked')?.value || '5';
+            formData.append('group_size', groupSize);
+            
+            formData.append('captcha_answer', document.getElementById('tour-captcha').value);
+            formData.append('captcha_token', document.getElementById('tour-captcha-answer').value);
+
+            for (let i = 0; i < 4; i++) {
+                const file = document.getElementById(`tour-photo-${i}`).files[0];
+                if (file) {
+                    if (file.size > 20 * 1024 * 1024) {
+                        status.textContent = `❌ Фото ${i+1} превышает 20 МБ`;
+                        status.style.color = '#ff6b6b';
+                        return;
+                    }
+                    formData.append(`photo_${i}`, file);
+                }
+            }
+
+            try {
+                const response = await fetch('/api/submit-tour', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    status.textContent = '✅ ' + data.message;
+                    status.style.color = '#4CAF50';
+                    document.getElementById('submit-tour-form').reset();
+                    loadTourCaptcha();
+                } else {
+                    status.textContent = '❌ ' + (data.error || 'Ошибка');
+                    status.style.color = '#ff6b6b';
+                    loadTourCaptcha();
+                }
+            } catch (err) {
+                status.textContent = '❌ Ошибка отправки';
+                status.style.color = '#ff6b6b';
+            }
+        });
+
+        document.getElementById('submit-transport-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const status = document.getElementById('transport-submit-status');
+            status.style.display = 'block';
+            status.textContent = '⏳ Отправка...';
+            status.style.color = '#666';
+
+            const formData = new FormData();
+            formData.append('country', currentCountry);
+            formData.append('category', 'transport');
+            formData.append('title', document.getElementById('transport-title').value);
+            formData.append('description', document.getElementById('transport-description').value);
+            formData.append('engine', document.getElementById('transport-engine').value);
+            formData.append('year', document.getElementById('transport-year').value);
+            formData.append('price', document.getElementById('transport-price').value);
+            formData.append('transport_type', document.getElementById('transport-type').value);
+            formData.append('location', document.getElementById('transport-location').value);
+            formData.append('city', document.getElementById('transport-city').value);
+            formData.append('contact_name', document.getElementById('transport-contact-name').value);
+            formData.append('telegram', document.getElementById('transport-telegram').value);
+            
+            formData.append('captcha_answer', document.getElementById('transport-captcha').value);
+            formData.append('captcha_token', document.getElementById('transport-captcha-answer').value);
+
+            for (let i = 0; i < 4; i++) {
+                const file = document.getElementById(`transport-photo-${i}`).files[0];
+                if (file) {
+                    if (file.size > 20 * 1024 * 1024) {
+                        status.textContent = `❌ Фото ${i+1} превышает 20 МБ`;
+                        status.style.color = '#ff6b6b';
+                        return;
+                    }
+                    formData.append(`photo_${i}`, file);
+                }
+            }
+
+            try {
+                const response = await fetch('/api/submit-transport', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    status.textContent = '✅ ' + data.message;
+                    status.style.color = '#4CAF50';
+                    document.getElementById('submit-transport-form').reset();
+                    loadTransportCaptcha();
+                } else {
+                    status.textContent = '❌ ' + (data.error || 'Ошибка');
+                    status.style.color = '#ff6b6b';
+                    loadTransportCaptcha();
+                }
+            } catch (err) {
+                status.textContent = '❌ Ошибка отправки';
+                status.style.color = '#ff6b6b';
+            }
+        });
+
+        document.getElementById('submit-realestate-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const status = document.getElementById('realestate-submit-status');
+            status.style.display = 'block';
+            status.textContent = '⏳ Отправка...';
+            status.style.color = '#666';
+
+            const formData = new FormData();
+            formData.append('country', currentCountry);
+            formData.append('category', 'real_estate');
+            formData.append('title', document.getElementById('realestate-title').value);
+            formData.append('description', document.getElementById('realestate-description').value);
+            formData.append('realestate_type', document.querySelector('input[name="realestate-type"]:checked').value);
+            formData.append('rooms', document.getElementById('realestate-rooms').value);
+            formData.append('area', document.getElementById('realestate-area').value);
+            formData.append('price', document.getElementById('realestate-price').value);
+            formData.append('city', document.getElementById('realestate-city').value);
+            formData.append('location', document.getElementById('realestate-location').value);
+            formData.append('google_maps', document.getElementById('realestate-google-maps').value);
+            formData.append('contact_name', document.getElementById('realestate-contact-name').value);
+            formData.append('telegram', document.getElementById('realestate-telegram').value);
+            
+            formData.append('captcha_answer', document.getElementById('realestate-captcha').value);
+            formData.append('captcha_token', document.getElementById('realestate-captcha-answer').value);
+
+            for (let i = 0; i < 4; i++) {
+                const file = document.getElementById(`realestate-photo-${i}`).files[0];
+                if (file) {
+                    if (file.size > 20 * 1024 * 1024) {
+                        status.textContent = `❌ Фото ${i+1} превышает 20 МБ`;
+                        status.style.color = '#ff6b6b';
+                        return;
+                    }
+                    formData.append(`photo_${i}`, file);
+                }
+            }
+
+            try {
+                const response = await fetch('/api/submit-realestate', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    status.textContent = '✅ ' + data.message;
+                    status.style.color = '#4CAF50';
+                    document.getElementById('submit-realestate-form').reset();
+                    loadRealEstateCaptcha();
+                } else {
+                    status.textContent = '❌ ' + (data.error || 'Ошибка');
+                    status.style.color = '#ff6b6b';
+                    loadRealEstateCaptcha();
+                }
+            } catch (err) {
+                status.textContent = '❌ Ошибка отправки';
+                status.style.color = '#ff6b6b';
+            }
+        });
+
+        // Загрузка ожидающих модерации
+        async function loadPendingListings() {
+            try {
+                const response = await fetch('/api/admin/pending', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: adminPassword_val, country: currentCountry })
+                });
+                const data = await response.json();
+                
+                if (data.error) {
+                    document.getElementById('pending-count').textContent = '❌ ' + data.error;
+                    return;
+                }
+                
+                document.getElementById('pending-count').textContent = `📋 Ожидают модерации: ${data.length}`;
+                
+                if (data.length === 0) {
+                    document.getElementById('pending-list').innerHTML = '<p style="color: #666;">Нет предложений на модерацию</p>';
+                    return;
+                }
+                
+                document.getElementById('pending-list').innerHTML = data.map(item => `
+                    <div style="background: #f9f9f9; border-radius: 12px; padding: 20px; border: 1px solid #ddd; margin-bottom: 15px;">
+                        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                            ${item.image_url ? `<img src="${item.image_url}" alt="${escapeHtml(buildSectionImageAlt(item, item.category || 'real_estate')).replace(/"/g, '&quot;')}" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px;">` : ''}
+                            <div style="flex: 1; min-width: 300px;">
+                                <h4 style="margin: 0 0 10px 0; color: #333; font-size: 18px;">${item.title}</h4>
+                                <div style="background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; max-height: 300px; overflow-y: auto; margin-bottom: 15px;">
+                                    <p style="margin: 0; font-size: 14px; color: #444; line-height: 1.6; white-space: pre-wrap;">${item.description || 'Нет описания'}</p>
+                                </div>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; font-size: 13px; color: #666; background: white; padding: 10px; border-radius: 6px;">
+                                    <div>💰 Цена: <b>${item.price?.toLocaleString() || '0'}</b></div>
+                                    <div>${(translations[currentLang]||translations['ru']).common.contact}: <b>${item.contact_name || '-'}</b></div>
+                                    <div>📞 Телефон: <b>${item.whatsapp || item.contact || '-'}</b></div>
+                                    <div>✈️ Telegram: <b>${item.telegram || '-'}</b></div>
+                                    <div>📍 Город: <b>${item.city || '-'}</b></div>
+                                    <div>📂 Категория: <b>${item.category || 'real_estate'}</b></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button onclick="moderateListing('${item.id}', 'approve')" style="flex: 1; padding: 12px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px;">✅ Одобрить</button>
+                            <button onclick="moderateListing('${item.id}', 'reject')" style="flex: 1; padding: 12px; background: #ff6b6b; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px;">❌ Отклонить</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                document.getElementById('pending-count').textContent = '❌ Ошибка загрузки';
+            }
+        }
+
+        async function moderateListing(listingId, action) {
+            try {
+                const response = await fetch('/api/admin/moderate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        password: adminPassword_val,
+                        country: currentCountry,
+                        listing_id: listingId,
+                        action: action
+                    })
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert(data.message);
+                    loadPendingListings();
+                    if (action === 'approve') {
+                        loadListings('real_estate');
+                    }
+                } else {
+                    alert('Ошибка: ' + (data.error || 'Неизвестная ошибка'));
+                }
+            } catch (err) {
+                alert('Ошибка модерации');
+            }
+        }
+
+        // ══════════════════════════════════════════
+        // МОНИТОРИНГ ПАРСЕРОВ
+        // ══════════════════════════════════════════
+        let _monData = null;
+        let _monAutoTimer = null;
+        let _monCurrentTab = 'channels';
+        let _hfCheckResults = {};  // { channelname_lower: {ok, status, ms, last_post} }
+
+        const CATEGORY_NAMES = {
+            real_estate: 'Недвижимость', restaurants: 'Рестораны', transport: 'Транспорт',
+            entertainment: 'Развлечения', tours: 'Туры', chat: 'Все чаты',
+            marketplace: 'Барахолка', money_exchange: 'Финансы',
+        };
+        const COUNTRY_FLAGS = {vietnam:'🇻🇳', thailand:'🇹🇭', india:'🇮🇳', indonesia:'🇮🇩'};
+        const HF_DEST = {THAI:'@doma_th', VIET:'@dom_vn', BIKE:'@bayk_vn', BIKE_TH:'@bayk_th', CHAT:'@chati_vn'};
+
+        function toggleMonAutoRefresh(on) {
+            clearInterval(_monAutoTimer);
+            if (on) _monAutoTimer = setInterval(loadMonitoringStats, 30000);
+        }
+
+        function makeMonBlock(title, flag, channels, failedList, dest) {
+            const items = [...channels].sort();
+            const failed = failedList.map(x => x.toLowerCase());
+            const html = items.map(ch => {
+                const isFailed = failed.includes(ch.toLowerCase());
+                return `<div style="display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid #2a2a3d;">
+                    <span style="width:7px;height:7px;border-radius:50%;background:${isFailed?'#dc2626':'#16a34a'};flex-shrink:0;"></span>
+                    <a href="https://t.me/${ch}" target="_blank" style="color:${isFailed?'#dc2626':'#0088cc'};text-decoration:none;font-size:12px;${isFailed?'text-decoration:line-through;opacity:.5;':''}">@${ch}</a>
+                    ${isFailed ? '<span style="font-size:10px;color:#dc2626;margin-left:auto;">недоступен</span>' : ''}
+                </div>`;
+            }).join('');
+            const okCount = items.filter(ch => !failed.includes(ch.toLowerCase())).length;
+            const pct = items.length ? Math.round(okCount/items.length*100) : 100;
+            const pctColor = pct >= 80 ? '#16a34a' : pct >= 50 ? '#d97706' : '#dc2626';
+            return `<div style="background:#1a1a2e;border-radius:10px;padding:14px;border:1px solid #2a2a3d;border-top:3px solid ${pctColor};">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                    <span style="font-size:18px;">${flag}</span>
+                    <span style="font-weight:700;color:#ccc;font-size:14px;">${title}</span>
+                    <span style="margin-left:auto;font-size:12px;color:${pctColor};font-weight:700;">${okCount}/${items.length} 🟢</span>
+                </div>
+                <div style="font-size:11px;color:#555;margin-bottom:10px;">→ <span style="color:#d4af37;font-weight:600;">${dest}</span></div>
+                <div style="max-height:260px;overflow-y:auto;">${html}</div>
+            </div>`;
+        }
+
+        function monSwitchTab(tab) {
+            _monCurrentTab = tab;
+            ['channels','hf','bikes','chats'].forEach(t => {
+                const btn = document.getElementById('mon-tab-'+t);
+                const cont = document.getElementById('mon-tab-'+t+'-content');
+                if (btn) btn.style.background = t === tab ? '#d4af37' : '#1a1a2e';
+                if (btn) btn.style.color = t === tab ? '#1a1a2e' : '#888';
+                if (cont) cont.style.display = t === tab ? 'block' : 'none';
+            });
+            if (_monData) renderMonTables(_monData);
+            if (tab === 'chats') loadHFChatStats();
+        }
+
+        const HF_CHAT_SPACE = 'https://poweramanita-a.hf.space';
+        const CHAT_VN_SET_ARR = ['nhatrang_bg','NhaTrangchat','NhaTrang55','svoi_nhatrang','zhenskiy_nhatrang','NhaTrangLady','NhaTrangSun','Danang_Viet','danang_women','danangchat_ask','zhenskiy_danang','Danang_people','Vietnam_Danang1','chat_danang','danang_chats','phanthietchat111','Nyachang_Vietnam','onus_vietnam','Viza_Vietnam','Dalat_Vietnam','vietnam_chat1','vietnam_chats','HoChiMinh_Saigon','HoChiMinhChatik','hochiminh01_bg','phu_quoc_chat','phuquoc_getmir_chat','fukuok_chat','chat_fukuok','hanoichatvip'];
+        const CHAT_TH_SET_ARR = ['Phuket_chatBG','barakholka_pkhuket','chat_phuket','chats_phuket','huahinrus','rentinthai','bangkok_chat_znakomstva','Bangkok_market_bg','vse_svoi_bangkok','visa_thailand_chat','thailand_4at','rent_thailand_chat','thailand_chatt1','chat_bangkok','Bangkok_chats','PattayaSale','pattayachatonline','Pattayapar','chats_pattaya','phuketdating','KrabiChat'];
+        const CHAT_VN_SET = new Set(CHAT_VN_SET_ARR.map(x=>x.toLowerCase()));
+        const CHAT_TH_SET = new Set(CHAT_TH_SET_ARR.map(x=>x.toLowerCase()));
+        const RE_VN_SET = new Set(['phuquoc_rent_wt','phyquocnedvigimost','Viet_Life_Phu_Quoc_rent','nhatrangapartment','tanrealtorgh','viet_life_niachang','nychang_arenda','rent_nha_trang','nyachang_nedvizhimost','nedvizimost_nhatrang','nhatrangforrent79','NhatrangRentl','arenda_v_nyachang','rent_appart_nha','Arenda_Nyachang_Zhilye','NhaTrang_rental','realestatebythesea_1','NhaTrang_Luxury','luckyhome_nhatrang','rentnhatrang','megasforrentnhatrang','viethome','Vietnam_arenda','huynhtruonq','DaNangRentAFlat','danag_viet_life_rent','Danang_House','DaNangApartmentRent','danang_arenda','arenda_v_danang','HoChiMinhRentI','hcmc_arenda','Hanoirentapartment','HanoiRentl','Hanoi_Rent','PhuquocRentl'].map(x=>x.toLowerCase()));
+        const RE_TH_SET = new Set(['arenda_phukets','THAILAND_REAL_ESTATE_PHUKET','housephuket','arenda_phuket_thailand','phuket_nedvizhimost_rent','phuketsk_arenda','phuket_nedvizhimost_thailand','phuketsk_for_rent','phuket_rentas','rentalsphuketonli','rentbuyphuket','Phuket_thailand05','nedvizhimost_pattaya','arenda_pattaya','pattaya_realty_estate','HappyHomePattaya','sea_bangkok','Samui_for_you','sea_phuket','realty_in_thailand','nedvig_thailand','thailand_nedvizhimost','globe_nedvizhka_Thailand'].map(x=>x.toLowerCase()));
+        const BIKE_SET = new Set(['bike_nhatrang','motohub_nhatrang','NhaTrang_moto_market','RentBikeUniq','BK_rental','nha_trang_rent','RentTwentyTwo22NhaTrang'].map(x=>x.toLowerCase()));
+
+        function getChannelMeta(ch) {
+            const c = ch.toLowerCase();
+            if (CHAT_VN_SET.has(c)) return {country:'🇻🇳 Вьетнам', dest:'@chatiparsing'};
+            if (CHAT_TH_SET.has(c)) return {country:'🇹🇭 Таиланд', dest:'@chatiparsing'};
+            if (RE_VN_SET.has(c)) return {country:'🇻🇳 Вьетнам', dest:'@dom_vn'};
+            if (RE_TH_SET.has(c)) return {country:'🇹🇭 Таиланд', dest:'@doma_th'};
+            if (BIKE_SET.has(c)) return {country:'🇻🇳 Байки', dest:'@bayk_vn'};
+            return {country:'—', dest:'—'};
+        }
+
+        function _renderChatTable(perCh, tbody, summary, totalOverride) {
+            const rows = Object.entries(perCh).sort((a,b)=>b[1]-a[1]);
+            const maxVal = rows[0]?.[1] || 1;
+            if (!rows.length) {
+                tbody.innerHTML = `<tr><td colspan="5" style="padding:20px;text-align:center;color:#666;font-size:13px;">
+                    Активность пока не накоплена — парсер собирает данные.<br>
+                    <span style="font-size:11px;color:#444;">Данные появятся после первого прохода по каналам (~2-5 мин).</span>
+                </td></tr>`;
+            } else {
+                tbody.innerHTML = rows.map(([ch, cnt], i) => {
+                    const chClean = ch.replace(/^@/,'');
+                    const isVN = CHAT_VN_SET.has(chClean.toLowerCase());
+                    const isTH = CHAT_TH_SET.has(chClean.toLowerCase());
+                    const country = isVN ? '🇻🇳 Вьетнам' : isTH ? '🇹🇭 Таиланд' : '—';
+                    const dest = (isVN || isTH) ? '@chatiparsing' : '—';
+                    const bar = Math.round((cnt / maxVal) * 80);
+                    const rowBg = i % 2 === 0 ? '#0f0f1a' : '#0a0a16';
+                    return `<tr style="border-bottom:1px solid #1a1a2e;background:${rowBg};">
+                        <td style="padding:8px 10px;color:#555;font-size:11px;">${i+1}</td>
+                        <td style="padding:8px 10px;">
+                            <a href="https://t.me/${chClean}" target="_blank" style="color:#0088cc;text-decoration:none;font-weight:600;">@${chClean}</a>
+                            <div style="margin-top:3px;background:#1a1a2e;border-radius:3px;height:4px;width:100%;max-width:200px;">
+                                <div style="background:#d4af37;border-radius:3px;height:4px;width:${bar}%;"></div>
+                            </div>
+                        </td>
+                        <td style="padding:8px 10px;font-size:12px;">${country}</td>
+                        <td style="padding:8px 10px;text-align:right;font-weight:700;color:#d4af37;">${cnt.toLocaleString('ru')}</td>
+                        <td style="padding:8px 10px;font-size:12px;color:#4caf50;">${dest}</td>
+                    </tr>`;
+                }).join('');
+            }
+            if (summary) {
+                const total = totalOverride ?? rows.reduce((s,[,c])=>s+c, 0);
+                summary.textContent = `Локальный парсер | каналов активных: ${rows.length} | всего сообщений: ${total.toLocaleString('ru')}`;
+            }
+        }
+
+        async function loadHFChatStats() {
+            const tbody   = document.getElementById('mon-chats-tbody');
+            const cards   = document.getElementById('mon-chats-cards');
+            const status  = document.getElementById('mon-chats-status');
+            const summary = document.getElementById('mon-chats-summary');
+            if (!tbody) return;
+
+            tbody.innerHTML = '<tr><td colspan="5" style="padding:20px;text-align:center;color:#888;">⏳ Загружаю статистику чатов...</td></tr>';
+            if (summary) summary.textContent = 'Подключаемся...';
+            if (cards)  cards.innerHTML  = '';
+            if (status) status.innerHTML = '';
+
+            // ── Шаг 1: Быстрая локальная статистика из listings_chat.json ──
+            try {
+                const lr = await fetch('/api/chat-stats', {signal: AbortSignal.timeout(5000)});
+                const ld = await lr.json();
+                if (lr.ok && ld.status === 'ok' && ld.channels && ld.channels.length > 0) {
+                    // Конвертируем в {channel: count}
+                    const perCh = {};
+                    ld.channels.forEach(({channel, count}) => { perCh[channel] = count; });
+                    _renderChatTable(perCh, tbody, summary, ld.total);
+                    // Обновляем сводную карточку
+                    if (cards) {
+                        cards.innerHTML = [
+                            {label:'Всего сообщений',  val: ld.total.toLocaleString('ru'),       color:'#d4af37'},
+                            {label:'Активных каналов', val: ld.channels.length,                  color:'#16a34a'},
+                            {label:'ТОП канал',        val: '@'+(ld.channels[0]?.channel||'—'),  color:'#0088cc'},
+                            {label:'Макс. сообщений',  val: (ld.channels[0]?.count||0).toLocaleString('ru'), color:'#b8860b'},
+                        ].map(c=>`<div style="background:#1a1a2e;border-radius:8px;padding:12px;border:1px solid #2a2a3d;">
+                            <div style="font-size:10px;color:#666;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px;">${c.label}</div>
+                            <div style="font-size:14px;font-weight:700;color:${c.color};">${c.val}</div>
+                        </div>`).join('');
+                    }
+                } else if (ld.status === 'no_data') {
+                    tbody.innerHTML = `<tr><td colspan="5" style="padding:20px;text-align:center;color:#666;font-size:13px;">
+                        ⏳ Парсер чатов запущен и собирает первые данные...<br>
+                        <span style="font-size:11px;color:#444;">Первые сообщения появятся через несколько минут. Нажмите «↻ Обновить».</span>
+                    </td></tr>`;
+                    if (summary) summary.textContent = 'Ожидание данных от парсера чатов';
+                }
+            } catch(e) {
+                // локальный запрос не удался, продолжаем
+            }
+
+            // ── Шаг 2: Блоки каналов VN/TH (статичные — из кода) ──
+            if (status) {
+                status.innerHTML =
+                    makeMonBlock('Чаты Вьетнама', '🇻🇳', CHAT_VN_SET_ARR, [], '@chatiparsing') +
+                    makeMonBlock('Чаты Таиланда', '🇹🇭', CHAT_TH_SET_ARR, [], '@chatiparsing');
+            }
+
+            // ── Шаг 3: HF Space (необязательно, долго) ──
+            try {
+                const r = await fetch('/api/hf-stats', {signal: AbortSignal.timeout(40000)});
+                const d = await r.json();
+                if (!r.ok) return;
+
+                // Если HF вернул chat_per_channel — показываем его поверх локальных данных
+                const hfPerCh = d.chat_per_channel || {};
+                if (Object.keys(hfPerCh).length > 0 && cards) {
+                    const running = d.running || d.status === 'running';
+                    cards.innerHTML = [
+                        {label:'Статус HF парсера',  val: running ? '🟢 Работает' : '🔴 Перезапуск', color: running ? '#16a34a' : '#dc2626'},
+                        {label:'Всего переслано',    val: (d.forwarded||0).toLocaleString('ru'),  color:'#b8860b'},
+                        {label:'Фото',               val: (d.photos||0).toLocaleString('ru'),      color:'#16a34a'},
+                        {label:'Дедупликация',       val: (d.dedup||0).toLocaleString('ru'),       color:'#d97706'},
+                        {label:'Ошибок',             val: (d.errors||0).toLocaleString('ru'),      color:(d.errors||0)>0?'#dc2626':'#16a34a'},
+                        {label:'Запущен',            val: (d.started_at||'—').replace(' UTC',''),  color:'#999'},
+                    ].map(c=>`<div style="background:#1a1a2e;border-radius:8px;padding:12px;border:1px solid #2a2a3d;">
+                        <div style="font-size:10px;color:#666;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px;">${c.label}</div>
+                        <div style="font-size:14px;font-weight:700;color:${c.color};">${c.val}</div>
+                    </div>`).join('');
+                    _renderChatTable(hfPerCh, tbody, summary);
+                }
+
+                const failedChat = (d.failed && d.failed.CHAT) ? d.failed.CHAT.map(x=>x.toLowerCase()) : [];
+                if (failedChat.length && status) {
+                    status.innerHTML += `<div style="grid-column:1/-1;background:#2a1a1a;border-radius:8px;padding:12px;border:1px solid #5a2a2a;">
+                        <div style="font-size:12px;font-weight:700;color:#f88;margin-bottom:8px;">⚠️ Не удалось подключить (${failedChat.length} каналов)</div>
+                        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                            ${failedChat.map(ch=>`<a href="https://t.me/${ch}" target="_blank" style="background:#3a1a1a;padding:4px 10px;border-radius:12px;color:#f88;font-size:12px;text-decoration:none;">@${ch}</a>`).join('')}
+                        </div>
+                    </div>`;
+                }
+            } catch(e) {
+                // HF Space недоступен — не страшно, локальные данные уже показаны
+            }
+        }
+
+        function monFilterTable() {
+            if (_monData) renderMonTables(_monData);
+        }
+
+        async function checkHFChannels() {
+            const btn = document.getElementById('mon-hf-check-btn');
+            const summary = document.getElementById('mon-hf-check-summary');
+            if (btn) { btn.disabled = true; btn.textContent = '⏳ Проверяю 68 каналов...'; }
+            if (summary) summary.textContent = 'Отправляю запросы к t.me (параллельно)...';
+            try {
+                const r = await fetch('/api/admin/hf-channels-check');
+                const data = await r.json();
+                if (!data.success) throw new Error(data.error || 'Ошибка');
+                _hfCheckResults = {};
+                (data.channels || []).forEach(c => {
+                    _hfCheckResults[c.channel.toLowerCase()] = c;
+                });
+                if (summary) {
+                    const okPct = Math.round((data.ok / data.total) * 100);
+                    const color = data.failed === 0 ? '#22c55e' : data.failed <= 5 ? '#f59e0b' : '#ef4444';
+                    summary.innerHTML = `Проверено: <b style="color:#d4af37;">${data.total}</b> | ✅ <b style="color:#22c55e;">${data.ok}</b> | ❌ <b style="color:#ef4444;">${data.failed}</b> | доступность: <b style="color:${color};">${okPct}%</b>`;
+                }
+                if (_monData) renderMonTables(_monData);
+            } catch(e) {
+                if (summary) summary.textContent = 'Ошибка: ' + e.message;
+            } finally {
+                if (btn) { btn.disabled = false; btn.textContent = '🔍 Проверить каналы'; }
+            }
+        }
+
+        async function fetchEmptyChannels() {
+            const btn = document.getElementById('mon-fetch-empty-btn');
+            if (!confirm('Загрузить последние 100 постов из каналов с 0 объявлений (BIKE×2, VIET×14, THAI×16 = 32 канала)?\n\nЗапустится в фоне (~5-8 мин), прогресс будет обновляться.')) return;
+            if (btn) { btn.disabled = true; btn.textContent = '⏳ Запускаю...'; }
+            try {
+                const r = await fetch('/api/admin/fetch-empty-channels', {method:'POST'});
+                const data = await r.json();
+                if (!data.success) throw new Error(data.error || 'Ошибка');
+                // Poll for status
+                btn.textContent = '⏳ Загружаю...';
+                const poll = setInterval(async () => {
+                    try {
+                        const sr = await fetch('/api/admin/fetch-empty-status');
+                        const st = await sr.json();
+                        if (st.current) btn.textContent = `⏳ ${st.current}`;
+                        if (!st.running) {
+                            clearInterval(poll);
+                            if (st.error) {
+                                alert('Ошибка: ' + st.error);
+                            } else {
+                                const byChannel = st.results || {};
+                                const lines = Object.entries(byChannel)
+                                    .filter(([,n]) => n > 0)
+                                    .sort((a,b) => b[1]-a[1])
+                                    .map(([ch, n]) => `@${ch}: +${n}`)
+                                    .join('\n') || 'Новых предложений не найдено';
+                                alert(`✅ Загружено предложений: ${st.total}\n\n${lines}`);
+                                await loadMonitoringStats();
+                            }
+                            btn.disabled = false;
+                            btn.textContent = '📥 Заполнить пустые';
+                        }
+                    } catch(e) {
+                        clearInterval(poll);
+                        btn.disabled = false;
+                        btn.textContent = '📥 Заполнить пустые';
+                    }
+                }, 3000);
+            } catch(e) {
+                alert('Ошибка: ' + e.message);
+                btn.disabled = false;
+                btn.textContent = '📥 Заполнить пустые';
+            }
+        }
+
+        let analyticsData = null;
+        let analyticsPeriod = 'today';
+
+        async function loadAnalytics() {
+            try {
+                const r = await fetch('/api/analytics');
+                analyticsData = await r.json();
+                document.getElementById('analytics-update').textContent = 'обновлено: ' + new Date().toLocaleTimeString('ru-RU');
+                renderAnalytics();
+            } catch(e) {
+                document.getElementById('analytics-update').textContent = 'ошибка загрузки';
+            }
+        }
+
+        function switchAnalyticsPeriod(period) {
+            analyticsPeriod = period;
+            document.querySelectorAll('.analytics-period-btn').forEach(b => {
+                if (b.dataset.period === period) {
+                    b.style.background = '#d4af37'; b.style.color = '#1a1a2e'; b.style.border = 'none';
+                } else {
+                    b.style.background = '#ffffff18'; b.style.color = '#aaa'; b.style.border = '1px solid #ffffff22';
+                }
+            });
+            renderAnalytics();
+        }
+
+        function renderAnalytics() {
+            if (!analyticsData) return;
+            let d;
+            if (analyticsPeriod === 'today') {
+                d = {
+                    total_views: analyticsData.today.views,
+                    unique_visitors: analyticsData.today.visitors,
+                    countries: analyticsData.today.countries,
+                    categories: analyticsData.today.categories,
+                    devices: analyticsData.today.devices,
+                    daily_chart: [{date: new Date().toISOString().slice(0,10), views: analyticsData.today.views, visitors: analyticsData.today.visitors}]
+                };
+            } else {
+                d = analyticsData[analyticsPeriod];
+            }
+
+            document.getElementById('a-views').textContent = d.total_views || 0;
+            document.getElementById('a-visitors').textContent = d.unique_visitors || 0;
+            document.getElementById('a-mobile').textContent = (d.devices||{}).mobile || 0;
+            document.getElementById('a-desktop').textContent = (d.devices||{}).desktop || 0;
+            document.getElementById('a-total-all').textContent = analyticsData.total_all_time_visitors || 0;
+            document.getElementById('a-bot-starts').textContent = analyticsData.telegram_bot_start_users || 0;
+
+            const countryNames = {vietnam:'Вьетнам', thailand:'Тайланд', india:'Индия', indonesia:'Индонезия'};
+            const countriesEl = document.getElementById('a-countries');
+            const countries = d.countries || {};
+            if (Object.keys(countries).length === 0) {
+                countriesEl.innerHTML = '<div style="color:#666;">Нет данных</div>';
+            } else {
+                countriesEl.innerHTML = Object.entries(countries).map(([k,v]) =>
+                    `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #2a2a3d;">
+                        <span>${countryNames[k] || k}</span><span style="color:#d4af37;font-weight:700;">${v}</span>
+                    </div>`
+                ).join('');
+            }
+
+            const catNames = {real_estate:'Недвижимость', realestate:'Недвижимость', transport:'Транспорт', restaurants:'Рестораны', entertainment:'Развлечения', tours:'Экскурсии', visas:'Визаран', money_exchange:'Финансы', exchange:'Финансы', chat:'Все чаты', marketplace:'Барахолка'};
+            const catsEl = document.getElementById('a-categories');
+            const cats = d.categories || {};
+            if (Object.keys(cats).length === 0) {
+                catsEl.innerHTML = '<div style="color:#666;">Нет данных</div>';
+            } else {
+                catsEl.innerHTML = Object.entries(cats).map(([k,v]) =>
+                    `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #2a2a3d;">
+                        <span>${catNames[k] || k}</span><span style="color:#4ade80;font-weight:700;">${v}</span>
+                    </div>`
+                ).join('');
+            }
+
+            const chartEl = document.getElementById('a-chart');
+            const chart = d.daily_chart || [];
+            if (chart.length <= 1) {
+                chartEl.innerHTML = '<div style="color:#666;text-align:center;width:100%;padding:40px 0;">Данные появятся через день</div>';
+            } else {
+                const maxV = Math.max(...chart.map(c => c.views), 1);
+                chartEl.innerHTML = chart.map(c => {
+                    const h = Math.max(4, (c.views / maxV) * 100);
+                    const dateLabel = c.date.slice(5);
+                    return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+                        <div style="font-size:10px;color:#d4af37;">${c.views}</div>
+                        <div style="width:100%;max-width:40px;height:${h}px;background:linear-gradient(to top,#d4af37,#f5d76e);border-radius:4px 4px 0 0;"></div>
+                        <div style="font-size:9px;color:#666;">${dateLabel}</div>
+                    </div>`;
+                }).join('');
+            }
+        }
+
+        async function loadMonitoringStats() {
+            const btn = document.getElementById('mon-refresh-btn');
+            const loading = document.getElementById('mon-loading');
+            if (btn) { btn.disabled = true; btn.textContent = '⏳...'; }
+            if (loading) { loading.style.display = 'block'; loading.textContent = 'Загрузка данных...'; }
+            try {
+                const r = await fetch('/api/admin/monitoring-stats');
+                const data = await r.json();
+                _monData = data;
+                renderMonCards(data);
+                renderMonTables(data);
+                const upd = document.getElementById('mon-last-update');
+                if (upd) upd.textContent = 'обновлено: ' + new Date().toLocaleTimeString('ru-RU');
+                if (loading) loading.style.display = 'none';
+            } catch(e) {
+                if (loading) { loading.style.display = 'block'; loading.textContent = 'Ошибка загрузки: ' + e.message; }
+            } finally {
+                if (btn) { btn.disabled = false; btn.textContent = '↻ Обновить'; }
+            }
+        }
+
+        function statusDot(ok) {
+            return `<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${ok?'#23c55e':'#ef4444'};margin-right:6px;box-shadow:0 0 6px ${ok?'#23c55e':'#ef4444'};"></span>`;
+        }
+
+        function renderMonCards(data) {
+            // HF Space
+            const hf = data.hf_space || {};
+            const hfOk = hf.ping_ok;
+            const hfCard = document.getElementById('mon-card-hf');
+            if (hfCard) hfCard.style.borderColor = hfOk ? '#23c55e44' : '#ef444444';
+            const hfSt = document.getElementById('mon-hf-status');
+            if (hfSt) hfSt.innerHTML = statusDot(hfOk) + (hfOk ? '<span style="color:#23c55e">RUNNING</span>' : '<span style="color:#ef4444">OFFLINE</span>');
+            const hfDet = document.getElementById('mon-hf-detail');
+            if (hfDet) {
+                const info = hf.info || {};
+                const grps = hf.source_channels || {};
+                const total = Object.values(grps).reduce((s,a)=>s+a.length,0);
+                hfDet.textContent = `${info.stage||'?'} · ${total} каналов-источников`;
+            }
+
+            // Telethon forwarder
+            const tf = data.telethon_forwarder || {};
+            const tfOk = tf.running === true;
+            const tfCard = document.getElementById('mon-card-tf');
+            if (tfCard) tfCard.style.borderColor = tfOk ? '#23c55e44' : '#ef444444';
+            const tfSt = document.getElementById('mon-tf-status');
+            if (tfSt) tfSt.innerHTML = statusDot(tfOk) + (tfOk ? '<span style="color:#23c55e">АКТИВЕН</span>' : '<span style="color:#ef4444">СТОП</span>');
+            const tfDet = document.getElementById('mon-tf-detail');
+            if (tfDet) {
+                const totalConn = Object.values(tf.groups||{}).reduce((s,g)=>s+(g.connected||0),0);
+                const totalFwd = tf.total_messages || 0;
+                tfDet.textContent = `${totalConn} каналов · ${totalFwd} переслано`;
+            }
+
+            // Render TF groups
+            const tfGroupsEl = document.getElementById('mon-tf-groups');
+            const tfGroupsList = document.getElementById('mon-tf-groups-list');
+            if (tfGroupsEl && tfGroupsList && tf.groups) {
+                tfGroupsEl.style.display = 'block';
+                tfGroupsList.innerHTML = Object.entries(tf.groups).map(([grp, info]) => {
+                    const pct = info.total ? Math.round(info.connected/info.total*100) : 0;
+                    const barColor = pct >= 80 ? '#16a34a' : pct >= 50 ? '#d97706' : '#dc2626';
+                    return `<div style="background:#1a1a2e;border-radius:8px;padding:12px;border:1px solid #2a2a3d;border-left:3px solid ${barColor};">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                            <span style="font-weight:700;color:#ccc;font-size:12px;">${grp}</span>
+                            <span style="font-size:11px;color:#666;">→ ${info.dest||''}</span>
+                        </div>
+                        <div style="background:#0f0f1a;border-radius:4px;height:5px;margin-bottom:6px;overflow:hidden;">
+                            <div style="width:${pct}%;height:100%;background:${barColor};border-radius:4px;"></div>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;font-size:11px;color:#666;">
+                            <span style="color:${barColor};font-weight:600;">✅ ${info.connected}/${info.total}</span>
+                            <span>📤 ${info.forwarded_messages||0} сообщ</span>
+                        </div>
+                    </div>`;
+                }).join('');
+            }
+
+            // Vietnam parser
+            const vp = data.vietnamparsing || {};
+            const vpOk = vp.status === 'monitoring';
+            const vpCard = document.getElementById('mon-card-vp');
+            if (vpCard) vpCard.style.borderColor = vpOk ? '#23c55e44' : '#f59e0b44';
+            const vpSt = document.getElementById('mon-vp-status');
+            if (vpSt) vpSt.innerHTML = statusDot(vpOk || vp.running) +
+                `<span style="color:${vpOk?'#23c55e':'#f59e0b'}">${vp.status==='monitoring'?'МОНИТОРИНГ':vp.status==='fetching_initial'?'ЗАГРУЗКА':vp.status||'—'}</span>`;
+            const vpDet = document.getElementById('mon-vp-detail');
+            if (vpDet) vpDet.textContent = `новых сегодня: ${vp.new_today||0} · всего: ${vp.total_parsed||0}`;
+
+            // Total
+            const lst = data.listings || {};
+            const totals = lst.country_totals || {};
+            const grand = Object.values(totals).reduce((a,b)=>a+b,0);
+            const totalEl = document.getElementById('mon-total-count');
+            if (totalEl) totalEl.textContent = grand.toLocaleString('ru');
+            const totalDet = document.getElementById('mon-total-detail');
+            if (totalDet) totalDet.textContent = Object.entries(totals).filter(([,n])=>n>0).map(([c,n])=>`${COUNTRY_FLAGS[c]||c} ${n.toLocaleString('ru')}`).join(' · ') || '—';
+        }
+
+        function renderMonTables(data) {
+            const search = (document.getElementById('mon-search')?.value || '').toLowerCase();
+            const lst = data.listings || {};
+
+            // ── По каналам ──
+            if (_monCurrentTab === 'channels') {
+                const tbody = document.getElementById('mon-channels-tbody');
+                if (!tbody) return;
+                // Build sets for HF and TF source channels
+                const hfSrcs = new Set();
+                Object.values((data.hf_space?.source_channels)||{}).forEach(arr => arr.forEach(ch => hfSrcs.add(ch.toLowerCase())));
+                const tfSrcs = new Set();
+                Object.values((data.telethon_forwarder?.groups)||{}).forEach(g => (g.channels_ok||[]).forEach(ch => tfSrcs.add(ch.toLowerCase())));
+                // Only show channels that are HF sources (clean list)
+                const channels = (lst.by_channel || []).filter(c =>
+                    hfSrcs.has(c.channel.toLowerCase()) &&
+                    (!search || c.channel.toLowerCase().includes(search))
+                );
+
+                tbody.innerHTML = channels.map((ch, i) => {
+                    const isHF = hfSrcs.has(ch.channel.toLowerCase());
+                    const isTF = tfSrcs.has(ch.channel.toLowerCase());
+                    const srcTags = [isHF?'<span style="background:#5865f222;color:#5865f2;border:1px solid #5865f244;border-radius:4px;padding:1px 5px;font-size:10px;">HF</span>':'', isTF?'<span style="background:#23c55e22;color:#23c55e;border:1px solid #23c55e44;border-radius:4px;padding:1px 5px;font-size:10px;">TF</span>':''].filter(Boolean).join(' ');
+                    const catName = CATEGORY_NAMES[ch.top_category] || ch.top_category || '—';
+                    const rowBg = i % 2 === 0 ? '#0f0f1a' : '#0a0a16';
+                    return `<tr style="background:${rowBg};border-bottom:1px solid #1a1a2e;">
+                        <td style="padding:7px 10px;color:#555;font-size:11px;">${i+1}</td>
+                        <td style="padding:7px 10px;"><a href="https://t.me/${ch.channel}" target="_blank" style="color:#0088cc;text-decoration:none;font-weight:500;">@${ch.channel}</a></td>
+                        <td style="padding:7px 10px;font-size:13px;">${ch.countries.split(',').map(c=>COUNTRY_FLAGS[c.trim()]||c).join(' ')}</td>
+                        <td style="padding:7px 10px;font-size:12px;color:#666;">${catName}</td>
+                        <td style="padding:7px 10px;text-align:right;font-weight:700;color:#d4af37;">${ch.total.toLocaleString('ru')}</td>
+                        <td style="padding:7px 10px;">${srcTags || '<span style="color:#444;font-size:11px;">—</span>'}</td>
+                    </tr>`;
+                }).join('') || '<tr><td colspan="6" style="padding:20px;text-align:center;color:#bbb;">Ничего не найдено</td></tr>';
+            }
+
+            // ── Недвижимость ──
+            else if (_monCurrentTab === 'hf') {
+                const statusDiv = document.getElementById('mon-realty-status');
+                const summaryDiv = document.getElementById('mon-hf-summary');
+                if (!statusDiv) return;
+                const hfSrcs = data.hf_space?.source_channels || {};
+                const failedViet = (data.hf_space?.failed?.VIET || []);
+                const failedThai = (data.hf_space?.failed?.THAI || []);
+                const vnChannels = hfSrcs.VIET?.length ? hfSrcs.VIET : [...RE_VN_SET];
+                const thChannels = hfSrcs.THAI?.length ? hfSrcs.THAI : [...RE_TH_SET];
+                statusDiv.innerHTML =
+                    makeMonBlock('Недвижимость Вьетнам', '🇻🇳', vnChannels, failedViet, '@dom_vn') +
+                    makeMonBlock('Недвижимость Таиланд', '🇹🇭', thChannels, failedThai, '@doma_th');
+                const allFailed = [...failedViet, ...failedThai];
+                if (allFailed.length) {
+                    statusDiv.innerHTML += `<div style="grid-column:1/-1;background:#2a1a1a;border-radius:8px;padding:12px;border:1px solid #5a2a2a;">
+                        <div style="font-size:12px;font-weight:700;color:#f88;margin-bottom:8px;">⚠️ Не удалось подключить (${allFailed.length} каналов)</div>
+                        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                            ${allFailed.map(ch=>`<a href="https://t.me/${ch}" target="_blank" style="background:#3a1a1a;padding:4px 10px;border-radius:12px;color:#f88;font-size:12px;text-decoration:none;">@${ch}</a>`).join('')}
+                        </div>
+                    </div>`;
+                }
+                if (summaryDiv) {
+                    const vnOk = vnChannels.length - failedViet.length;
+                    const thOk = thChannels.length - failedThai.length;
+                    summaryDiv.textContent = `HF Space | VN: ${vnOk}/${vnChannels.length} 🟢 | TH: ${thOk}/${thChannels.length} 🟢`;
+                }
+            }
+
+            // ── Байки ──
+            else if (_monCurrentTab === 'bikes') {
+                const statusDiv = document.getElementById('mon-bikes-status');
+                const summaryDiv = document.getElementById('mon-bikes-summary');
+                if (!statusDiv) return;
+                const hfSrcs = data.hf_space?.source_channels || {};
+                const failedBike = (data.hf_space?.failed?.BIKE || []);
+                const BIKE_VN = hfSrcs.BIKE?.length ? hfSrcs.BIKE : ['bike_nhatrang','motohub_nhatrang','NhaTrang_moto_market','RentBikeUniq','BK_rental','nha_trang_rent','RentTwentyTwo22NhaTrang'];
+                const BIKE_TH = hfSrcs.BIKE_TH || [];
+                statusDiv.innerHTML = makeMonBlock('Байки Вьетнам', '🇻🇳', BIKE_VN, failedBike, '@bayk_vn');
+                if (BIKE_TH.length) {
+                    statusDiv.innerHTML += makeMonBlock('Байки Таиланд', '🇹🇭', BIKE_TH, [], '@bayk_th');
+                } else {
+                    statusDiv.innerHTML += `<div style="background:#1a1a2e;border-radius:8px;padding:12px;border:1px solid #2a2a3d;display:flex;align-items:center;justify-content:center;">
+                        <span style="color:#444;font-size:13px;">🇹🇭 Тайланд — каналы не добавлены</span>
+                    </div>`;
+                }
+                if (summaryDiv) {
+                    const vnOk = BIKE_VN.length - failedBike.length;
+                    summaryDiv.textContent = `Байки VN: ${vnOk}/${BIKE_VN.length} 🟢${BIKE_TH.length ? ` | TH: ${BIKE_TH.length}/${BIKE_TH.length} 🟢` : ''}`;
+                }
+            }
+
+            // ── Чаты — обрабатывается через loadHFChatStats() ──
+            else if (_monCurrentTab === 'chats') {
+                // данные грузятся отдельно через loadHFChatStats
+            }
+        }
+
+        // ════════════════════════════════════════════
+        // ИСТОЧНИКИ БОТА — JS логика
+        // ════════════════════════════════════════════
+        let _bsCurrentTab = 'vietnam';
+        let _bsData = {};
+
+        const _BS_COUNTRY_LABELS = {
+            vietnam: '🇻🇳 Вьетнам', thailand: '🇹🇭 Таиланд',
+            india: '🇮🇳 Индия', indonesia: '🇮🇩 Индонезия'
+        };
+        const _BS_CAT_LABELS = {
+            real_estate: '🏠 Недвижимость', transport: '🏍️ Байки', entertainment: '🎭 Развлечения',
+            tours: '🧳 Экскурсии', restaurants: '🍽️ Рестораны', chat: '💬 Чат', banner: '🖼️ Баннеры', other: '📌 Другое'
+        };
+
+        async function loadBotSources() {
+            try {
+                const r = await fetch('/api/admin/bot-sources');
+                const d = await r.json();
+                _bsData = d.sources || {};
+                renderBotSources();
+            } catch(e) {
+                document.getElementById('bs-content').innerHTML = '<div style="color:#f87171;font-size:13px;padding:20px;">Ошибка загрузки</div>';
+            }
+        }
+
+        function bsTab(country) {
+            _bsCurrentTab = country;
+            ['vietnam','thailand','india','indonesia'].forEach(c => {
+                const btn = document.getElementById('bs-tab-' + c);
+                if (!btn) return;
+                if (c === country) {
+                    btn.style.background = '#d4af37'; btn.style.color = '#1a1a2e'; btn.style.fontWeight = '700';
+                } else {
+                    btn.style.background = '#1a1a2e'; btn.style.color = '#888'; btn.style.fontWeight = '600';
+                }
+            });
+            renderBotSources();
+        }
+
+        function renderBotSources() {
+            const cnt = document.getElementById('bs-content');
+            if (!cnt) return;
+            const channels = _bsData[_bsCurrentTab] || [];
+            if (!channels.length) {
+                cnt.innerHTML = '<div style="color:#555;font-size:13px;text-align:center;padding:30px;">Каналы не добавлены</div>';
+                return;
+            }
+            let html = '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">';
+            html += '<thead><tr style="background:#1a1a2e;color:#888;">';
+            html += '<th style="padding:10px;text-align:left;border-bottom:2px solid #2a2a3d;">Название / Тематика</th>';
+            html += '<th style="padding:10px;text-align:left;border-bottom:2px solid #2a2a3d;">Username</th>';
+            html += '<th style="padding:10px;text-align:left;border-bottom:2px solid #2a2a3d;">Channel ID</th>';
+            html += '<th style="padding:10px;text-align:left;border-bottom:2px solid #2a2a3d;">Категория</th>';
+            html += '<th style="padding:10px;text-align:center;border-bottom:2px solid #2a2a3d;">Действия</th>';
+            html += '</tr></thead><tbody>';
+            channels.forEach((ch, idx) => {
+                const tgLink = ch.username ? `https://t.me/${ch.username}` : '#';
+                const catLabel = _BS_CAT_LABELS[ch.category] || ch.category || '—';
+                html += `<tr style="border-bottom:1px solid #1a1a2e;">
+                    <td style="padding:10px;color:#fff;font-weight:600;">${ch.name || '—'}</td>
+                    <td style="padding:10px;"><a href="${tgLink}" target="_blank" style="color:#38bdf8;text-decoration:none;">@${ch.username || '—'}</a></td>
+                    <td style="padding:10px;color:#888;font-family:monospace;font-size:12px;">${ch.channel_id || '—'}</td>
+                    <td style="padding:10px;color:#aaa;">${catLabel}</td>
+                    <td style="padding:10px;text-align:center;">
+                        <button onclick="bsRemoveChannel(${idx})" style="padding:4px 12px;background:#7f1d1d;color:#f87171;border:none;border-radius:6px;cursor:pointer;font-size:12px;">✕ Удалить</button>
+                    </td>
+                </tr>`;
+            });
+            html += '</tbody></table></div>';
+            cnt.innerHTML = html;
+        }
+
+        async function bsRemoveChannel(idx) {
+            if (!confirm('Удалить этот канал из списка источников?')) return;
+            const channels = (_bsData[_bsCurrentTab] || []).filter((_, i) => i !== idx);
+            _bsData[_bsCurrentTab] = channels;
+            const r = await fetch('/api/admin/bot-sources/update', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({password: adminPassword_val, country: _bsCurrentTab, channels})
+            });
+            const d = await r.json();
+            if (d.success) renderBotSources();
+            else alert('Ошибка: ' + (d.error || 'неизвестно'));
+        }
+
+        async function bsAddChannel() {
+            const name = (document.getElementById('bs-new-name').value || '').trim();
+            const username = (document.getElementById('bs-new-username').value || '').replace('@','').trim();
+            const channel_id = (document.getElementById('bs-new-id').value || '').trim();
+            const statusEl = document.getElementById('bs-add-status');
+            if (!name || !username) { statusEl.textContent = '⚠️ Заполните название и username'; return; }
+            const newCh = {name, username, channel_id, category: 'other'};
+            const channels = [...(_bsData[_bsCurrentTab] || []), newCh];
+            _bsData[_bsCurrentTab] = channels;
+            const r = await fetch('/api/admin/bot-sources/update', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({password: adminPassword_val, country: _bsCurrentTab, channels})
+            });
+            const d = await r.json();
+            if (d.success) {
+                statusEl.style.color = '#4ade80';
+                statusEl.textContent = `✅ Канал @${username} добавлен`;
+                document.getElementById('bs-new-name').value = '';
+                document.getElementById('bs-new-username').value = '';
+                document.getElementById('bs-new-id').value = '';
+                renderBotSources();
+            } else {
+                statusEl.style.color = '#f87171';
+                statusEl.textContent = '❌ Ошибка: ' + (d.error || 'неизвестно');
+            }
+        }
+        // ════════════════════════════════════════════
+
+        function adminAuth() {
+            const password = adminPassword.value;
+            fetch('/api/admin/auth', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({password})
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.authenticated) {
+                    adminAuthenticated = true;
+                    // Показываем Индию и Индонезию только для администратора
+                    document.querySelectorAll('.admin-only-country').forEach(function(el) {
+                        el.style.setProperty('display', 'inline-flex', 'important');
+                    });
+                    adminPassword_val = password;
+                    adminCountry = data.country;
+                    
+                    const countryNames = {
+                        'vietnam': '🇻🇳 Вьетнам',
+                        'thailand': '🇹🇭 Таиланд',
+                        'india': '🇮🇳 Индия',
+                        'indonesia': '🇮🇩 Индонезия'
+                    };
+                    
+                    adminStatus.textContent = adminCountry === 'all' ? '✅ Супер-админ (все страны)' : '✅ Авторизован: ' + countryNames[adminCountry];
+                    adminStatus.style.color = '#31a24c';
+                    adminTools.style.display = 'block';
+                    adminPassword.disabled = true;
+                    document.querySelector('button[onclick="adminAuth()"]').disabled = true;
+                    loadAnalytics();
+                    
+                    // Переключаем на страну админа (кроме супер-админа)
+                    if (adminCountry && adminCountry !== 'all' && currentCountry !== adminCountry) {
+                        switchCountry(adminCountry);
+                    }
+                    
+                    // Показываем плеер и плейлист только в admin-режиме
+                    ['sc-player-wrap','sc-newtrack-panel','sc-iframe'].forEach(function(id){
+                        var el = document.getElementById(id);
+                        if (el) el.style.setProperty('display', id === 'sc-player-wrap' ? 'flex' : 'block', 'important');
+                    });
+                    renderAdminBanners();
+                    switchBannerTab('web');
+                    renderDynamicCityButtons();
+                    setTimeout(loadMonitoringStats, 500);
+                    setTimeout(loadBotSources, 700);
+                    // Перезагрузить текущую категорию чтобы показать кнопки перемещения
+                    const currentTab = document.querySelector('.tab.active');
+                    if (currentTab) {
+                        const tabName = currentTab.getAttribute('data-tab');
+                        const categoryMap = {'stats': 'restaurants', 'transport': 'transport', 'realestate': 'real_estate', 'exchange': 'money_exchange'};
+                        const category = categoryMap[tabName] || tabName;
+                        if (tabName !== 'stats' && tabName !== 'admin' && tabName !== 'settings') loadListings(category);
+                    }
+                } else {
+                    adminStatus.textContent = '❌ Неверный пароль';
+                    adminStatus.style.color = '#ff6b6b';
+                }
+            })
+            .catch(err => {
+                adminStatus.textContent = '❌ Ошибка подключения';
+                adminStatus.style.color = '#ff6b6b';
+            });
+        }
+
+        function openMoveModal(listingId, fromCategory, currentType) {
+            document.getElementById('move-modal-id').textContent = 'ID: ' + listingId + (currentType ? ' (сейчас: ' + currentType + ')' : '');
+            document.getElementById('move-modal').setAttribute('data-id', listingId);
+            document.getElementById('move-modal').setAttribute('data-from', fromCategory);
+            
+            const select = document.getElementById('move-modal-category');
+            if (select) {
+                // Для медицины показываем только категории медицины
+                if (fromCategory === 'medicine') {
+                    select.innerHTML = `
+                        <option value="medicine_Вопросы" ${currentType === 'Вопросы' ? 'disabled' : ''}>❓ Вопросы ${currentType === 'Вопросы' ? '(текущая)' : ''}</option>
+                        <option value="medicine_Клиники" ${currentType === 'Клиники' ? 'disabled' : ''}>🏥 Клиники ${currentType === 'Клиники' ? '(текущая)' : ''}</option>
+                        <option value="medicine_Направления" ${currentType === 'Направления' ? 'disabled' : ''}>🔬 Направления ${currentType === 'Направления' ? '(текущая)' : ''}</option>
+                        <option value="medicine_Страховка" ${currentType === 'Страховка' ? 'disabled' : ''}>🛡️ Страховка ${currentType === 'Страховка' ? '(текущая)' : ''}</option>
+                    `;
+                    // Выбрать первую доступную опцию
+                    for (let opt of select.options) {
+                        if (!opt.disabled) { select.value = opt.value; break; }
+                    }
+                } else {
+                    select.innerHTML = `
+                        <option value="restaurants">Рестораны</option>
+                        <option value="tours">Экскурсии</option>
+                        <option value="transport">Транспорт</option>
+                        <option value="real_estate">Недвижимость</option>
+                        <option value="money_exchange">Финансы</option>
+                        <option value="entertainment">Развлечения</option>
+                        <option value="visas">Визаран</option>
+                        <option value="news">Фотосессия</option>                        <option value="chat">Чат</option>
+                    `;
+                }
+            }
+            
+            document.getElementById('move-modal').style.display = 'flex';
+        }
+
+        let moveInProgress = false;
+        function confirmMoveFromCard() {
+            if (moveInProgress) return;
+            moveInProgress = true;
+            
+            const modal = document.getElementById('move-modal');
+            const listingId = modal.getAttribute('data-id');
+            const fromCategory = modal.getAttribute('data-from');
+            const toCategory = document.getElementById('move-modal-category').value;
+            
+            const pwd = adminPassword_val || (document.getElementById('admin-password') ? document.getElementById('admin-password').value : '');
+
+            // Для медицины - перенос между типами (medicine_Вопросы -> Вопросы)
+            if (toCategory.startsWith('medicine_')) {
+                const newMedicineType = toCategory.replace('medicine_', '');
+                
+                const formData = new FormData();
+                formData.append('password', pwd);
+                formData.append('country', currentCountry);
+                formData.append('category', 'medicine');
+                formData.append('listing_id', listingId);
+                
+                fetch('/api/admin/update-listing-with-photo', { method: 'POST', body: formData })
+                .then(r => r.json())
+                .then(data => {
+                    moveInProgress = false;
+                    if (data.success) {
+                        modal.style.display = 'none';
+                        alert('✅ Перемещено в: ' + newMedicineType);
+                        setTimeout(() => loadListings('medicine'), 500);
+                    } else {
+                        alert('❌ ' + (data.error || 'Ошибка'));
+                    }
+                })
+                .catch(err => { moveInProgress = false; alert('❌ Ошибка сервера'); });
+                return;
+            }
+
+            if (fromCategory === toCategory) {
+                moveInProgress = false;
+                alert('Выберите другую категорию');
+                return;
+            }
+
+            fetch('/api/admin/move-listing', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    password: pwd, 
+                    country: currentCountry, 
+                    from_category: fromCategory, 
+                    to_category: toCategory, 
+                    listing_id: listingId
+                })
+            })
+            .then(r => r.json())
+            .then(data => {
+                moveInProgress = false;
+                if (data.success) {
+                    const card = document.querySelector(`[data-listing-id="${listingId}"]`);
+                    if (card) card.remove();
+                    modal.style.display = 'none';
+                    alert('✅ Объявление перемещено!');
+                    setTimeout(() => loadListings(fromCategory), 500);
+                } else {
+                    alert('❌ ' + (data.error || 'Ошибка'));
+                }
+            })
+            .catch(err => { moveInProgress = false; alert('❌ Ошибка сервера'); });
+        }
+
+        function confirmDeleteFromCard() {
+            const modal = document.getElementById('delete-modal');
+            const listingId = modal.getAttribute('data-id');
+            const category = modal.getAttribute('data-category');
+
+            fetch('/api/admin/delete-listing', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    password: adminPassword_val || adminPassword.value, 
+                    country: currentCountry, 
+                    category: category, 
+                    listing_id: listingId
+                })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    const card = document.querySelector(`[data-listing-id="${listingId}"]`);
+                    if (card) card.remove();
+                    modal.style.display = 'none';
+                    alert('✅ Объявление удалено!');
+                    setTimeout(() => loadListings(category), 500);
+                } else {
+                    alert('❌ ' + (data.error || 'Ошибка'));
+                }
+            })
+            .catch(err => alert('❌ Ошибка сервера'));
+        }
+
+        function deleteListingAdmin() {
+            if (!adminAuthenticated) {
+                alert('Сначала авторизуйтесь');
+                return;
+            }
+            const category = document.getElementById('delete-category').value;
+            const listing_id = document.getElementById('delete-id').value;
+            const password = adminPassword.value;
+            const result = document.getElementById('delete-result');
+
+            if (!listing_id) {
+                result.textContent = '❌ Введите ID объявления';
+                result.style.color = '#ff6b6b';
+                return;
+            }
+
+            fetch('/api/admin/delete-listing', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({password, country: currentCountry, category, listing_id})
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    result.textContent = '✅ ' + data.message;
+                    result.style.color = '#31a24c';
+                    document.getElementById('delete-id').value = '';
+                    loadListings(category);
+                } else {
+                    result.textContent = '❌ ' + (data.error || 'Ошибка');
+                    result.style.color = '#ff6b6b';
+                }
+            })
+            .catch(err => {
+                result.textContent = '❌ Ошибка сервера';
+                result.style.color = '#ff6b6b';
+            });
+        }
+
+        function moveListingAdmin() {
+            if (!adminAuthenticated) {
+                alert('Сначала авторизуйтесь');
+                return;
+            }
+            const listing_id = document.getElementById('move-id').value;
+            const from_category = document.getElementById('move-from').value;
+            const to_category = document.getElementById('move-to').value;
+            const password = adminPassword.value;
+            const result = document.getElementById('move-result');
+
+            if (!listing_id) {
+                result.textContent = '❌ Введите ID объявления';
+                result.style.color = '#ff6b6b';
+                return;
+            }
+
+            if (from_category === to_category) {
+                result.textContent = '❌ Категории должны отличаться';
+                result.style.color = '#ff6b6b';
+                return;
+            }
+
+            fetch('/api/admin/move-listing', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({password, country: currentCountry, from_category, to_category, listing_id})
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    result.textContent = '✅ ' + data.message;
+                    result.style.color = '#31a24c';
+                    document.getElementById('move-id').value = '';
+                    loadListings(from_category);
+                } else {
+                    result.textContent = '❌ ' + (data.error || 'Ошибка');
+                    result.style.color = '#ff6b6b';
+                }
+            })
+            .catch(err => {
+                result.textContent = '❌ Ошибка сервера';
+                result.style.color = '#ff6b6b';
+            });
+        }
+
+(function(){
+            const btn = document.getElementById('scroll-to-top');
+            window.addEventListener('scroll', function(){
+                if (window.scrollY > 300) {
+                    btn.style.display = 'flex';
+                } else {
+                    btn.style.display = 'none';
+                }
+            }, {passive: true});
+        })();
+
+        // ── Переключатель тёмного / светлого режима ──
+        const LOGO_LIGHT = '/static/images/logo.png';
+        const LOGO_DARK  = '/static/images/logo_dark.png';
+
+        function applyTheme(dark) {
+            // Switch themed icons
+            document.querySelectorAll("img[data-dark-src]").forEach(function(img) {
+                img.src = dark ? img.dataset.darkSrc : img.dataset.lightSrc;
+            });
+            const html = document.documentElement;
+            const logo = document.getElementById('site-logo');
+            const btn  = document.getElementById('theme-toggle-btn');
+            if (dark) {
+                html.classList.add('dark');
+                if (logo) logo.src = LOGO_DARK;
+                if (btn)  btn.textContent = '☀️';
+            } else {
+                html.classList.remove('dark');
+                if (logo) logo.src = LOGO_LIGHT;
+                if (btn)  btn.textContent = '🌙';
+            }
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const next = !isDark;
+            applyTheme(next);
+            try { localStorage.setItem('ga_theme', next ? 'dark' : 'light'); } catch(e) {}
+        }
+
+        // Применяем сохранённую тему при загрузке
+        (function(){
+            let saved = 'light';
+            try { saved = localStorage.getItem('ga_theme') || 'light'; } catch(e) {}
+            applyTheme(saved === 'dark');
+        })();
+
+// ===== LAZY LOADER: загружаем фото только когда карточка видна =====
+    (function() {
+        const imgCache = new Map();
+
+        function loadImg(img) {
+            const src = img.dataset.lazy;
+            if (!src || img.src === src || img.dataset.loaded) return;
+            img.dataset.loaded = '1';
+
+            if (imgCache.has(src)) {
+                img.src = src;
+                return;
+            }
+            const preload = new Image();
+            preload.onload = function() {
+                imgCache.set(src, true);
+                img.src = src;
+                img.style.background = '';
+            };
+            preload.onerror = function() {
+                if (img.onerror) img.onerror.call(img);
+            };
+            preload.src = src;
+        }
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    loadImg(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { rootMargin: '200px 0px', threshold: 0.01 });
+
+        function observeAll() {
+            document.querySelectorAll('img[data-lazy]').forEach(function(img) {
+                if (!img.dataset.loaded) observer.observe(img);
+            });
+        }
+
+        // Запускаем при загрузке и при любых изменениях DOM (добавление карточек)
+        document.addEventListener('DOMContentLoaded', observeAll);
+
+        const mutObs = new MutationObserver(function(mutations) {
+            let needScan = false;
+            mutations.forEach(function(m) {
+                if (m.addedNodes.length) needScan = true;
+            });
+            if (needScan) observeAll();
+        });
+        mutObs.observe(document.body, { childList: true, subtree: true });
+
+        // Также делаем глобальную функцию для ручного вызова после рендера карточек
+        window.lazyLoadImages = observeAll;
+    })();
+
+    // ===== Высота грида туров = ровно 4 строки (12 кнопок) =====
+    function calibrateTourGrid() {
+        var grid = document.querySelector('.tour-btns-grid-3');
+        if (!grid) return;
+        var btns = grid.querySelectorAll('.tour-btn-3');
+        if (btns.length <= 12) { grid.style.maxHeight = ''; grid.style.overflowY = 'hidden'; return; }
+        // Считаем высоту 4-й строки снизу последней кнопки первой строки
+        var gap = 7;
+        var rowH = btns[0].getBoundingClientRect().height;
+        var maxH = rowH * 4 + gap * 3 + 4; // 4 ряда + 3 зазора + небольшой запас
+        grid.style.maxHeight = maxH + 'px';
+        grid.style.overflowY = 'auto';
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(calibrateTourGrid, 300);
+    });
+
+    // ===== Прокрутка к карточке тура по ID листинга =====
+    function scrollToTourById(listingId) {
+        console.log('[TOUR_ID] Нажата кнопка для ID:', listingId);
+
+        function getNavOffset() {
+            var tabs = document.querySelector('.tabs');
+            return tabs ? tabs.getBoundingClientRect().bottom + 8 : 8;
+        }
+
+        function highlight(card) {
+            var slider = card.querySelector('.card-slider') || card;
+            var top = slider.getBoundingClientRect().top + window.pageYOffset - getNavOffset();
+            window.scrollTo({top: top, behavior: 'smooth'});
+            card.style.outline = '3px solid #d4af37';
+            card.style.boxShadow = '0 0 0 6px rgba(212,175,55,0.3)';
+            setTimeout(function(){ card.style.outline=''; card.style.boxShadow=''; }, 2500);
+        }
+
+        function findAndScroll(n) {
+            var card = document.getElementById('lc-' + listingId);
+            console.log('[TOUR_ID] Попытка найти lc-' + listingId + ':', card ? 'НАЙДЕНО' : 'нет');
+            if (card) { highlight(card); return; }
+            if (n > 0) setTimeout(function(){ findAndScroll(n-1); }, 400);
+        }
+
+        var tab = document.getElementById('tours');
+        if (!tab || !tab.classList.contains('active')) {
+            console.log('[TOUR_ID] Переключаю на вкладку туров');
+            if (typeof switchTab === 'function') switchTab('tours');
+            setTimeout(function(){ findAndScroll(10); }, 600);
+        } else {
+            findAndScroll(8);
+        }
+    }
+
+    // ===== Прокрутка к объявлению тура =====
+    function scrollToTourListing(tourName, cityName) {
+        console.log('[TOUR] Нажата кнопка:', tourName);
+
+        function norm(s) {
+            return (s||'').replace(/[«»"''‹›\u00ab\u00bb]/g,'').toLowerCase().replace(/ё/g,'е').replace(/\s+/g,' ').trim();
+        }
+
+        function getNavOffset() {
+            var tabs = document.querySelector('.tabs');
+            return tabs ? tabs.getBoundingClientRect().bottom + 8 : 8;
+        }
+
+        function doScroll() {
+            var grid = document.getElementById('tours-grid');
+            if (!grid) { console.log('[TOUR] tours-grid не найден'); return false; }
+            var cards = grid.querySelectorAll('.card');
+            console.log('[TOUR] Карточек в гриде:', cards.length);
+            if (!cards.length) return false;
+
+            var q = norm(tourName);
+            var keys = q.split(' ').filter(function(w){return w.length>=2;});
+            console.log('[TOUR] Ищу по словам:', keys);
+
+            var best = null, bestScore = 0;
+            for (var i = 0; i < cards.length; i++) {
+                var t = norm(cards[i].textContent);
+                var score = keys.filter(function(k){return t.indexOf(k)>=0;}).length;
+                if (score > bestScore) { bestScore = score; best = cards[i]; }
+                if (score === keys.length) break;
+            }
+
+            if (best && bestScore > 0) {
+                console.log('[TOUR] Нашёл карточку, скроллю...');
+                var slider = best.querySelector('.card-slider') || best;
+                var top = slider.getBoundingClientRect().top + window.pageYOffset - getNavOffset();
+                window.scrollTo({top: top, behavior: 'smooth'});
+                best.style.outline = '3px solid #d4af37';
+                best.style.boxShadow = '0 0 0 6px rgba(212,175,55,0.3)';
+                setTimeout(function(){best.style.outline='';best.style.boxShadow='';}, 2500);
+                return true;
+            }
+            console.log('[TOUR] Карточка не найдена');
+            return false;
+        }
+
+        function retry(n) {
+            if (doScroll()) return;
+            if (n > 0) setTimeout(function(){ retry(n-1); }, 400);
+        }
+
+        var tab = document.getElementById('tours');
+        if (!tab || !tab.classList.contains('active')) {
+            console.log('[TOUR] Переключаю на вкладку туров');
+            if (typeof switchTab === 'function') switchTab('tours');
+            setTimeout(function(){ retry(8); }, 600);
+        } else {
+            retry(5);
+        }
+    }
+
+    // ===== Модал бронирования экскурсии =====
+    function openTourModal(tourName, cityName) {
+        var m = document.getElementById('tour-modal');
+        if (!m) return;
+        m.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        var st = document.getElementById('tour-form-status');
+        if (st) st.style.display = 'none';
+        // Предзаполняем если выбран конкретный тур
+        if (tourName) {
+            var extra = document.getElementById('tr-extra');
+            if (extra) extra.value = tourName + (cityName ? ' (' + cityName + ')' : '');
+            var point = document.getElementById('tr-point');
+            if (point && cityName && !point.value) point.value = cityName;
+        }
+    }
+    function closeTourModal() {
+        var m = document.getElementById('tour-modal');
+        if (m) m.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+    function submitTourForm() {
+        var tg = (document.getElementById('tr-tg') || {}).value || '';
+        var name = (document.getElementById('tr-name') || {}).value || '';
+        var people = (document.getElementById('tr-people') || {}).value || '';
+        var date = (document.getElementById('tr-date') || {}).value || '';
+        var point = (document.getElementById('tr-point') || {}).value || '';
+        var extra = (document.getElementById('tr-extra') || {}).value || '';
+        var status = document.getElementById('tour-form-status');
+
+        function showTourStatus(msg, color, bg) {
+            status.textContent = msg;
+            status.style.color = color;
+            status.style.background = bg;
+            status.style.display = 'block';
+        }
+
+        var city = (document.getElementById('tr-city') || {}).value || '';
+        if (!tg || !name || !city || !people || !date || !point) {
+            showTourStatus('❗ Заполните все обязательные поля', '#b71c1c', '#ffebee');
+            return;
+        }
+        var btn = document.getElementById('tour-submit-btn');
+        if (btn) btn.disabled = true;
+
+        fetch('/api/book-tour', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ telegram: tg, tour_name: name, city: city, people: people, date: date, departure_point: point, extra: extra })
+        }).then(function(r) { return r.json(); }).then(function(d) {
+            if (d.ok) {
+                showTourStatus('✅ Ваша заявка принята. Менеджер свяжется с вами в течении 15 минут.', '#1b5e20', '#e8f5e9');
+                ['tr-tg','tr-name','tr-date','tr-point','tr-extra'].forEach(function(id) {
+                    var el = document.getElementById(id); if (el) el.value = '';
+                });
+                ['tr-people','tr-city'].forEach(function(id) {
+                    var el = document.getElementById(id); if (el) el.selectedIndex = 0;
+                });
+                setTimeout(closeTourModal, 2200);
+            } else {
+                showTourStatus('❗ ' + (d.error || 'Ошибка отправки'), '#b71c1c', '#ffebee');
+            }
+            if (btn) btn.disabled = false;
+        }).catch(function() {
+            showTourStatus('⚠️ Ошибка сети. Попробуйте ещё раз.', '#e65100', '#fff3e0');
+            if (btn) btn.disabled = false;
+        });
+    }
+
+    // ===== Модал бронирования визарана =====
+    function openVisarunModal() {
+        var m = document.getElementById('visarun-modal');
+        if (!m) return;
+        m.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        var st = document.getElementById('visarun-form-status');
+        if (st) st.style.display = 'none';
+    }
+    function openVisarunSupportChat() {
+        if (typeof window.openSupportChat === 'function') {
+            window.openSupportChat();
+        }
+    }
+    function closeVisarunModal() {
+        var m = document.getElementById('visarun-modal');
+        if (m) m.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+    function submitVisarunForm() {
+        var tg = (document.getElementById('vr-tg') || {}).value || '';
+        var direction = (document.getElementById('vr-direction') || {}).value || '';
+        var days = (document.getElementById('vr-days') || {}).value || '';
+        var nationality = (document.getElementById('vr-nationality') || {}).value || '';
+        var date = (document.getElementById('vr-date') || {}).value || '';
+        var point = (document.getElementById('vr-point') || {}).value || '';
+        var extra = (document.getElementById('vr-extra') || {}).value || '';
+        var status = document.getElementById('visarun-form-status');
+
+        function showStatus(msg, color, bg) {
+            status.textContent = msg;
+            status.style.color = color;
+            status.style.background = bg;
+            status.style.display = 'block';
+        }
+
+        if (!tg || !direction || !days || !nationality || !date || !point) {
+            showStatus('❗ Заполните все обязательные поля', '#b71c1c', '#ffebee');
+            return;
+        }
+        var btn = document.getElementById('visarun-submit-btn');
+        if (btn) btn.disabled = true;
+
+        fetch('/api/book-visarun', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ telegram: tg, direction: direction, days: days, nationality: nationality, departure_date: date, departure_point: point, extra: extra })
+        }).then(function(r) { return r.json(); }).then(function(d) {
+            if (d.ok) {
+                showStatus('✅ Ваша заявка принята. Менеджер свяжется с вами в течении 15 минут.', '#1b5e20', '#e8f5e9');
+                ['vr-tg','vr-date','vr-extra'].forEach(function(id) {
+                    var el = document.getElementById(id); if (el) el.value = '';
+                });
+                ['vr-direction','vr-days','vr-point','vr-nationality'].forEach(function(id) {
+                    var el = document.getElementById(id); if (el) el.selectedIndex = 0;
+                });
+                setTimeout(closeVisarunModal, 2200);
+            } else {
+                showStatus('❗ ' + (d.error || 'Ошибка отправки'), '#b71c1c', '#ffebee');
+            }
+            if (btn) btn.disabled = false;
+        }).catch(function() {
+            showStatus('⚠️ Ошибка сети. Попробуйте ещё раз.', '#e65100', '#fff3e0');
+            if (btn) btn.disabled = false;
+        });
+    }
+
+
+    // === SoundCloud Player (raw postMessage — без внешней библиотеки) ===
+    (function() {
+        var scVolume = 70;
+        var scMuted  = false;
+        var scPlaying = false;
+        var scDuration = 0;
+        var seeking = false;
+        var _scActiveUrl = null;
+        var _scAutoNextTimer = null;
+        var _scNextScheduled = false;
+        var _scSubDone = false;   // подписка на события SC iframe
+
+        var SC_ORIGIN = 'https://w.soundcloud.com';
+
+        // ── Отправить команду SC iframe ──────────────────────────────────────
+        function _scCmd(method, value) {
+            var iframe = document.getElementById('sc-iframe');
+            if (!iframe || !iframe.contentWindow) return;
+            try {
+                var msg = (value !== undefined)
+                    ? JSON.stringify({method: method, value: value})
+                    : JSON.stringify({method: method});
+                iframe.contentWindow.postMessage(msg, SC_ORIGIN);
+            } catch(e) {}
+        }
+
+        // ── Подписаться на события SC плеера ────────────────────────────────
+        function _scSubscribe() {
+            if (_scSubDone) return;
+            _scSubDone = true;
+            ['ready','play','pause','finish','play_progress','error'].forEach(function(ev) {
+                _scCmd('addEventListener', ev);
+            });
+            setTimeout(function() { _scCmd('getCurrentSound'); }, 200);
+            setTimeout(function() { _scCmd('getDuration'); }, 400);
+        }
+
+        // ── Громкость ────────────────────────────────────────────────────────
+        function _applyVol() {
+            _scCmd('setVolume', scMuted ? 0 : scVolume);
+        }
+
+        // ── (mute icon removed — next-track button used instead) ───────────
+        function _setSpeaker(playing) { /* no-op */ }
+
+        // ── Авто-переход к следующему треку ─────────────────────────────────
+        function _cancelAutoNext() {
+            if (_scAutoNextTimer) { clearTimeout(_scAutoNextTimer); _scAutoNextTimer = null; }
+            _scNextScheduled = false;
+        }
+
+        function _scheduleAutoNext(remainingMs) {
+            if (_scNextScheduled) return;
+            _scNextScheduled = true;
+            _scAutoNextTimer = setTimeout(function() {
+                _scAutoNextTimer = null;
+                _scNextScheduled = false;
+                try { window._scPlayNext(); } catch(e) {}
+            }, Math.max(200, remainingMs));
+        }
+
+        // ── Слушатель сообщений от SC iframe ────────────────────────────────
+        window.addEventListener('message', function(evt) {
+            if (evt.origin !== SC_ORIGIN) return;
+            try {
+                var msg = typeof evt.data === 'string' ? JSON.parse(evt.data) : evt.data;
+                var method = msg.method || '';
+                var value  = msg.value;
+
+                if (method === 'ready') {
+                    scPlaying = false;
+                    document.getElementById('sc-play-btn').textContent = '▶';
+                    _applyVol();
+                    _scCmd('getCurrentSound');
+                    _scCmd('getDuration');
+
+                } else if (method === 'getCurrentSound') {
+                    if (value && value.title) {
+                        document.getElementById('sc-track-name').textContent = value.title;
+                    }
+                    if (value && value.permalink_url && !_scActiveUrl) {
+                        _scActiveUrl = value.permalink_url;
+                    }
+                    if (value && value.duration && value.duration > 0 && scDuration === 0) {
+                        scDuration = value.duration;
+                        document.getElementById('sc-total').textContent = fmtTime(value.duration);
+                    }
+
+                } else if (method === 'getDuration') {
+                    if (value > 0 && scDuration === 0) {
+                        scDuration = value;
+                        document.getElementById('sc-total').textContent = fmtTime(value);
+                    }
+
+                } else if (method === 'play') {
+                    scPlaying = true;
+                    _cancelAutoNext();
+                    document.getElementById('sc-play-btn').textContent = '⏸';
+                    _setSpeaker(true);
+                    _applyVol();
+                    if (scDuration === 0) _scCmd('getDuration');
+
+                } else if (method === 'pause') {
+                    scPlaying = false;
+                    document.getElementById('sc-play-btn').textContent = '▶';
+                    _setSpeaker(false);
+
+                } else if (method === 'finish') {
+                    _cancelAutoNext();
+                    scPlaying = false;
+                    document.getElementById('sc-play-btn').textContent = '▶';
+                    _setSpeaker(false);
+                    try { window._scPlayNext(); } catch(e) {}
+
+                } else if (method === 'play_progress') {
+                    var pos = (value && value.currentPosition) || 0;
+                    var rel = (value && value.relativePosition) || 0;
+                    if (!seeking) {
+                        document.getElementById('sc-current').textContent = fmtTime(pos);
+                    }
+                    // Вычисляем длительность из соотношения позиции если getDuration не ответил
+                    if (scDuration === 0 && pos > 500 && rel > 0.005) {
+                        scDuration = Math.round(pos / rel);
+                        document.getElementById('sc-total').textContent = fmtTime(scDuration);
+                    }
+                    if (scDuration > 0 && !seeking) {
+                        document.getElementById('sc-seek').value = Math.round(rel * 1000);
+                        if (rel >= 0.98) { _scheduleAutoNext(scDuration - pos); }
+                    }
+                }
+            } catch(e2) {}
+        }, false);
+
+        // Shared track list — заполняется из Music Panel IIFE
+        window._scTrackList = window._scTrackList || [];
+
+        // Воспроизвести следующий трек по списку
+        window._scPlayNext = function() {
+            var list = window._scTrackList;
+            if (!list || !list.length || !_scActiveUrl) return;
+            var idx = -1;
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].url === _scActiveUrl) { idx = i; break; }
+            }
+            var next = list[(idx + 1) % list.length];
+            if (next && next.url) {
+                if (typeof window._scWidgetLoad === 'function') window._scWidgetLoad(next.url, next.title);
+                if (typeof window._highlightScTrack === 'function') window._highlightScTrack(next.url);
+            }
+        };
+
+        var SC_BASE = 'https://w.soundcloud.com/player/?url=';
+        var SC_OPTS = '&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&buying=false&sharing=false&download=false';
+
+        function fmtTime(ms) {
+            var s = Math.floor(ms / 1000);
+            return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2);
+        }
+
+        // ── Инициализация: парсим URL из iframe src ──────────────────────────
+        var scIframe = document.getElementById('sc-iframe');
+        if (scIframe) {
+            try {
+                var _srcP = new URLSearchParams(scIframe.src.split('?')[1] || '');
+                var _initUrl = _srcP.get('url');
+                if (_initUrl) {
+                    _scActiveUrl = _initUrl;
+                    // Стартуем на паузе — auto_play=false в iframe src
+                    scPlaying = false;
+                    document.getElementById('sc-play-btn').textContent = '▶';
+                    _setSpeaker(false);
+                }
+            } catch(e) {}
+
+            // Подписываемся сразу (iframe мог загрузиться ещё до навешивания listener)
+            setTimeout(_scSubscribe, 800);
+
+            // И на load event — на случай если iframe ещё не загружен
+            scIframe.addEventListener('load', function() {
+                _scSubDone = false;
+                setTimeout(_scSubscribe, 300);
+            });
+
+            // Повтор через 3 сек — защита от гонки на медленном соединении
+            setTimeout(function() {
+                _scSubDone = false;
+                _scSubscribe();
+                _applyVol();
+            }, 3000);
+
+        }
+
+        // Play/Pause
+        document.getElementById('sc-play-btn').addEventListener('click', function() {
+            if (scPlaying) { _scCmd('pause'); } else { _scCmd('play'); }
+        });
+
+        // Next track
+        var nextBtn = document.getElementById('sc-next-btn');
+        if (nextBtn) {
+            nextBtn.addEventListener('click', function() {
+                try { window._scPlayNext(); } catch(e) {}
+            });
+        }
+
+        // Volume — слушаем и 'input' (desktop/Chrome) и 'change' (mobile WebView/iOS)
+        var volEl = document.getElementById('sc-volume');
+        if (volEl) {
+            function _onVolChange() {
+                scVolume = parseInt(volEl.value, 10);
+                if (scMuted && scVolume > 0) { scMuted = false; }
+                _applyVol();
+                _setSpeaker(scPlaying);
+            }
+            volEl.addEventListener('input',  _onVolChange);
+            volEl.addEventListener('change', _onVolChange);
+            // touch-fallback: принудительный вызов при touchend
+            volEl.addEventListener('touchend', function() {
+                setTimeout(_onVolChange, 50);
+            }, {passive: true});
+        }
+
+        // Seek
+        var seekEl = document.getElementById('sc-seek');
+        seekEl.addEventListener('mousedown', function() { seeking = true; });
+        seekEl.addEventListener('touchstart', function() { seeking = true; }, {passive:true});
+        seekEl.addEventListener('input', function() {
+            if (scDuration > 0) document.getElementById('sc-current').textContent = fmtTime((seekEl.value / 1000) * scDuration);
+        });
+        seekEl.addEventListener('change', function() {
+            if (scDuration > 0) _scCmd('seekTo', (seekEl.value / 1000) * scDuration);
+            seeking = false;
+        });
+
+
+        // ── Загрузка нового трека: меняем iframe.src ─────────────────────────
+        // SC player's raw postMessage 'load' expects a full player URL string —
+        // использование объекта не работает. Самый надёжный способ: iframe.src.
+        window._scWidgetLoad = function(url, title) {
+            _scActiveUrl = url;
+            _cancelAutoNext();
+            scDuration = 0; seeking = false; scPlaying = true;
+            document.getElementById('sc-track-name').textContent = title || url.split('/').pop() || 'SoundCloud';
+            document.getElementById('sc-seek').value = 0;
+            document.getElementById('sc-current').textContent = '0:00';
+            document.getElementById('sc-total').textContent = '0:00';
+            document.getElementById('sc-play-btn').textContent = '⏸';
+            _setSpeaker(true);
+
+            var iframe = document.getElementById('sc-iframe');
+            if (!iframe) return;
+            // Меняем src — iframe.load event вызовет _scSubscribe автоматически
+            _scSubDone = false;
+            iframe.src = SC_BASE + encodeURIComponent(url) + '&auto_play=true' + SC_OPTS;
+        };
+    })();
+
+    // === Музыкальные Новинки (SoundCloud + Deezer) ===
+    (function() {
+        var _muSource = 'sc';   // 'sc' | 'sp'
+        var _muPeriod = '24h';  // '24h' | '7d'
+        var _muOpen   = false;
+        var _muCurrentUrl = null;  // SC: permalink_url; DZ: deezer link
+        var _spPlayingId  = null;  // ID трека Deezer для подсветки
+
+        function _esc(str) {
+            return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+        function _fmtDur(ms) {
+            var s = Math.floor((ms || 0) / 1000);
+            return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2);
+        }
+
+        // ── Панель: toggle/open ──────────────────────────────────────────────
+        window.toggleScPanel = function() {
+            _muOpen = !_muOpen;
+            var list   = document.getElementById('sc-nt-list');
+            var toggle = document.getElementById('sc-nt-toggle');
+            var upd    = document.getElementById('sc-nt-updated');
+            if (list)   list.classList.toggle('hidden', !_muOpen);
+            if (toggle) toggle.classList.toggle('collapsed', !_muOpen);
+            if (upd)    upd.style.display = _muOpen ? '' : 'none';
+        };
+
+        // ── Переключение источника SC / Spotify ──────────────────────────────
+        window.switchMusicSource = function(src) {
+            if (src === _muSource) return;
+            _muSource = src;
+            document.querySelectorAll('.sc-nt-src').forEach(function(b) {
+                b.classList.toggle('active', b.id === 'sc-nt-src-' + src);
+            });
+            loadMusicTracks(src, _muPeriod);
+        };
+
+        // ── Загрузка треков ──────────────────────────────────────────────────
+        window.loadMusicTracks = function(src, period) {
+            if (src)    _muSource = src;
+            if (period) _muPeriod = period;
+            document.querySelectorAll('.sc-nt-tab').forEach(function(b) {
+                b.classList.toggle('active', b.id === 'sc-nt-tab-' + _muPeriod);
+            });
+            var list = document.getElementById('sc-nt-list');
+            if (!list) return;
+            list.innerHTML = '<div class="sc-nt-loading">Загрузка...</div>';
+            var endpoint = _muSource === 'sp'
+                ? '/api/sp-new-tracks?period=' + _muPeriod
+                : '/api/sc-new-tracks?period=' + _muPeriod;
+
+            fetch(endpoint)
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    var tracks = data.tracks || [];
+                    var upd = document.getElementById('sc-nt-updated');
+                    if (upd) {
+                        if (data.error === 'no_credentials') {
+                            upd.textContent = '⚠ Требуются SPOTIFY_CLIENT_ID / SECRET';
+                        } else if (data.updated) {
+                            var d = new Date(data.updated);
+                            upd.textContent = 'Обновлено: ' + d.toLocaleString('ru-RU', {day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+                        }
+                    }
+                    if (!tracks.length) {
+                        var hint = _muSource === 'sp' && data.error === 'no_credentials'
+                            ? 'Добавьте SPOTIFY_CLIENT_ID и SPOTIFY_CLIENT_SECRET в секреты проекта'
+                            : 'Нет треков для этого периода';
+                        list.innerHTML = '<div class="sc-nt-loading">' + hint + '</div>';
+                        return;
+                    }
+                    if (_muSource === 'sc') {
+                        _renderScTracks(list, tracks);
+                    } else {
+                        _renderSpTracks(list, tracks);
+                    }
+                })
+                .catch(function(e) {
+                    list.innerHTML = '<div class="sc-nt-loading">Ошибка загрузки</div>';
+                });
+        };
+
+        // ── SoundCloud: рендер и воспроизведение ─────────────────────────────
+        function _renderScTracks(list, tracks) {
+            // Обновляем shared список для авто-перехода к следующему треку
+            window._scTrackList = tracks.map(function(t) {
+                return { url: t.permalink_url || '', title: t.title || '' };
+            }).filter(function(t) { return !!t.url; });
+
+            list.innerHTML = tracks.map(function(t) {
+                var url = t.permalink_url || '';
+                var isPlaying = url && url === _muCurrentUrl && _muSource === 'sc';
+                return '<div class="sc-nt-item' + (isPlaying ? ' playing' : '') +
+                    '" data-url="' + _esc(url) +
+                    '" data-title="' + _esc(t.title || '') +
+                    '" data-src="sc" onclick="var _el=this.closest(\'[data-url]\');playMusicTrack(\'sc\',_el.dataset.url,null,null,_el.dataset.title)">' +
+                    (t.artwork ? '<img class="sc-nt-art" src="' + _esc(t.artwork) + '" alt="' + _esc('Обложка трека: ' + (t.title || 'Музыкальный трек')) + '" onerror="this.parentNode.querySelector(\'.sc-nt-art\').removeAttribute(\'src\')">' : '<div class="sc-nt-art"></div>') +
+                    '<div class="sc-nt-info">' +
+                        '<div class="sc-nt-name">' + (isPlaying ? '▶ ' : '') + _esc(t.title || '—') + '</div>' +
+                        '<div class="sc-nt-artist">' + _esc(t.user || '') + '</div>' +
+                    '</div>' +
+                    '<div class="sc-nt-dur">' + _fmtDur(t.duration) + '</div>' +
+                '</div>';
+            }).join('');
+        }
+
+        // ── Deezer: рендер и воспроизведение ─────────────────────────────────
+        var _spTrackList = []; // список для авто-перехода
+        function _renderSpTracks(list, tracks) {
+            // Сохраняем треки с id для авто-перехода (preview через прокси, не протухает)
+            _spTrackList = tracks.filter(function(t) { return !!t.id; });
+            list.innerHTML = tracks.map(function(t) {
+                var sid = t.id || '';
+                var isPlaying = sid && sid === _spPlayingId;
+                var hasPreview = !!sid; // всегда есть через /api/deezer-preview/<id>
+                var spUrl = t.spotify_url || '';
+                // Всегда используем прокси — он отдаёт свежий токен Deezer
+                var prevUrl = sid ? '/api/deezer-preview/' + sid : '';
+                return '<div class="sc-nt-item' + (isPlaying ? ' playing' : '') +
+                    '" data-id="' + _esc(sid) +
+                    '" data-sp-url="' + _esc(spUrl) +
+                    '" data-preview="' + _esc(prevUrl) +
+                    '" data-title="' + _esc(t.title || '') +
+                    '" data-src="sp"' +
+                    (hasPreview
+                        ? ' onclick="var _el=this.closest(\'[data-id]\');playMusicTrack(\'sp\',_el.dataset.spUrl,_el.dataset.preview,_el.dataset.id,_el.dataset.title)"'
+                        : ' onclick="var _el=this.closest(\'[data-id]\');window.open(_el.dataset.spUrl,\'_blank\')"') + '>' +
+                    (t.artwork ? '<img class="sc-nt-art" src="' + _esc(t.artwork) + '" alt="' + _esc('Обложка трека: ' + (t.title || 'Музыкальный трек')) + '" onerror="this.removeAttribute(\'src\')">' : '<div class="sc-nt-art"></div>') +
+                    '<div class="sc-nt-info">' +
+                        '<div class="sc-nt-name">' + (isPlaying ? '▶ ' : '') + _esc(t.title || '—') + '</div>' +
+                        '<div class="sc-nt-artist">' + _esc(t.user || '') + (t.album ? ' · ' + _esc(t.album) : '') + '</div>' +
+                    '</div>' +
+                    '<div class="sc-nt-dur">' +
+                        (hasPreview ? _fmtDur(t.duration) : '<span style="font-size:13px;color:#1DB954" title="Открыть в Deezer">↗</span>') +
+                    '</div>' +
+                '</div>';
+            }).join('');
+        }
+
+        // ── Unified play ─────────────────────────────────────────────────────
+        window.playMusicTrack = function(src, url, previewUrl, spId, trackTitle) {
+            if (src === 'sc') {
+                _muCurrentUrl = url;
+                if (typeof window._scWidgetLoad === 'function') {
+                    window._scWidgetLoad(url, trackTitle || null);
+                }
+                var scWrap = document.getElementById('sc-player-wrap');
+                if (scWrap) scWrap.scrollIntoView({behavior:'smooth',block:'nearest'});
+                _highlightItems('sc', url, null);
+            } else {
+                // Deezer: 30-секундный preview в <audio>
+                _spPlayingId = spId || null;
+                // Показываем название трека в плеере
+                var _nameEl = document.getElementById('sc-track-name');
+                if (_nameEl && trackTitle) _nameEl.textContent = '🎵 ' + trackTitle;
+                var audio = document.getElementById('sp-preview-audio');
+                if (audio && previewUrl) {
+                    if (!audio.paused && audio.getAttribute('data-sp-url') === previewUrl) {
+                        audio.pause();
+                        _spPlayingId = null;
+                        _highlightItems('sp', null, null);
+                        return;
+                    }
+                    audio.pause();
+                    audio.removeAttribute('src');
+                    audio.load(); // сбрасываем состояние элемента
+                    audio.setAttribute('data-sp-url', previewUrl);
+                    audio.src = previewUrl;
+                    audio.volume = 0.7;
+                    audio.muted = false;
+                    var _playPromise = audio.play();
+                    if (_playPromise !== undefined) {
+                        _playPromise.catch(function(e) {
+                            console.warn('[Deezer] play failed:', e && (e.name + ': ' + e.message));
+                            // Попытка через user-gesture unlock: создаём краткую тишину
+                            audio.muted = true;
+                            audio.play().then(function() {
+                                audio.muted = false;
+                            }).catch(function() {});
+                        });
+                    }
+                    audio.onended = function() {
+                        // Авто-переход к следующему треку
+                        var _curId = _spPlayingId;
+                        var idx = _spTrackList.findIndex(function(t) { return t.id === _curId; });
+                        var next = _spTrackList[idx + 1];
+                        if (next) {
+                            playMusicTrack('sp', next.spotify_url || '', '/api/deezer-preview/' + next.id, next.id);
+                        } else {
+                            _spPlayingId = null;
+                            _highlightItems('sp', null, null);
+                        }
+                    };
+                } else if (url) {
+                    window.open(url, '_blank');
+                    return;
+                }
+                _highlightItems('sp', null, spId);
+            }
+        };
+
+        function _highlightItems(src, url, spId) {
+            document.querySelectorAll('.sc-nt-item').forEach(function(el) {
+                var active = false;
+                if (src === 'sc') active = el.getAttribute('data-url') === url;
+                else active = spId && el.getAttribute('data-id') === spId;
+                el.classList.toggle('playing', active);
+                var nameEl = el.querySelector('.sc-nt-name');
+                if (nameEl) {
+                    var txt = nameEl.textContent.replace(/^▶ /, '');
+                    nameEl.textContent = active ? '▶ ' + txt : txt;
+                }
+            });
+        }
+
+        // Подсветить трек в списке по URL (вызывается из _scPlayNext)
+        window._highlightScTrack = function(url) {
+            _muCurrentUrl = url;
+            _highlightItems('sc', url, null);
+        };
+
+        // Обратная совместимость (старые вызовы из inline HTML если были)
+        window.loadScTracks  = function(p) { loadMusicTracks('sc', p); };
+        window.playScTrack   = function(u) { playMusicTrack('sc', u, null, null); };
+
+        // Чат с командой через Telegram-группу.
+        let supportChatPollTimer = null;
+        let supportChatSessionPromise = null;
+        function getSupportConversationId() {
+            let id = localStorage.getItem('goldantelope_support_conversation');
+            const hasTelegramInitData = Boolean(window.Telegram?.WebApp?.initData);
+            if (!id || (id.startsWith('tg_') && !hasTelegramInitData)) {
+                id = (window.crypto && crypto.randomUUID)
+                    ? crypto.randomUUID()
+                    : `support_${Date.now()}_${Math.random().toString(36).slice(2, 16)}`;
+                localStorage.setItem('goldantelope_support_conversation', id);
+            }
+            return id;
+        }
+
+        async function getSupportChatSession() {
+            const initData = window.Telegram?.WebApp?.initData || '';
+            if (!initData) {
+                return {conversationId: getSupportConversationId(), initData: '', user: null};
+            }
+            if (!supportChatSessionPromise) {
+                supportChatSessionPromise = (async () => {
+                    const response = await fetch('/api/support-chat/session', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            init_data: initData,
+                            anonymous_conversation_id: getSupportConversationId()
+                        })
+                    });
+                    const data = await response.json();
+                    if (!response.ok || !data.success) {
+                        throw new Error(data.error || 'Не удалось подтвердить Telegram-профиль');
+                    }
+                    localStorage.setItem('goldantelope_support_conversation', data.conversation_id);
+                    return {conversationId: data.conversation_id, initData, user: data.user};
+                })().catch((error) => {
+                    supportChatSessionPromise = null;
+                    throw error;
+                });
+            }
+            return supportChatSessionPromise;
+        }
+
+        function renderSupportMessages(messages) {
+            const container = document.getElementById('support-chat-messages');
+            if (!container) return;
+            container.replaceChildren();
+            if (!messages || !messages.length) {
+                const empty = document.createElement('div');
+                empty.className = 'support-chat-empty';
+                empty.textContent = 'Опишите вопрос — сообщение получит команда группы. Ответ появится здесь.';
+                container.appendChild(empty);
+                return;
+            }
+            messages.forEach((message) => {
+                const bubble = document.createElement('div');
+                bubble.className = `support-chat-message ${message.role === 'visitor' ? 'visitor' : ''}`;
+                const meta = document.createElement('div');
+                meta.className = 'support-chat-message-meta';
+                const photoUrl = message.role === 'visitor' ? (message.photo_url || '') : '';
+                if (photoUrl.startsWith('https://')) {
+                    const avatar = document.createElement('img');
+                    avatar.className = 'support-chat-avatar';
+                    avatar.src = photoUrl;
+                    avatar.alt = '';
+                    avatar.loading = 'lazy';
+                    avatar.addEventListener('error', () => avatar.remove(), {once: true});
+                    meta.appendChild(avatar);
+                } else if (message.role === 'visitor') {
+                    const avatar = document.createElement('span');
+                    avatar.className = 'support-chat-avatar support-chat-avatar-fallback';
+                    avatar.textContent = (message.sender || 'Г').replace(/^@/, '').slice(0, 1).toUpperCase();
+                    meta.appendChild(avatar);
+                }
+                const sender = document.createElement('span');
+                if (message.role === 'visitor' && message.display_name) {
+                    sender.style.cssText = 'display:flex;flex-direction:column;gap:2px;';
+                    const displayName = document.createElement('strong');
+                    displayName.textContent = message.display_name;
+                    sender.appendChild(displayName);
+                    const username = message.username || '';
+                    if (username && username !== message.display_name) {
+                        const handle = document.createElement('span');
+                        handle.textContent = username.startsWith('@') ? username : `@${username}`;
+                        handle.style.cssText = 'font-size:11px;font-weight:500;color:#b8b8c3;';
+                        sender.appendChild(handle);
+                    }
+                } else {
+                    sender.textContent = message.sender || (message.role === 'visitor' ? 'Вы' : 'Команда');
+                }
+                meta.appendChild(sender);
+                const text = document.createElement('div');
+                text.textContent = message.text || '';
+                bubble.append(meta, text);
+                if (message.attachment?.file_id) {
+                    const attachmentButton = document.createElement('button');
+                    attachmentButton.type = 'button';
+                    attachmentButton.className = 'support-chat-attachment';
+                    attachmentButton.textContent = `📎 ${message.attachment.file_name || 'Скачать файл'}`;
+                    attachmentButton.addEventListener('click', async () => {
+                        attachmentButton.disabled = true;
+                        try {
+                            const session = await getSupportChatSession();
+                            const headers = session.initData ? {'X-Telegram-Init-Data': session.initData} : {};
+                            const params = new URLSearchParams({
+                                conversation_id: session.conversationId,
+                                message_id: message.id
+                            });
+                            const response = await fetch(`/api/support-chat/file?${params}`, {headers});
+                            if (!response.ok) {
+                                const data = await response.json().catch(() => ({}));
+                                throw new Error(data.error || 'Не удалось скачать файл');
+                            }
+                            const fileUrl = URL.createObjectURL(await response.blob());
+                            const link = document.createElement('a');
+                            link.href = fileUrl;
+                            link.download = message.attachment.file_name || 'attachment';
+                            document.body.appendChild(link);
+                            link.click();
+                            link.remove();
+                            setTimeout(() => URL.revokeObjectURL(fileUrl), 1000);
+                        } catch (error) {
+                            const status = document.getElementById('support-chat-status');
+                            if (status) status.textContent = error.message || 'Не удалось скачать файл';
+                        } finally {
+                            attachmentButton.disabled = false;
+                        }
+                    });
+                    bubble.appendChild(attachmentButton);
+                }
+                container.appendChild(bubble);
+            });
+            container.scrollTop = container.scrollHeight;
+        }
+
+        async function refreshSupportMessages() {
+            try {
+                const session = await getSupportChatSession();
+                const id = encodeURIComponent(session.conversationId);
+                const headers = session.initData ? {'X-Telegram-Init-Data': session.initData} : {};
+                const response = await fetch(`/api/support-chat/messages?conversation_id=${id}`, {headers});
+                const data = await response.json();
+                if (!response.ok || !data.success) throw new Error(data.error || 'Не удалось загрузить историю');
+                renderSupportMessages(data.messages);
+                const status = document.getElementById('support-chat-status');
+                if (status) status.textContent = '';
+            } catch (error) {
+                const status = document.getElementById('support-chat-status');
+                if (status) status.textContent = error.message || 'Не удалось загрузить историю';
+            }
+        }
+
+        window.chooseSupportTopic = function(topic) {
+            const input = document.getElementById('support-chat-input');
+            const picker = document.getElementById('support-chat-topic-picker');
+            if (!input) return;
+            if (topic === 'tours') {
+                const tourUi = (translations.ru || translations['ru']).ui || {};
+                const tourTitles = [
+                    tourUi.tourBaho || 'Водопад Бахо + Пляж Парадайс',
+                    tourUi.tourAtv || 'Квадроциклы',
+                    tourUi.tourNorthIslands || 'Северные острова',
+                    tourUi.tourSouthIslands || 'Прогулка Южные острова',
+                    tourUi.tourYangBay || 'ЭКО парк «Янг Бей»',
+                    tourUi.tourPhanrang || 'Фанранг с детьми',
+                    tourUi.tourDalat2 || 'Далат 2 дня',
+                    tourUi.tourDalatFan || 'Далат «Фантазия»',
+                    tourUi.tourDalatExcl || 'Далат «Эксклюзив»',
+                    tourUi.tourDanang1 || 'Дананг 1 день',
+                    tourUi.tourDanangHoian || 'Дананг + Хой Ан',
+                    tourUi.tourPhuyen || 'Жемчужина «Фуен»'
+                ];
+                input.value = [
+                    'Список экскурсий:',
+                    tourTitles.map(title => `• ${title}`).join('\n'),
+                    '',
+                    'Сколько вас будет человек?',
+                    'На какую дату планируете путешествие?',
+                    'Вас интересует ещё какая-нибудь экскурсия?'
+                ].join('\n');
+                if (picker) picker.style.display = 'none';
+                window.sendSupportChatMessage({ ignoreFile: true });
+                return;
+            }
+            const prompts = {
+                visarun: [
+                    'Ответьте, пожалуйста, на вопросы:',
+                    '• Какое у вас гражданство?',
+                    '• На 45 или 90 дней?',
+                    '• Лаос или Камбоджа?',
+                    '• На какую дату интересует выезд?',
+                    '• До какого числа действует штамп в паспорте?'
+                ].join('\n'),
+                exchange: [
+                    'Какая валюта обмена?',
+                    'Какая сумма?',
+                    'Куда отправить курьера? Можете скинуть локацию.',
+                    'Какое время вам удобно?'
+                ].join('\n'),
+                other: 'Здравствуйте! У меня другой вопрос. Подскажите, пожалуйста.'
+            };
+            const prompt = prompts[topic];
+            if (!prompt) return;
+            input.value = prompt;
+            if (picker) picker.style.display = 'none';
+            window.sendSupportChatMessage({ ignoreFile: true });
+        };
+
+        window.openExchangeChat = function() {
+            window.openSupportChat();
+            const input = document.getElementById('support-chat-input');
+            if (input) input.value = '';
+            window.chooseSupportTopic('exchange');
+        };
+
+        window.openTourSupportChat = function(tour, city) {
+            const rawTitle = (tour || '').trim();
+            const title = rawTitle.split(/\s+[—–]\s+/)[0].trim() || rawTitle;
+            const place = (city || '').trim();
+            const cityPhrases = {
+                'nha trang': { phrase: 'в Нячанге', aliases: ['nha trang', 'нячанг'] },
+                'нячанг': { phrase: 'в Нячанге', aliases: ['nha trang', 'нячанг'] },
+                'da nang': { phrase: 'в Дананге', aliases: ['da nang', 'дананг'] },
+                'дананг': { phrase: 'в Дананге', aliases: ['da nang', 'дананг'] },
+                'ho chi minh': { phrase: 'в Хошимине', aliases: ['ho chi minh', 'saigon', 'хошимин', 'сайгон'] },
+                'saigon': { phrase: 'в Хошимине', aliases: ['ho chi minh', 'saigon', 'хошимин', 'сайгон'] },
+                'phu quoc': { phrase: 'на Фукуоке', aliases: ['phu quoc', 'фукуок'] },
+                'фукуок': { phrase: 'на Фукуоке', aliases: ['phu quoc', 'фукуок'] }
+            };
+            const cityInfo = cityPhrases[place.toLocaleLowerCase('ru')];
+            const cityAlreadyInTitle = cityInfo?.aliases.some(alias => title.toLocaleLowerCase('ru').includes(alias));
+            const location = place && !cityAlreadyInTitle
+                ? ` ${cityInfo?.phrase || `(${place})`}`
+                : '';
+            const selectedTour = `${title || 'выбранную экскурсию'}${location}`;
+            const message = [
+                `Вы выбрали экскурсию «${selectedTour}».`,
+                'Сколько вас будет человек?',
+                'На какую дату планируете путешествие?',
+                'Вас интересует ещё какая-нибудь экскурсия?'
+            ].join('\n');
+            window.openSupportChat();
+            const picker = document.getElementById('support-chat-topic-picker');
+            if (picker) picker.style.display = 'none';
+            const input = document.getElementById('support-chat-input');
+            if (input) input.value = message;
+            window.sendSupportChatMessage({ignoreFile: true});
+        };
+
+        window.openSupportChat = function() {
+            const overlay = document.getElementById('support-chat-overlay');
+            if (!overlay) return;
+            overlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            const topicPicker = document.getElementById('support-chat-topic-picker');
+            if (topicPicker) topicPicker.style.display = 'flex';
+            getSupportConversationId();
+            refreshSupportMessages();
+            if (supportChatPollTimer) clearInterval(supportChatPollTimer);
+            supportChatPollTimer = setInterval(() => {
+                if (overlay.style.display !== 'none') refreshSupportMessages();
+            }, 4000);
+            setTimeout(() => document.getElementById('support-chat-input')?.focus(), 60);
+        };
+
+        window.closeSupportChat = function() {
+            const overlay = document.getElementById('support-chat-overlay');
+            if (overlay) overlay.style.display = 'none';
+            document.body.style.overflow = '';
+            if (supportChatPollTimer) {
+                clearInterval(supportChatPollTimer);
+                supportChatPollTimer = null;
+            }
+        };
+
+        window.sendSupportChatMessage = async function(options = {}) {
+            const input = document.getElementById('support-chat-input');
+            const fileInput = document.getElementById('support-chat-file');
+            const button = document.getElementById('support-chat-send');
+            const status = document.getElementById('support-chat-status');
+            const message = (input?.value || '').trim();
+            const file = options.ignoreFile ? null : (fileInput?.files?.[0] || null);
+            if ((!message && !file) || !input || !button) return;
+            if (file && file.size > 20 * 1024 * 1024) {
+                if (status) status.textContent = 'Максимальный размер файла — 20 МБ';
+                return;
+            }
+            button.disabled = true;
+            if (status) status.textContent = 'Отправка…';
+            try {
+                const session = await getSupportChatSession();
+                const headers = {};
+                if (session.initData) headers['X-Telegram-Init-Data'] = session.initData;
+                const body = new FormData();
+                body.append('conversation_id', session.conversationId);
+                body.append('message', message);
+                body.append('name', session.user?.username || session.user?.display_name || localStorage.getItem('chat_nickname') || 'Гость');
+                if (file) body.append('file', file);
+                const response = await fetch('/api/support-chat/send', {
+                    method: 'POST',
+                    headers,
+                    body
+                });
+                const data = await response.json();
+                if (!response.ok || !data.success) throw new Error(data.error || 'Не удалось отправить сообщение');
+                input.value = '';
+                if (fileInput && !options.ignoreFile) fileInput.value = '';
+                if (status) status.textContent = file ? 'Файл отправлен команде' : 'Сообщение отправлено команде';
+                await refreshSupportMessages();
+                setTimeout(() => { if (status) status.textContent = ''; }, 2500);
+            } catch (error) {
+                if (status) status.textContent = error.message || 'Ошибка отправки. Попробуйте ещё раз.';
+            } finally {
+                button.disabled = false;
+                input.focus();
+            }
+        };
+
+        document.getElementById('support-chat-file')?.addEventListener('change', (event) => {
+            const file = event.target.files?.[0];
+            const status = document.getElementById('support-chat-status');
+            if (!status) return;
+            if (!file) {
+                status.textContent = '';
+            } else if (file.size > 20 * 1024 * 1024) {
+                status.textContent = 'Максимальный размер файла — 20 МБ';
+            } else {
+                status.textContent = `Прикреплён файл: ${file.name}`;
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && document.getElementById('support-chat-overlay')?.style.display === 'flex') {
+                window.closeSupportChat();
+            }
+        });
+
+        // Загружаем SC при старте
+        loadMusicTracks('sc', '24h');
+    })();

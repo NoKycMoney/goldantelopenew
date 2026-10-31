@@ -1,0 +1,12 @@
+tg_photo_cache/
+__pycache__/
+*.pyc
+.env
+*.log
+.pythonlibs/
+.upm/
+.cache/
+.local/
+/banner_data.json
+/listings_vietnam.json
+/listings_vietnam.json.tmp

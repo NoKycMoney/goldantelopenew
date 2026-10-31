@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ seo_title }}</title>
+    <meta name="description" content="{{ seo_description }}">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Goldantelope Asia">
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ seo_description }}">
+    <meta property="og:url" content="{{ canonical_url }}">
+    {% if images %}
+    <meta property="og:image" content="{{ images[0].url }}">
+    <meta property="og:image:alt" content="{{ images[0].alt }}">
+    {% endif %}
+    <meta name="twitter:card" content="summary_large_image">
+    <style>
+        :root { color-scheme: dark; --gold: #d9b73a; --panel: #191a2e; --muted: #c4c6d1; }
+        * { box-sizing: border-box; }
+        body { margin: 0; background: #0d0e18; color: #f7f7fb; font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+        a { color: inherit; }
+        .page { width: min(100% - 28px, 920px); margin: 0 auto; padding: 24px 0 56px; }
+        .brand { display: inline-block; margin-bottom: 18px; color: var(--gold); font-weight: 800; letter-spacing: .04em; text-decoration: none; }
+        .crumbs { color: var(--muted); font-size: 14px; margin-bottom: 16px; }
+        .crumbs a { color: var(--gold); text-decoration: none; }
+        .card { border: 1px solid rgba(217,183,58,.55); border-radius: 18px; background: var(--panel); padding: clamp(18px, 4vw, 34px); }
+        h1 { color: #f4d770; font-size: clamp(26px, 5vw, 40px); line-height: 1.18; margin: 0 0 12px; }
+        .meta { display: flex; flex-wrap: wrap; gap: 8px 18px; color: var(--muted); margin: 0 0 22px; }
+        .price { color: #ffe27a; font-size: 22px; font-weight: 800; }
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 12px; margin: 0 0 24px; }
+        .gallery figure { margin: 0; overflow: hidden; border-radius: 13px; background: #10111d; border: 1px solid rgba(217,183,58,.35); }
+        .gallery img { display: block; width: 100%; height: auto; min-height: 180px; max-height: 620px; object-fit: cover; }
+        .description { white-space: pre-wrap; overflow-wrap: anywhere; color: #e5e5eb; }
+        .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+        .button { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 10px 18px; border: 1px solid var(--gold); border-radius: 12px; color: #ffe27a; font-weight: 700; text-decoration: none; }
+        .button:hover { background: rgba(217,183,58,.12); }
+        .empty { border-radius: 12px; padding: 24px; color: var(--muted); background: #10111d; }
+        @media (max-width: 520px) { .page { width: min(100% - 18px, 920px); padding-top: 16px; } .gallery { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <main class="page">
+        <a class="brand" href="https://goldantelopeasia.com/">GOLDANTELOPE ASIA</a>
+        <nav class="crumbs" aria-label="Навигация">
+            <a href="https://goldantelopeasia.com/">Главная</a>
+            <span aria-hidden="true"> / </span>
+            <a href="{{ category_url }}">{{ category_name }} · {{ country_name }}</a>
+        </nav>
+        <article class="card">
+            <h1>{{ title }}</h1>
+            <div class="meta">
+                {% if city %}<span>{{ city }}</span>{% endif %}
+                {% if published %}<time>{{ published }}</time>{% endif %}
+                {% if price %}<span class="price">{{ price }}</span>{% endif %}
+            </div>
+            {% if images %}
+            <div class="gallery" aria-label="Фотографии объявления">
+                {% for image in images %}
+                <figure>
+                    <img src="{{ image.url }}" alt="{{ image.alt }}" title="{{ image.alt }}"
+                         {% if loop.first %}fetchpriority="high" loading="eager"{% else %}loading="lazy"{% endif %}>
+                </figure>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty">Фотографии для этого объявления пока не добавлены.</div>
+            {% endif %}
+            {% if description %}<div class="description">{{ description }}</div>{% endif %}
+            {% if contact or source_url %}
+            <div class="actions">
+                {% if source_url %}<a class="button" href="{{ source_url }}" rel="nofollow noopener noreferrer" target="_blank">Связаться / открыть источник</a>{% endif %}
+                {% if contact and not source_url %}<span class="button">{{ contact }}</span>{% endif %}
+            </div>
+            {% endif %}
+        </article>
+    </main>
+</body>
+</html>

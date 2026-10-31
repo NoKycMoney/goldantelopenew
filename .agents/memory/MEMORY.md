@@ -1,0 +1,13 @@
+- [Telegram entertainment visibility](telegram-entertainment-visibility.md) — listings must retain an internal Telegram-verification marker independent of API-masked source fields.
+- [GitHub snapshot sync](github-snapshot-sync.md) — shallow local histories may require a root snapshot commit; keep local Telegram sessions out of remote trees.
+- [Baza Telegram sessions](baza-telegram-sessions.md) — the Hugging Face collector needs a separate user session; sharing the live Replit session causes AuthKeyDuplicated.
+- [GitHub listing imports](github-listing-imports.md) — check Git LFS pointers before importing; the Vietnam listing object may be unavailable even when the pointer is present.
+- [Listing detail pages](listing-detail-pages.md) — individual `/listing` URLs are disabled by design; keep the underlying ads available in category catalogs.
+- [Telegram identity and counts](support-chat-identity.md) — use server-verified Telegram IDs for chat ownership and unique-user counters, never IPs or client claims.
+- [Telegram Ads rate limits](telegram-ads-rate-limits.md) — batch target validation carefully; rapid channel checks can block ad creation with a long flood wait.
+- [Dashboard script cache busting](dashboard-script-cache-busting.md) — if preview behavior disagrees with source, check the static script URL version.
+- [Category landing-page routing](dashboard-category-routing.md) — suppress remembered-tab redirects during startup so deep links select the requested section.
+- [Dashboard browser verification](dashboard-browser-verification.md) — for async category pages, prefer preview plus HTTP checks when headless DOM dumps hang.
+- [Dependency compatibility](dependency-compatibility.md) — standalone collector pages avoid Gradio's Pillow ceiling; check all service manifests when updating shared packages.
+- [SEO title suffix](seo-title-suffix.md) — every page title ends with the exact suffix `/goldantelopeasia.com`.
+- [SEO article anchors](seo-article-anchors.md) — keep TOC IDs unique per article and offset fragment scrolling below Telegram's fixed header.
